@@ -1,0 +1,21 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+    font-size: 62.5%;
+    overflow: hidden;
+}
+
+body {
+    font-size: 1.5rem;
+    font-family: 'MontSerrat-Regular', serif;
+    color: #fff;
+}
