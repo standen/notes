@@ -1,0 +1,28 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+$variants: "primary", "danger", "success", "warning", "secondary", "info",
+  "dark", "light";
+
+@mixin button-variant($type) {
+  color: map.get(vars.$buttons, "text-color-#{$type}");
+  background-color: map.get(vars.$buttons, "background-color-#{$type}");
+
+  &:hover {
+    color: map.get(vars.$buttons, "text-color-#{$type}-hover");
+    background-color: map.get(vars.$buttons, "background-color-#{$type}-hover");
+  }
+}
+
+@each $variant in $variants {
+  .btn-#{$variant} {
+    @include button-variant($variant);
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  border-radius: 3px;
+  cursor: pointer;
+}

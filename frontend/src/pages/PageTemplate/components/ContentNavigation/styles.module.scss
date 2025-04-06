@@ -1,0 +1,10 @@
+.content_nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    padding: 2rem 0;
+    font-family: "Montserrat-SemiBold", serif;
+  }
+}

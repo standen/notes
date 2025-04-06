@@ -1,4 +1,5 @@
-@use "@ui/vars/colors.scss";
+@use "sass:map";
+@use "./vars.scss";
 
 *,
 *:after,
@@ -18,7 +19,7 @@ html {
 
 body {
   font-size: 1.5rem;
-  font-family: "Montserrat-SemiBold", serif;
-  color: colors.$color-body-color;
-  background-color: colors.$color-body-bg;
+  font-family: "Montserrat-Regular", serif;
+  color: vars.$color-body-color;
+  background-color: vars.$color-body-bg;
 }
