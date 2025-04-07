@@ -1,0 +1,44 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+.navbar {
+  display: grid;
+  grid-area: navbar;
+  background-color: map.get(vars.$theme, "navbarBgColor");
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+
+    .divider {
+      margin: 3rem auto;
+      height: 0.1rem;
+      width: 85%;
+      background-color: map.get(vars.$theme, "navbarDividerColor");
+    }
+
+    .active {
+      color: map.get(vars.$theme, "navbarTextColorHover");
+      background-color: map.get(vars.$theme, "navbarBgColorHover");
+      border-left: 0.3rem solid map.get(vars.$theme, "colorPrimary");
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      color: map.get(vars.$theme, "navbarTextColor");
+      transition: 200ms;
+      border-left: 2px solid transparent;
+
+      &:hover {
+        color: map.get(vars.$theme, "navbarTextColorHover");
+        background-color: map.get(vars.$theme, "navbarBgColorHover");
+      }
+
+      i {
+        padding: 0 1.8rem;
+      }
+    }
+  }
+}

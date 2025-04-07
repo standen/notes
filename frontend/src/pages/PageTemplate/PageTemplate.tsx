@@ -1,13 +1,15 @@
 import { FC } from "react";
+import { Outlet } from "react-router";
 
-import { MyHeader } from "@/components";
+import { Header, Navbar } from "@/components";
 
-import { Layout } from "antd";
+import styles from "./styles.module.scss";
 
 export const PageTemplate: FC = () => {
   return (
-    <Layout>
-      <MyHeader />
-    </Layout>
+    <section className={styles.grid}>
+      <Header />
+      <Navbar />
+    </section>
   );
 };

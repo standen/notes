@@ -1,3 +1,20 @@
+$theme: (
+  headerHeight: 64px,
+  headerTextColor: #fff,
+  headerBgColor: #7b7de5,
+  headerInputBgColor: #6a6cd1,
+
+  navbarWidth: 250px,
+  navbarBgColor: #484d5e,
+  navbarBgColorHover: #51576d,
+  navbarTextColor: #8691b7,
+  navbarTextColorHover: #fff,
+  navbarDividerColor: #626980,
+
+  colorPrimary: #7b7de5,
+  colorDanger: #f57c7c,
+);
+
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
