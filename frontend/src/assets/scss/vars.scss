@@ -82,6 +82,32 @@ $buttons: (
   background-color-dark-hover: #3c4149,
 );
 
+$alerts: (
+  background-color-primary: #d7e7fe,
+  text-color-primary: #205297,
+  border-color-primary: #c3dbfe,
+
+  background-color-secondary: #e9ebed,
+  text-color-secondary: #575e64,
+  border-color-secondary: #dee1e5,
+
+  background-color-success: #d9f6eb,
+  text-color-success: #287e5e,
+  border-color-success: #c6f2e2,
+
+  background-color-danger: #fee1e1,
+  text-color-danger: #963e3e,
+  border-color-danger: #fed1d1,
+
+  background-color-warning: #fef2cf,
+  text-color-warning: #957108,
+  border-color-warning: #fdebb6,
+
+  background-color-info: #daf1f8,
+  text-color-info: #297084,
+  border-color-info: #c7eaf5,
+);
+
 $header: (
   background-color: #313a46,
   height: 70px,

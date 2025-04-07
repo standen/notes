@@ -7,14 +7,14 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const Button: FC<TButton> = (props) => {
-  const { type, onClick } = props;
+  const { type, text, onClick } = props;
   return (
     <button
       type="button"
       className={cx(["btn", `btn-${type}`])}
       onClick={onClick}
     >
-      Some
+      {text}
     </button>
   );
 };

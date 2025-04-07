@@ -8,5 +8,6 @@ export type TButton = {
     | "secondary"
     | "dark"
     | "light";
+  text: string;
   onClick?: () => void;
 };
