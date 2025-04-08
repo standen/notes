@@ -1,5 +1,6 @@
 $theme: (
   headerHeight: 64px,
+  headerHeightMin: 45px,
   headerTextColor: #fff,
   headerBgColor: #7b7de5,
   headerInputBgColor: #6a6cd1,
@@ -11,11 +12,23 @@ $theme: (
   navbarTextColorHover: #fff,
   navbarDividerColor: #626980,
 
+  contentBgColor: #f0f1f4,
+  contentTextColorOriginal: #878da1,
+  contentTextColor: #000,
+
+  accountBgColor: #fff,
+  accountBorderColor: #dbdde4,
+  accountItemBorderColor: #e6e7eb,
+  accountItemBgColor: #fafafb,
+  accountItemTextColor: #878da1,
+  accountItemLeftBorderColor: #7789cf,
+  accountScrollColor: #c0c0d8,
+
   colorPrimary: #7b7de5,
   colorDanger: #f57c7c,
 );
 
-$grid-breakpoints: (
+$breakpoints: (
   xs: 0,
   sm: 576px,
   md: 768px,

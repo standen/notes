@@ -1,0 +1,22 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+.content {
+  background-color: map.get(vars.$theme, "contentBgColor");
+  //   color: map.get(vars.$theme, "contentTextColor");
+  color: #000;
+  padding: 0 20px;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    font-family: "Montserrat-SemiBold", serif;
+    gap: 8px;
+    height: 80px;
+  }
+
+  &-body {
+    padding-bottom: 20px;
+    height: 100%;
+  }
+}

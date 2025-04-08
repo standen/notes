@@ -1,21 +1,33 @@
 @use "sass:map";
 @use "@assets/scss/vars.scss";
 
-.logo {
-  grid-area: headerLogo;
-  display: grid;
-  place-items: center;
+@media (width < map.get(vars.$breakpoints, "md")) {
+  .header-content {
+    display: none;
+  }
+
+  .header-logo,
+  .header-content {
+    background-color: map.get(vars.$theme, "headerBgColor");
+    color: map.get(vars.$theme, "headerTextColor");
+  }
 }
 
-.content {
-  grid-area: headerContent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+@media (width >= map.get(vars.$breakpoints, "md")) {
+  .header-logo {
+    display: grid;
+    place-items: center;
+  }
 
-.logo,
-.content {
-  background-color: map.get(vars.$theme, "headerBgColor");
-  color: map.get(vars.$theme, "headerTextColor");
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-logo,
+  .header-content {
+    background-color: map.get(vars.$theme, "headerBgColor");
+    color: map.get(vars.$theme, "headerTextColor");
+  }
 }

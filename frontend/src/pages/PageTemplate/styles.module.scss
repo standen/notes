@@ -1,15 +1,31 @@
 @use "sass:map";
 @use "@assets/scss/vars.scss";
 
-.grid {
-  display: grid;
-  grid-template-areas:
-    "headerLogo headerContent"
-    "navbar content";
-  grid-template-columns: map.get(vars.$theme, "navbarWidth") calc(
-      100vw - map.get(vars.$theme, "navbarWidth")
-    );
-  grid-template-rows: map.get(vars.$theme, "headerHeight") calc(
-      100vh - map.get(vars.$theme, "headerHeight")
-    );
+// @media (width <= map.get(vars.$breakpoints, "md")) {
+
+// }
+
+// @media (width >= map.get(vars.$breakpoints, "md")) {
+
+// }
+@media (width >= map.get(vars.$breakpoints, "md")) {
+  .grid {
+    display: grid;
+    grid-template-areas:
+      "headerLogo headerContent"
+      "navbar content";
+    grid-template-columns: map.get(vars.$theme, "navbarWidth") calc(
+        100vw - map.get(vars.$theme, "navbarWidth")
+      );
+    grid-template-rows: map.get(vars.$theme, "headerHeight") calc(
+        100vh - map.get(vars.$theme, "headerHeight")
+      );
+  }
+}
+
+@media (width <= map.get(vars.$breakpoints, "md")) {
+  .grid {
+    display: grid;
+    grid-template-rows: map.get(vars.$theme, "headerHeightMin");
+  }
 }

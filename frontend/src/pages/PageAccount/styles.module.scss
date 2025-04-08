@@ -1,0 +1,30 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+.accounts-card {
+  display: flex;
+  flex-direction: column;
+  background-color: map.get(vars.$theme, "accountBgColor");
+  border: 1px solid map.get(vars.$theme, "accountBorderColor");
+  border-radius: 5px;
+  padding: 15px;
+  gap: 10px;
+  overflow-y: auto;
+  scrollbar-color: map.get(vars.$theme, "accountScrollColor");
+
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: map.get(vars.$theme, "accountItemBgColor");
+    border: 1px solid map.get(vars.$theme, "accountItemBorderColor");
+    border-left: 5px solid map.get(vars.$theme, "accountItemLeftBorderColor");
+    color: map.get(vars.$theme, "accountItemTextColor");
+    padding: 10px 15px;
+    border-radius: 5px;
+
+    .login {
+      font-family: "Montserrat-Medium", serif;
+      color: #000;
+    }
+  }
+}
