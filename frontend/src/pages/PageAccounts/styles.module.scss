@@ -21,6 +21,7 @@
     color: map.get(vars.$theme, "accountItemTextColor");
     padding: 10px 15px;
     border-radius: 5px;
+    gap: 5px;
 
     .login {
       font-family: "Montserrat-Medium", serif;

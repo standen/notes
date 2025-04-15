@@ -72,7 +72,8 @@
         height: 50px;
         color: map.get(vars.$theme, "navbarTextColor");
         transition: 200ms;
-        border-left: 2px solid transparent;
+        border-left: 0.3rem solid transparent;
+        cursor: pointer;
 
         &:hover {
           color: map.get(vars.$theme, "navbarTextColorHover");

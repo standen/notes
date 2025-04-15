@@ -8,7 +8,7 @@ import { Tag } from "antd";
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
-export const PageAccount: FC = () => {
+export const PageAccounts: FC = () => {
   return (
     <Content title="Аккаунты">
       <div className={cx(["accounts-card"])}>

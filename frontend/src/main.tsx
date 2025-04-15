@@ -12,6 +12,7 @@ createRoot(document.getElementById("root")!).render(
         theme={{
           token: {
             fontFamily: "'Montserrat-Regular', serif",
+            colorPrimary: "#7b7de5",
           },
           components: {
             Layout: {

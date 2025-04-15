@@ -1,2 +1,5 @@
 export * from "./PageTemplate";
-export * from "./PageAccount";
+export * from "./PageAccounts";
+export * from "./PageBirthdays";
+export * from "./PageSettings";
+export * from "./PageNotes";
