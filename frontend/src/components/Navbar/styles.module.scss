@@ -71,13 +71,13 @@
         align-items: center;
         height: 50px;
         color: map.get(vars.$theme, "navbarTextColor");
-        transition: 200ms;
         border-left: 0.3rem solid transparent;
         cursor: pointer;
 
         &:hover {
           color: map.get(vars.$theme, "navbarTextColorHover");
           background-color: map.get(vars.$theme, "navbarBgColorHover");
+          transition: 300ms;
         }
 
         i {

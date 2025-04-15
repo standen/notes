@@ -9,16 +9,20 @@ import {
   PageSettings,
 } from "@/pages";
 
-import { ELinks } from "./types";
+import { MenuItems } from "./MenuItems";
 
 export const MyRouter: FC = () => {
   return (
     <Routes>
       <Route path="/" element={<PageTemplate />}>
-        <Route path={ELinks.accounts} element={<PageAccounts />} />
-        <Route path={ELinks.birthdays} element={<PageBirthdays />} />
-        <Route path={ELinks.notes} element={<PageNotes />} />
-        <Route path={ELinks.settings} element={<PageSettings />} />
+        <Route path={MenuItems.PageAccounts.link} element={<PageAccounts />} />
+        <Route path={MenuItems.PageNotes.link} element={<PageNotes />} />
+        <Route
+          path={MenuItems.PageBirthdays.link}
+          element={<PageBirthdays />}
+        />
+
+        <Route path={MenuItems.PageSettings.link} element={<PageSettings />} />
       </Route>
     </Routes>
   );
