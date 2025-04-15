@@ -3,16 +3,23 @@
 
 .content {
   background-color: map.get(vars.$theme, "contentBgColor");
-  //   color: map.get(vars.$theme, "contentTextColor");
   color: #000;
   padding: 0 20px;
 
   &-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    font-family: "Montserrat-SemiBold", serif;
-    gap: 8px;
     height: 80px;
+
+    &-title {
+      display: flex;
+      font-family: "Montserrat-SemiBold", serif;
+      gap: 8px;
+    }
+
+    &-filters {
+    }
   }
 
   &-body {

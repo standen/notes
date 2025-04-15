@@ -13,7 +13,7 @@ export const PageAccounts: FC = () => {
     <Content title="Аккаунты">
       <div className={cx(["accounts-card"])}>
         <div className={cx(["accounts-card-item"])}>
-          <span className={cx(["login"])}>GitHub</span>
+          <span className={cx(["accounts-card-item-login"])}>GitHub</span>
           <span>09.04.2025 01:23:45</span>
           <span>
             <Tag color="processing">логин</Tag>
@@ -23,7 +23,7 @@ export const PageAccounts: FC = () => {
           </span>
         </div>
         <div className={cx(["accounts-card-item"])}>
-          <span className={cx(["login"])}>GitHub</span>
+          <span className={cx(["accounts-card-item-login"])}>GitHub</span>
           <span>09.04.2025 01:23:45</span>
           <span>
             <Tag color="processing">логин</Tag>
@@ -33,7 +33,7 @@ export const PageAccounts: FC = () => {
           </span>
         </div>
         <div className={cx(["accounts-card-item"])}>
-          <span className={cx(["login"])}>GitHub</span>
+          <span className={cx(["accounts-card-item-login"])}>GitHub</span>
           <span>09.04.2025 01:23:45</span>
           <span>
             <Tag color="processing">логин</Tag>
