@@ -129,6 +129,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+# for response cookie to axios
+CORS_ALLOW_CREDENTIALS = True
 
 # in seconds
-SESSION_COOKIE_AGE = 1500
+SESSION_COOKIE_AGE = 1209600

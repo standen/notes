@@ -5,6 +5,7 @@ ALLOWED_ACTIONS = [
     'USER_ADD',
     'USER_EDIT',
     'USER_DELETE',
+    'SESSIONS_DELETE'
 ]
 
 class modelUserRole(models.Model):
