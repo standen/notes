@@ -8,7 +8,10 @@ import { Tag } from "antd";
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
+import { getSha256 } from "@/utils";
+
 export const PageAccounts: FC = () => {
+  console.log(getSha256("123"));
   return (
     <Content title="Аккаунты">
       <div className={cx(["accounts-card"])}>

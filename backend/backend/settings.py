@@ -31,13 +31,18 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'corsheaders'
+    # 'django.contrib.staticfiles',
+    'corsheaders',
+    'appAuth',
+    'appAccounts',
+    'appNotes',
+    'appBirthdays',
+    'appSettings'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +129,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# in seconds
+SESSION_COOKIE_AGE = 1500
