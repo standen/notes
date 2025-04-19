@@ -20,6 +20,7 @@
         color: map.get(vars.$theme, "navbarTextColorHover");
         background-color: map.get(vars.$theme, "navbarBgColorHover");
         border-left: 0.3rem solid map.get(vars.$theme, "colorPrimary");
+        transition: 200ms;
       }
 
       a {
@@ -45,13 +46,13 @@
 
 @media (width >= map.get(vars.$breakpoints, "md")) {
   .navbar {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     grid-area: navbar;
     background-color: map.get(vars.$theme, "navbarBgColor");
 
     &-menu {
-      display: flex;
-      flex-direction: column;
 
       .navbar-divider {
         margin: 3rem auto;

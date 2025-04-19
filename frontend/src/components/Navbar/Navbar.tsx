@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import classNames from "classnames/bind";
 
 import { ENavbarPages, MenuItems } from "@/router";
+import { NavbarKey } from "./components";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
@@ -20,6 +21,7 @@ export const Navbar: FC = () => {
       if (MenuItems[key as keyof typeof ENavbarPages].icon) {
         result.push(
           <a
+            key={key as keyof typeof ENavbarPages}
             onClick={(e) => {
               e.preventDefault();
               navigate(MenuItems[key as keyof typeof ENavbarPages].link);
@@ -38,16 +40,26 @@ export const Navbar: FC = () => {
     }
 
     // добавляем divider
-    result.splice(-1, 0, <div className={cx(["navbar-divider"])} />);
+    result.splice(
+      -1,
+      0,
+      <div className={cx(["navbar-divider"])} key="navbar-divider" />
+    );
 
     return result;
   };
 
   return (
     <section className={cx(["navbar"])}>
-      <div className={cx(["navbar-menu"])}>
-        <Menu />
+      {/* top of navbar */}
+      <div>
+        <NavbarKey />
+        <div className={cx(["navbar-menu"])}>
+          <Menu />
+        </div>
       </div>
+      {/* bottom of navbar */}
+      <div />
     </section>
   );
 };

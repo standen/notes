@@ -1,0 +1,21 @@
+.grid {
+  display: grid;
+  grid-template-columns: 400px auto;
+  grid-template-rows: 100vh;
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+
+    &-elems {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+  }
+
+  .login-image {
+  }
+}

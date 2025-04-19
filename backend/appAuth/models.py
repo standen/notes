@@ -8,10 +8,17 @@ ALLOWED_ACTIONS = [
     'SESSIONS_DELETE'
 ]
 
+class modelUserPermission(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    description = models.CharField(max_length=100, unique=True, blank=False)
+    shortname = models.CharField(max_length=50, unique=True, blank=False)
+    is_active = models.BooleanField(default=True)
+
 class modelUserRole(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50, unique=True, blank=False)
     allowed_actions = models.JSONField()
+    is_active = models.BooleanField(default=True)
 
 class modelUser(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

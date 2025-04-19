@@ -12,25 +12,18 @@ createRoot(document.getElementById("root")!).render(
         theme={{
           token: {
             fontFamily: "'Montserrat-Regular', serif",
-            colorPrimary: "#7b7de5",
+            colorPrimaryBorder: "transoarent",
           },
           components: {
-            Layout: {
-              headerBg: "#7B7DE5",
-              bodyBg: "#F0F1F4",
-              siderBg: "#484D5E",
+            Tabs: {
+              inkBarColor: "#7b7de5",
+              itemActiveColor: "#7b7de5",
+              itemHoverColor: "#7b7de5",
+              itemSelectedColor: "#7b7de5",
             },
-            Menu: {
-              itemBg: "#484D5E",
-              itemBorderRadius: 0,
-              itemColor: "#8691B7",
-              itemHoverBg: "#51576D",
-              itemHoverColor: "#FFF",
-              itemMarginBlock: 0,
-              itemMarginInline: 0,
-              itemSelectedBg: "#51576D",
-              itemSelectedColor: "#FFF",
-              popupBg: "#F00",
+            Input: {
+              activeBorderColor: "#7b7de5",
+              hoverBorderColor: "#7b7de5",
             },
           },
         }}

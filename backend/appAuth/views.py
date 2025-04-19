@@ -8,12 +8,8 @@ from utils.crypto.hashSha256 import *
 
 from .models import *
 
-def some():
-    return {
-'json_dumps_params': {'ensure_ascii':False},
-'status': 505
-}
-# jsonparams = 
+def defSetStatusCode(statusCode: int):
+    return {'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
 
 def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
@@ -21,7 +17,7 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
         def wrapper(request, *args, **kwargs):
             if (methods):
                 if (not request.method in methods):
-                    return JsonResponse({'status': 'error', 'result': None, 'message': 'Недопустимый тип запроса'}, **some())
+                    return JsonResponse({'status': 'error', 'result': None, 'message': 'Недопустимый тип запроса'}, **defSetStatusCode(405))
 
             if (allowed_actions):
                 try:
@@ -33,10 +29,12 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
         return wrapper
     return decorator
 
+
 @decoratorAuth(['POST'])
 def viewLogin(request):
+
     body = json.loads(request.body)
-    # print(dir(JsonResponse.charset = 'uft-8'))
+
     if (body.get('login') and body.get('password')):
         try:
             user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
@@ -45,15 +43,16 @@ def viewLogin(request):
             s['login'] = user.login
             s.create()
 
-            response = JsonResponse({'status': 'success', 'result': None, 'message': 'Авторизация прошла успешно'}, safe=False, json_dumps_params={'ensure_ascii':False})
+            response = JsonResponse({'status': 'success', 'result': None, 'message': 'Авторизация прошла успешно'}, **defSetStatusCode(200))
             response.set_cookie('token', s.session_key, httponly=True, secure=True, max_age=1209600)
             return response
         except:
-            return JsonResponse({'status':'error', 'result': None, 'message': 'Ошибка во время авторизации'}, safe=False, json_dumps_params={'ensure_ascii':False}, status=401)
+            return JsonResponse({'status':'error', 'result': None, 'message': 'Ошибка во время авторизации'}, **defSetStatusCode(400))
     
     else:
-        return JsonResponse({'status':'error', 'result': None, 'message': 'Ошибка во время авторизации: неверные параметры запроса'}, safe=False, json_dumps_params={'ensure_ascii':False})
+        return JsonResponse({'status':'error', 'result': None, 'message': 'Ошибка во время авторизации: неверные параметры запроса'}, **defSetStatusCode(400))
 
+@decoratorAuth(['POST'])
 def viewLogout(request):
     return JsonResponse({})
 

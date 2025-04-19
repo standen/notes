@@ -14,9 +14,9 @@ export const Header: FC = () => {
         onClick={() => {
           axios
             .post(
-              "http://localhost:80/auth/login",
+              "http://localhost:80/auth/logout",
               {
-                login1: "admin",
+                login: "admin",
                 password:
                   "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
               },

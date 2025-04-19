@@ -1,0 +1,9 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+.card {
+  background-color: map.get(vars.$theme, "accountBgColor");
+  border: 1px solid map.get(vars.$theme, "accountBorderColor");
+  border-radius: 5px;
+  padding: 10px;
+}
