@@ -1,15 +1,19 @@
+import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
-import json
 
 from utils.crypto.hashSha256 import *
+from utils.compareLists import compareLists
 
 from .models import *
 
 def defSetStatusCode(statusCode: int):
     return {'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
+
+invalidRequestParams = JsonResponse({'status':'error', 'result': None, 'message': 'Неверные параметры запроса'}, **defSetStatusCode(400))
+invalidResponse = JsonResponse({'status':'error', 'result': None, 'message': 'Сервер не смог обработать запрос'}, **defSetStatusCode(400))
 
 def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
@@ -32,11 +36,10 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
 
 @decoratorAuth(['POST'])
 def viewLogin(request):
+    try:
+        body = json.loads(request.body)
 
-    body = json.loads(request.body)
-
-    if (body.get('login') and body.get('password')):
-        try:
+        if (compareLists(['login', 'password'], body.keys())):
             user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
             
             s = SessionStore()
@@ -46,11 +49,10 @@ def viewLogin(request):
             response = JsonResponse({'status': 'success', 'result': None, 'message': 'Авторизация прошла успешно'}, **defSetStatusCode(200))
             response.set_cookie('token', s.session_key, httponly=True, secure=True, max_age=1209600)
             return response
-        except:
-            return JsonResponse({'status':'error', 'result': None, 'message': 'Ошибка во время авторизации'}, **defSetStatusCode(400))
-    
-    else:
-        return JsonResponse({'status':'error', 'result': None, 'message': 'Ошибка во время авторизации: неверные параметры запроса'}, **defSetStatusCode(400))
+        else:
+            invalidRequestParams
+    except:
+        return invalidResponse
 
 @decoratorAuth(['POST'])
 def viewLogout(request):

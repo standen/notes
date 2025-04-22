@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 
 import { Content } from "@/components";
 
+import { Card } from "@/ui";
 import { Tag } from "antd";
 
 import styles from "./styles.module.scss";
@@ -11,7 +12,29 @@ const cx = classNames.bind(styles);
 export const PageAccounts: FC = () => {
   return (
     <Content title="Аккаунты">
-      <div className={cx(["accounts-card"])}>
+      <Card classname={cx(["accounts-card"])}>
+        <div className={cx(["accounts-card-item"])}>
+          <span className={cx(["accounts-card-item-login"])}>GitHub</span>
+          <span>09.04.2025 01:23:45</span>
+          <span>
+            <Tag color="processing">логин</Tag>
+            <Tag color="processing">пароль</Tag>
+            <Tag color="warning">изменить</Tag>
+            <Tag color="error">удалить</Tag>
+          </span>
+        </div>
+        <div className={cx(["accounts-card-item"])}>
+          <span className={cx(["accounts-card-item-login"])}>GitHub</span>
+          <span>09.04.2025 01:23:45</span>
+          <span>
+            <Tag color="processing">логин</Tag>
+            <Tag color="processing">пароль</Tag>
+            <Tag color="warning">изменить</Tag>
+            <Tag color="error">удалить</Tag>
+          </span>
+        </div>
+      </Card>
+      {/* <div className={cx(["accounts-card"])}>
         <div className={cx(["accounts-card-item"])}>
           <span className={cx(["accounts-card-item-login"])}>GitHub</span>
           <span>09.04.2025 01:23:45</span>
@@ -42,7 +65,7 @@ export const PageAccounts: FC = () => {
             <Tag color="error">удалить</Tag>
           </span>
         </div>
-      </div>
+      </div> */}
     </Content>
   );
 };

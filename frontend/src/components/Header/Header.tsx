@@ -14,11 +14,10 @@ export const Header: FC = () => {
         onClick={() => {
           axios
             .post(
-              "http://localhost:80/auth/logout",
+              "http://localhost:3000/settings/roles",
               {
-                login: "admin",
-                password:
-                  "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+                name: "Имя роли",
+                allowed_actions: ["USER_ADD"],
               },
               { withCredentials: true }
             )

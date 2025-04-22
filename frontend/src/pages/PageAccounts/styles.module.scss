@@ -4,9 +4,6 @@
 .accounts-card {
   display: flex;
   flex-direction: column;
-  background-color: map.get(vars.$theme, "accountBgColor");
-  border: 1px solid map.get(vars.$theme, "accountBorderColor");
-  border-radius: 5px;
   padding: 15px;
   gap: 10px;
   overflow-y: auto;

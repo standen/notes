@@ -12,7 +12,7 @@ export const Navbar: FC = () => {
   const [currentPage, setCurrentPage] =
     useState<keyof typeof ENavbarPages>("PageAccounts");
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const Menu = () => {
     const result: React.ReactNode[] = [];
@@ -27,10 +27,10 @@ export const Navbar: FC = () => {
               navigate(MenuItems[key as keyof typeof ENavbarPages].link);
               setCurrentPage(key as keyof typeof ENavbarPages);
             }}
-            className={cx([
-              currentPage === (key as keyof typeof ENavbarPages) &&
-                "menu-item-active",
-            ])}
+            className={cx({
+              "menu-item-active":
+                currentPage === (key as keyof typeof ENavbarPages),
+            })}
           >
             {MenuItems[key as keyof typeof ENavbarPages].icon}
             <span>{MenuItems[key as keyof typeof ENavbarPages].title}</span>
