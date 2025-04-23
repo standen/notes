@@ -1,5 +1,6 @@
 import json
 from django.http import JsonResponse
+import time
 
 from appAuth.views import decoratorAuth
 
@@ -12,6 +13,7 @@ from appAuth.models import ALLOWED_ACTIONS
 
 @decoratorAuth(['GET'])
 def viewManagePermissions(request):
+    time.sleep(5)
     return JsonResponse({'status': 'success', 'result': {'allowed_actions': ALLOWED_ACTIONS}, 'message': None}, **defSetStatusCode(200))
 
 @decoratorAuth(['GET', 'POST', 'PATCH'])
@@ -62,7 +64,7 @@ def viewManageUsers(request):
     if (request.method == 'GET'):
         try:
             users = [user.returnOne() for user in modelUser.objects.all()]
-            return JsonResponse({'status': 'success', 'result': {'roles': users}, 'message': None}, **defSetStatusCode(200))
+            return JsonResponse({'status': 'success', 'result': {'users': users}, 'message': None}, **defSetStatusCode(200))
         except:
             return invalidResponse
         

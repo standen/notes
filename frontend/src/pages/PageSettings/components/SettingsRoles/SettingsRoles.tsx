@@ -1,3 +1,11 @@
+import { TableRoles } from "./table/TableRoles";
+
+import { Card } from "@/ui";
+
 export const SettingsRoles = () => {
-  return <h1></h1>;
+  return (
+    <Card>
+      <TableRoles />
+    </Card>
+  );
 };

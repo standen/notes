@@ -5,6 +5,8 @@ import { Content } from "@/components";
 import { Card } from "@/ui";
 import { Tabs } from "antd";
 
+import { SettingsRoles } from "./components";
+
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
@@ -12,27 +14,22 @@ export const PageSettings: FC = () => {
   return (
     <Content title="Настройки">
       <Tabs
-        defaultActiveKey="0"
+        defaultActiveKey="global-settings"
         items={[
           {
             label: "Глобальные",
-            key: "0",
+            key: "global-settings",
             children: <Card>0</Card>,
           },
           {
             label: "Пользователи",
-            key: "1",
+            key: "users",
             children: <Card>1</Card>,
           },
           {
             label: "Роли",
-            key: "2",
-            children: <Card>2</Card>,
-          },
-          {
-            label: "Разрешения",
-            key: "4",
-            children: <Card>4</Card>,
+            key: "roles",
+            children: <SettingsRoles />,
           },
         ]}
       />
