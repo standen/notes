@@ -1,11 +1,5 @@
-import { TableRoles } from "./table/TableRoles";
-
-import { Card } from "@/ui";
+import { useState } from "react";
 
 export const SettingsRoles = () => {
-  return (
-    <Card>
-      <TableRoles />
-    </Card>
-  );
+  return <></>;
 };

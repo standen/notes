@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
 *,
 *:after,
 *:before {
@@ -7,6 +10,10 @@
   text-decoration: none;
   padding: 0;
   margin: 0;
+  scrollbar-color: map.get(vars.$theme, "accountScrollColor")
+    map.get(vars.$theme, "accountScrollBgColor");
+  scrollbar-arrow-color: transparent;
+  scrollbar-base-color: transparent;
 }
 
 html {

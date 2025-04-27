@@ -6,8 +6,8 @@
   flex-direction: column;
   padding: 15px;
   gap: 10px;
+  max-height: calc(100vh - 160px);
   overflow-y: auto;
-  scrollbar-color: map.get(vars.$theme, "accountScrollColor");
 
   &-item {
     display: flex;

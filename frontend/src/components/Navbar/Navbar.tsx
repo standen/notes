@@ -43,18 +43,18 @@ export const Navbar: FC = () => {
     result.splice(
       -1,
       0,
-      <div className={cx(["navbar-divider"])} key="navbar-divider" />
+      <div className={cx("navbar-divider")} key="navbar-divider" />
     );
 
     return result;
   };
 
   return (
-    <section className={cx(["navbar"])}>
+    <section className={cx("navbar")}>
       {/* top of navbar */}
       <div>
         <NavbarKey />
-        <div className={cx(["navbar-menu"])}>
+        <div className={cx("navbar-menu")}>
           <Menu />
         </div>
       </div>

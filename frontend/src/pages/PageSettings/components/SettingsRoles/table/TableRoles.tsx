@@ -5,8 +5,11 @@ import { Table } from "antd";
 import { columnsTableRoles } from "./columns/columnsTableRoles";
 import { endpoints, IRolesList, IRole } from "@/api";
 
+type TRolesMode = "add" | "edit";
+
 export const TableRoles = () => {
   const [roles, setRoles] = useState<IRole[]>();
+  const [rolesMode, setRolesMode] = useState<TRolesMode>();
 
   const getRoles = async () => {
     await axios
@@ -20,7 +23,7 @@ export const TableRoles = () => {
 
   return (
     <Table
-      columns={columnsTableRoles}
+      columns={columnsTableRoles()}
       locale={{ emptyText: "Роли отсутствуют" }}
       dataSource={roles}
       bordered

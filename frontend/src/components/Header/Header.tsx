@@ -10,7 +10,7 @@ export const Header: FC = () => {
   return (
     <>
       <div
-        className={cx(["header-logo"])}
+        className={cx("header-logo")}
         onClick={() => {
           axios
             .post(
@@ -26,7 +26,7 @@ export const Header: FC = () => {
       >
         notes
       </div>
-      <div className={cx(["header-content"])}>456</div>
+      <div className={cx("header-content")}>456</div>
     </>
   );
 };

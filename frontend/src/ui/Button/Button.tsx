@@ -11,7 +11,7 @@ export const Button: FC<TButton> = (props) => {
   return (
     <button
       type="button"
-      className={cx(["btn", `btn-${type}`])}
+      className={cx("btn", `btn-${type}`)}
       onClick={onClick}
     >
       {text}

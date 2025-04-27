@@ -9,15 +9,15 @@ const cx = classNames.bind(styles);
 export const Content: FC<PropsWithChildren<TContent>> = (props) => {
   const { title, filters, children } = props;
   return (
-    <section className={cx(["content"])}>
-      <div className={cx(["content-header"])}>
-        <div className={cx(["content-header-title"])}>
+    <section className={cx("content")}>
+      <div className={cx("content-header")}>
+        <div className={cx("content-header-title")}>
           <i className="fa-solid fa-angles-right" />
           {title}
         </div>
         <div>{filters}</div>
       </div>
-      <div className={cx(["content-body"])}>{children}</div>
+      <div className={cx("content-body")}>{children}</div>
     </section>
   );
 };

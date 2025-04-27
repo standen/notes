@@ -8,5 +8,5 @@ const cx = classNames.bind(styles);
 
 export const Alert: FC<TAlert> = (props) => {
   const { type, text } = props;
-  return <div className={cx(["alert", `alert-${type}`])}>{text}</div>;
+  return <div className={cx("alert", `alert-${type}`)}>{text}</div>;
 };

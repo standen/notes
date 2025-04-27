@@ -6,8 +6,8 @@ const cx = classNames.bind(styles);
 
 export const NavbarKey: FC = () => {
   return (
-    <div className={cx(["navbar-key"])}>
-      <div className={cx(["navbar-key-button"])}>Ключ</div>
+    <div className={cx("navbar-key")}>
+      <div className={cx("navbar-key-button")}>Ключ</div>
     </div>
   );
 };

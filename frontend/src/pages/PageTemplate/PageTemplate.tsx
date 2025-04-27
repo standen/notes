@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 export const PageTemplate: FC = () => {
   return (
-    <section className={cx(["grid"])}>
+    <section className={cx("grid")}>
       <Header />
       <Navbar />
       <Outlet />

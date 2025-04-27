@@ -6,11 +6,11 @@ import { endpoints, IPermissionsList } from "@/api";
 import { Modal, Form, Spin } from "antd";
 
 interface Props {
-  roleId: string;
+  
 }
 
 export const ModalRoleCreate: FC<PropsWithChildren<Props>> = (props) => {
-  const { roleId, children } = props;
+  const { roleId, children, mode } = props;
 
   const [form] = Form.useForm();
   const [show, setShow] = useState<boolean>(false);
