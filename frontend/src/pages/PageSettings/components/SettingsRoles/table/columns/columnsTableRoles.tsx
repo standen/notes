@@ -19,13 +19,6 @@ export const columnsTableRoles = (): TableProps<IRole>["columns"] => {
       title: "Действия",
       dataIndex: "actions",
       key: "actions",
-      render: (_, record) => {
-        return (
-          <ModalRoleCreate key={record.id} roleId={record.id}>
-            <Tag>Создать</Tag>
-          </ModalRoleCreate>
-        );
-      },
     },
   ];
 };

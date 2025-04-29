@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import { useNavigate } from "react-router";
+import React, { FC, useEffect, useState, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router";
 import classNames from "classnames/bind";
 
 import { ENavbarPages, MenuItems } from "@/router";
@@ -13,8 +13,23 @@ export const Navbar: FC = () => {
     useState<keyof typeof ENavbarPages>("PageAccounts");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const Menu = () => {
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setCurrentPage("PageAccounts");
+    } else if (location.pathname.includes(MenuItems.PageNotes.link)) {
+      setCurrentPage("PageNotes");
+    } else if (location.pathname.includes(MenuItems.PageBirthdays.link)) {
+      setCurrentPage("PageBirthdays");
+    } else if (location.pathname.includes(MenuItems.PageSettings.link)) {
+      setCurrentPage("PageSettings");
+    } else if (location.pathname.includes(MenuItems.PagePayments.link)) {
+      setCurrentPage("PagePayments");
+    }
+  }, [location]);
+
+  const Menu = useMemo(() => {
     const result: React.ReactNode[] = [];
 
     for (const key of Object.keys(MenuItems)) {
@@ -25,7 +40,6 @@ export const Navbar: FC = () => {
             onClick={(e) => {
               e.preventDefault();
               navigate(MenuItems[key as keyof typeof ENavbarPages].link);
-              setCurrentPage(key as keyof typeof ENavbarPages);
             }}
             className={cx({
               "menu-item-active":
@@ -47,16 +61,14 @@ export const Navbar: FC = () => {
     );
 
     return result;
-  };
+  }, [currentPage, navigate]);
 
   return (
     <section className={cx("navbar")}>
       {/* top of navbar */}
       <div>
         <NavbarKey />
-        <div className={cx("navbar-menu")}>
-          <Menu />
-        </div>
+        <div className={cx("navbar-menu")}>{Menu}</div>
       </div>
       {/* bottom of navbar */}
       <div />

@@ -19,6 +19,12 @@ export const MenuItems: TNavbarPage = {
     title: "Дни рождения",
     icon: <i className="fa-solid fa-cake-candles" />,
   },
+  PagePayments: {
+    description: "Страница с оплатой ЖКХ",
+    link: "payments",
+    title: "Оплата ЖКХ",
+    icon: <i className="fa-solid fa-money-bill-1-wave"></i>,
+  },
   PageSettings: {
     description: "Страница с настройками",
     link: "settings",

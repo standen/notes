@@ -13,9 +13,11 @@
     height: 70px;
 
     &-title {
-      display: flex;
       font-family: "Montserrat-SemiBold", serif;
-      gap: 8px;
+
+      i {
+        margin-right: 8px;
+      }
     }
 
     &-filters {

@@ -14,6 +14,7 @@ export enum ENavbarPages {
   PageSettings,
   Page404,
   PageLogin,
+  PagePayments,
 }
 
 export type TPage = {

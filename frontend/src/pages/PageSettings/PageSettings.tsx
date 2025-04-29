@@ -31,6 +31,11 @@ export const PageSettings: FC = () => {
             key: "roles",
             children: <SettingsRoles />,
           },
+          {
+            label: "ЖКХ",
+            key: "payments",
+            children: <Card>ЖКХ</Card>,
+          },
         ]}
       />
     </Content>

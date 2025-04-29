@@ -6,6 +6,7 @@ import {
   PageAccounts,
   PageBirthdays,
   PageNotes,
+  PagePayments,
   PageSettings,
   PageLogin,
 } from "@/pages";
@@ -19,6 +20,7 @@ export const MyRouter: FC = () => {
       <Route path="/" element={<PageTemplate />}>
         <Route path={MenuItems.PageAccounts.link} element={<PageAccounts />} />
         <Route path={MenuItems.PageNotes.link} element={<PageNotes />} />
+        <Route path={MenuItems.PagePayments.link} element={<PagePayments />} />
         <Route
           path={MenuItems.PageBirthdays.link}
           element={<PageBirthdays />}

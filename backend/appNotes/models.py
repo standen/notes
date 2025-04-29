@@ -13,5 +13,6 @@ class modelNotes(models.Model):
     text = models.TextField()
     open_for_all = models.BooleanField(default=True)
     link = models.CharField(unique=True)
+    is_cipher = models.BooleanField(default=False)
 
     owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)
