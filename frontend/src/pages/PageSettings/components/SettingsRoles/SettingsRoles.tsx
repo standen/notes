@@ -6,14 +6,15 @@ import { Card } from "@/ui";
 import { useRoles } from "./hooks/useRoles";
 
 export const SettingsRoles = () => {
-  const { createRole } = useRoles();
+  const { createRoleModal } = useRoles();
+
   return (
     <Flex gap={10} vertical>
       <Card>
         <Flex justify="space-between">
           <div>search</div>
           <div>
-            <Button onClick={createRole}>Добавить</Button>
+            <Button onClick={createRoleModal}>Добавить</Button>
           </div>
         </Flex>
       </Card>

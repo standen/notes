@@ -1,13 +1,14 @@
-const backendUrl = "http://localhost:3000";
+const port = import.meta.env.VITE_BACKEND_PORT;
+const backendUrl = `http://localhost:${port}`;
 
 export const endpoints = {
   permissions: {
-    get: `${backendUrl}/settings/permissions`,
+    allActions: `${backendUrl}/settings/permissions`,
   },
   roles: {
-    get: `${backendUrl}/settings/roles`,
+    allActions: `${backendUrl}/settings/roles`,
   },
   users: {
-    get: `${backendUrl}/settings/users`,
+    allActions: `${backendUrl}/settings/users`,
   },
 };

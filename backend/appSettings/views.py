@@ -13,7 +13,6 @@ from appAuth.models import ALLOWED_ACTIONS
 
 @decoratorAuth(['GET'])
 def viewManagePermissions(request):
-    time.sleep(5)
     return JsonResponse({'status': 'success', 'result': {'allowed_actions': ALLOWED_ACTIONS}, 'message': None}, **defSetStatusCode(200))
 
 @decoratorAuth(['GET', 'POST', 'PATCH'])

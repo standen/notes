@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import "@assets/scss/style.scss";
 import { MyRouter } from "@/router";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, App } from "antd";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -28,7 +28,9 @@ createRoot(document.getElementById("root")!).render(
           },
         }}
       >
-        <MyRouter />
+        <App>
+          <MyRouter />
+        </App>
       </ConfigProvider>
     </BrowserRouter>
   </StrictMode>

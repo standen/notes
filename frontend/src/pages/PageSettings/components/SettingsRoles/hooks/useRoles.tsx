@@ -1,19 +1,30 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import axios from "axios";
 
 import { ModalRoleCreate } from "../modals";
 
-import { Modal } from "antd";
+import { App } from "antd";
 
 export const useRoles = () => {
-  const createRole = useCallback(async () => {
-    const result = await Modal.confirm({
-      title: "Создать роль",
+  const { modal } = App.useApp();
+
+  const createRoleModal = useCallback(async () => {
+    return await modal.confirm({
+      title: "Создание роли",
+      icon: null,
+      footer: null,
       content: <ModalRoleCreate />,
-      okText: "Создать",
-      cancelText: "Отмена",
-      type: "success",
+      width: 600,
+      closable: true,
     });
-    console.log(result);
-  }, []);
-  return { createRole };
+  }, [modal]);
+
+  const createRoleAction = useCallback(
+    async (value?: { roleName: string; rolesList: string[] }) => {
+      await axios.post()
+    },
+    []
+  );
+
+  return { createRoleAction, createRoleModal };
 };
