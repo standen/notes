@@ -80,16 +80,29 @@ export const useRoles = () => {
         modal.confirm({
           closable: true,
           footer: null,
+          width: 600,
           title: "Изменение ролей",
-          content: <FormRoleCreateEdit getValues={resolve} />,
+          content: (
+            <FormRoleCreateEdit
+              getValues={resolve}
+              roleParams={{ name: roleName, allowed_actions: rolesList }}
+            />
+          ),
         });
       });
+
+      console.log(result);
 
       if (!result) {
         return;
       }
 
-      await editRoleModalAction(roleId, roleName, rolesList, okCallback);
+      await editRoleModalAction(
+        roleId,
+        result?.name,
+        result?.allowed_actions,
+        okCallback
+      );
     },
     [modal, editRoleModalAction]
   );

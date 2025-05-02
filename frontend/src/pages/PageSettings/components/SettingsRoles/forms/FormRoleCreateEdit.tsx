@@ -1,24 +1,17 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useEffect } from "react";
 
-import { useRoles, usePermissions } from "@/hooks";
+import { usePermissions } from "@/hooks";
 
 import { IRole } from "@/api";
 
 import { Form, Input, Select, Flex, Button } from "antd";
 
 interface Props {
-  roleId?: string;
-  roleNme?: string;
-  roleParams?: IRole;
+  roleParams?: Partial<IRole>;
   getValues: (value: IRole) => void;
 }
 
-export const FormRoleCreateEdit: FC<Props> = ({
-  roleId,
-  roleNme,
-  roleParams,
-  getValues,
-}) => {
+export const FormRoleCreateEdit: FC<Props> = ({ roleParams, getValues }) => {
   const { permissionsList } = usePermissions();
   const [form] = Form.useForm();
 
@@ -29,6 +22,12 @@ export const FormRoleCreateEdit: FC<Props> = ({
       ),
     [form]
   );
+
+  useEffect(() => {
+    if (roleParams) {
+      form.setFieldsValue(roleParams);
+    }
+  }, [roleParams]);
 
   return (
     <Form
