@@ -5,7 +5,7 @@ import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRole
 import { useAxios } from "../useAxios";
 
 import { App, notification } from "antd";
-import { endpoints, IRolesList } from "@/api";
+import { endpoints, IRolesList, IRole } from "@/api";
 
 export const useRoles = () => {
   const { modal } = App.useApp();
@@ -76,12 +76,14 @@ export const useRoles = () => {
       rolesList: string[],
       okCallback?: () => void
     ) => {
-      const result = await modal.confirm({
-        title: "Изменение роли",
-        content: <FormRoleCreateEdit />,
+      const result = await new Promise<IRole>((resolve) => {
+        modal.confirm({
+          closable: true,
+          footer: null,
+          title: "Изменение ролей",
+          content: <FormRoleCreateEdit getValues={resolve} />,
+        });
       });
-
-      console.log(result);
 
       if (!result) {
         return;

@@ -2,26 +2,25 @@ import { FC, useMemo } from "react";
 
 import { useRoles, usePermissions } from "@/hooks";
 
+import { IRole } from "@/api";
+
 import { Form, Input, Select, Flex, Button } from "antd";
 
 interface Props {
   roleId?: string;
   roleNme?: string;
-  roleParams?: {
-    name: string;
-    allowed_actions: string[];
-  };
+  roleParams?: IRole;
+  getValues: (value: IRole) => void;
 }
 
 export const FormRoleCreateEdit: FC<Props> = ({
   roleId,
   roleNme,
   roleParams,
+  getValues,
 }) => {
   const { permissionsList } = usePermissions();
   const [form] = Form.useForm();
-
-  const { createRoleAction } = useRoles();
 
   const isFieldsValidate = useMemo(
     () =>
@@ -35,10 +34,7 @@ export const FormRoleCreateEdit: FC<Props> = ({
     <Form
       form={form}
       layout="vertical"
-      onFinish={() => {
-        console.log(form.getFieldsValue());
-        // return Promise.resolve(form.getFieldsValue());
-      }}
+      onFinish={(values) => getValues(values)}
     >
       <Form.Item
         name="name"
@@ -53,7 +49,7 @@ export const FormRoleCreateEdit: FC<Props> = ({
         rules={[{ required: true, message: "Поле является обязательным" }]}
       >
         <Select
-          mode="tags"
+          mode="multiple"
           disabled={!permissionsList}
           placeholder="Перечень допустимых значений..."
           options={permissionsList?.map((item) => ({
@@ -64,12 +60,7 @@ export const FormRoleCreateEdit: FC<Props> = ({
         />
       </Form.Item>
       <Flex justify="flex-end">
-        <Button
-          type="primary"
-          // onClick={() => createRoleAction(form.getFieldsValue())}
-          disabled={!isFieldsValidate}
-          htmlType="submit"
-        >
+        <Button type="primary" htmlType="submit">
           Создать
         </Button>
       </Flex>
