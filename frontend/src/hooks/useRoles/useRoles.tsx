@@ -4,7 +4,7 @@ import axios from "axios";
 import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRoles/forms/FormRoleCreateEdit";
 import { useAxios } from "../useAxios";
 
-import { App, notification } from "antd";
+import { App, notification, Modal } from "antd";
 import { endpoints, IRolesList, IRole } from "@/api";
 
 export const useRoles = () => {
@@ -15,22 +15,8 @@ export const useRoles = () => {
     url: endpoints.roles.allActions,
   });
 
-  const createRoleModal = useCallback(async () => {
-    return await modal.confirm({
-      title: "Создание роли",
-      icon: null,
-      footer: null,
-      content: <FormRoleCreateEdit />,
-      width: 600,
-      closable: true,
-    });
-  }, [modal]);
-
   const createRoleAction = useCallback(
-    async (
-      value?: { roleName: string; rolesList: string[] },
-      okCallback?: () => void
-    ) => {
+    async (value: Partial<IRole>, okCallback?: () => void) => {
       const result = await axios
         .post(endpoints.roles.allActions, value, {
           withCredentials: true,
@@ -47,6 +33,33 @@ export const useRoles = () => {
       return result;
     },
     []
+  );
+
+  const createRoleModal = useCallback(
+    async (okCallback?: () => void) => {
+      const result = await new Promise<Partial<IRole>>((resolve) => {
+        modal.confirm({
+          title: "Создание роли",
+          icon: null,
+          footer: null,
+          content: <FormRoleCreateEdit getValues={resolve} />,
+          width: 600,
+          closable: true,
+        });
+      });
+
+      if (!result) {
+        return;
+      }
+
+      await createRoleAction(
+        { name: result.name, allowed_actions: result.allowed_actions },
+        okCallback
+      );
+
+      Modal.destroyAll();
+    },
+    [modal, createRoleAction]
   );
 
   const editRoleModalAction = useCallback(
@@ -81,7 +94,7 @@ export const useRoles = () => {
           closable: true,
           footer: null,
           width: 600,
-          title: "Изменение ролей",
+          title: "Изменение роли",
           content: (
             <FormRoleCreateEdit
               getValues={resolve}
@@ -90,8 +103,6 @@ export const useRoles = () => {
           ),
         });
       });
-
-      console.log(result);
 
       if (!result) {
         return;
@@ -103,15 +114,30 @@ export const useRoles = () => {
         result?.allowed_actions,
         okCallback
       );
+
+      Modal.destroyAll();
     },
     [modal, editRoleModalAction]
+  );
+
+  const deleteRoleAction = useCallback(
+    async (roleId: string, okCallback?: () => void) => {
+      const result = await axios.delete(endpoints.roles.allActions, {
+        data: { roleId },
+      });
+
+      okCallback?.();
+
+      return result;
+    },
+    []
   );
 
   return {
     rolesList: rolesList?.data?.result?.roles,
     refreshRoles,
-    createRoleAction,
     createRoleModal,
     editRoleModal,
+    deleteRoleAction,
   };
 };

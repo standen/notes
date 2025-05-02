@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import classNames from "classnames/bind";
 
 import { Input, Button, Typography } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
+import { LoginOutlined, UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
@@ -20,13 +20,20 @@ export const PageLogin: FC = () => {
           </div>
           <div>
             <Typography.Text>Логин:</Typography.Text>
-            <Input placeholder="Введите логин..." />
+            <Input placeholder="Введите логин..." prefix={<UserOutlined />} />
           </div>
           <div>
             <Typography.Text>Пароль:</Typography.Text>
-            <Input.Password placeholder="Введите пароль..." />
+            <Input.Password
+              placeholder="Введите пароль..."
+              prefix={<LockOutlined />}
+            />
           </div>
-          <Button onClick={() => setZarp(zarp+100)} type="primary" icon={<LoginOutlined />}>
+          <Button
+            onClick={() => setZarp(zarp + 100)}
+            type="primary"
+            icon={<LoginOutlined />}
+          >
             Авторизоваться
           </Button>
         </div>

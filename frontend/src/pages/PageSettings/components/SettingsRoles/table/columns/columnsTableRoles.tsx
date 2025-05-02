@@ -3,8 +3,10 @@ import { IRole } from "@/api";
 
 import { type TableProps, Button, Flex } from "antd";
 
-export const ColumnsTableRoles = (): TableProps<IRole>["columns"] => {
-  const { editRoleModal, refreshRoles } = useRoles();
+export const ColumnsTableRoles = (
+  refreshRoles: () => void
+): TableProps<IRole>["columns"] => {
+  const { editRoleModal, deleteRoleAction } = useRoles();
 
   return [
     {
@@ -40,7 +42,11 @@ export const ColumnsTableRoles = (): TableProps<IRole>["columns"] => {
             >
               Редактировать
             </Button>
-            <Button size="small" danger>
+            <Button
+              size="small"
+              danger
+              onClick={() => deleteRoleAction(record.id, () => refreshRoles())}
+            >
               Удалить
             </Button>
           </Flex>

@@ -1,4 +1,4 @@
-import { FC, useMemo, useEffect } from "react";
+import { FC } from "react";
 
 import { usePermissions } from "@/hooks";
 
@@ -15,20 +15,6 @@ export const FormRoleCreateEdit: FC<Props> = ({ roleParams, getValues }) => {
   const { permissionsList } = usePermissions();
   const [form] = Form.useForm();
 
-  const isFieldsValidate = useMemo(
-    () =>
-      Object.keys(form.getFieldsValue()).every((key) =>
-        form.getFieldValue(key)
-      ),
-    [form]
-  );
-
-  useEffect(() => {
-    if (roleParams) {
-      form.setFieldsValue(roleParams);
-    }
-  }, [roleParams]);
-
   return (
     <Form
       form={form}
@@ -37,6 +23,7 @@ export const FormRoleCreateEdit: FC<Props> = ({ roleParams, getValues }) => {
     >
       <Form.Item
         name="name"
+        initialValue={roleParams?.name}
         label="Наименование роли"
         rules={[{ required: true, message: "Поле является обязательным" }]}
       >
@@ -44,6 +31,7 @@ export const FormRoleCreateEdit: FC<Props> = ({ roleParams, getValues }) => {
       </Form.Item>
       <Form.Item
         name="allowed_actions"
+        initialValue={roleParams?.allowed_actions}
         label="Перечень допустимых значений"
         rules={[{ required: true, message: "Поле является обязательным" }]}
       >
@@ -60,7 +48,7 @@ export const FormRoleCreateEdit: FC<Props> = ({ roleParams, getValues }) => {
       </Form.Item>
       <Flex justify="flex-end">
         <Button type="primary" htmlType="submit">
-          Создать
+          {roleParams ? "Сохранить изменения" : "Создать"}
         </Button>
       </Flex>
     </Form>
