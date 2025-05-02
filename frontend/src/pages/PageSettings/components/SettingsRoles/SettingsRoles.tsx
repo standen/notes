@@ -1,12 +1,12 @@
-import { TableRoles } from "./table/TableRoles";
+import { useRoles } from "@/hooks";
 
-import { Flex, Button } from "antd";
+import { ColumnsTableRoles } from "./table/columns/columnsTableRoles";
+
+import { Flex, Button, Table } from "antd";
 import { Card } from "@/ui";
 
-import { useRoles } from "./hooks/useRoles";
-
 export const SettingsRoles = () => {
-  const { createRoleModal } = useRoles();
+  const { rolesList, createRoleModal } = useRoles();
 
   return (
     <Flex gap={10} vertical>
@@ -19,7 +19,14 @@ export const SettingsRoles = () => {
         </Flex>
       </Card>
       <Card>
-        <TableRoles />
+        <Table
+          columns={ColumnsTableRoles()}
+          locale={{ emptyText: "Роли отсутствуют" }}
+          dataSource={rolesList}
+          bordered
+          pagination={false}
+          size="small"
+        />
       </Card>
     </Flex>
   );

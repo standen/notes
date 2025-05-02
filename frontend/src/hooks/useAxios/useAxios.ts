@@ -20,7 +20,9 @@ export const useAxios = <T>(params: AxiosRequestConfig) => {
   };
 
   useEffect(() => {
-    fetchData(params);
+    if (params) {
+      fetchData(params);
+    }
   }, []);
 
   return { data, loading, error, refresh };

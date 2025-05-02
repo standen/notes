@@ -1,11 +1,23 @@
 import { FC, useMemo } from "react";
-import { usePermissions } from "@/hooks";
+
+import { useRoles, usePermissions } from "@/hooks";
 
 import { Form, Input, Select, Flex, Button } from "antd";
 
-import { useRoles } from "../../hooks/useRoles";
+interface Props {
+  roleId?: string;
+  roleNme?: string;
+  roleParams?: {
+    name: string;
+    allowed_actions: string[];
+  };
+}
 
-export const ModalRoleCreate: FC = () => {
+export const FormRoleCreateEdit: FC<Props> = ({
+  roleId,
+  roleNme,
+  roleParams,
+}) => {
   const { permissionsList } = usePermissions();
   const [form] = Form.useForm();
 
@@ -20,16 +32,23 @@ export const ModalRoleCreate: FC = () => {
   );
 
   return (
-    <Form form={form} layout="vertical">
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={() => {
+        console.log(form.getFieldsValue());
+        // return Promise.resolve(form.getFieldsValue());
+      }}
+    >
       <Form.Item
-        name="roleName"
+        name="name"
         label="Наименование роли"
         rules={[{ required: true, message: "Поле является обязательным" }]}
       >
         <Input placeholder="Наименование роли..." allowClear />
       </Form.Item>
       <Form.Item
-        name="rolesList"
+        name="allowed_actions"
         label="Перечень допустимых значений"
         rules={[{ required: true, message: "Поле является обязательным" }]}
       >
@@ -47,8 +66,9 @@ export const ModalRoleCreate: FC = () => {
       <Flex justify="flex-end">
         <Button
           type="primary"
-          onClick={() => createRoleAction(form.getFieldsValue())}
+          // onClick={() => createRoleAction(form.getFieldsValue())}
           disabled={!isFieldsValidate}
+          htmlType="submit"
         >
           Создать
         </Button>
