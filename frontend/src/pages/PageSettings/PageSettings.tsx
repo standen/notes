@@ -5,7 +5,7 @@ import { Content } from "@/components";
 import { Card } from "@/ui";
 import { Tabs } from "antd";
 
-import { SettingsRoles } from "./components";
+import { SettingsRoles, SettingsUsers } from "./components";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
@@ -24,7 +24,7 @@ export const PageSettings: FC = () => {
           {
             label: "Пользователи",
             key: "users",
-            children: <Card>1</Card>,
+            children: <SettingsUsers />,
           },
           {
             label: "Роли",

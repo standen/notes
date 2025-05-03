@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import axios from "axios";
 
-import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRoles/forms/FormRoleCreateEdit";
+import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRoles/forms"; 
 import { useAxios } from "../useAxios";
 
 import { App, notification, Modal } from "antd";

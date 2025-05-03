@@ -15,12 +15,12 @@ from appAuth.models import ALLOWED_ACTIONS
 def viewManagePermissions(request):
     return JsonResponse({'status': 'success', 'result': {'allowed_actions': ALLOWED_ACTIONS}, 'message': None}, **defSetStatusCode(200))
 
-@decoratorAuth(['GET', 'POST', 'PATCH'])
+@decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
 def viewManageRoles(request):
     # получение списка ролей
     if (request.method == 'GET'):
         try:
-            roles = [role.returnOne() for role in modelUserRole.objects.all()]
+            roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True)]
             return JsonResponse({'status': 'success', 'result': {'roles': roles}, 'message': None}, **defSetStatusCode(200))
         except:
             return invalidResponse
@@ -56,13 +56,26 @@ def viewManageRoles(request):
                 return invalidRequestParams
         except:
             return invalidResponse
+        
+    # удаление роли
+    if (request.method == 'DELETE'):
+        try:
+            body = json.loads(request.body)
 
-@decoratorAuth(['GET', 'POST', 'PATCH'])
+            if (compareLists(['roleId'], body.keys())):
+                modelUserRole.objects.filter(id=body.get('roleId')).update(is_active=False)
+                return JsonResponse({'status': 'success', 'result': None, 'message': 'Роль успешно удалена'}, **defSetStatusCode(200))
+            else:
+                return invalidRequestParams
+        except:
+            return invalidResponse
+
+@decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
 def viewManageUsers(request):
     # получение списка пользователей
     if (request.method == 'GET'):
         try:
-            users = [user.returnOne() for user in modelUser.objects.all()]
+            users = [user.returnOne() for user in modelUser.objects.filter(is_active=True)]
             return JsonResponse({'status': 'success', 'result': {'users': users}, 'message': None}, **defSetStatusCode(200))
         except:
             return invalidResponse
@@ -88,6 +101,19 @@ def viewManageUsers(request):
             if (compareLists(['login', 'password', 'roleId', 'userId'], body.keys())):
                 modelUser.objects.filter(id=body.get('userId')).update(login=body.get('login'), password=body.get('password'), role=modelUserRole.objects.get(id=body.get('roleId')))
                 return JsonResponse({'status': 'success', 'result': None, 'message': 'Пользователь успешно обновлен'}, **defSetStatusCode(200))
+            else:
+                return invalidRequestParams
+        except:
+            return invalidResponse
+        
+     # удаление роли
+    if (request.method == 'DELETE'):
+        try:
+            body = json.loads(request.body)
+
+            if (compareLists(['userId'], body.keys())):
+                modelUser.objects.filter(id=body.get('userId')).update(is_active=False)
+                return JsonResponse({'status': 'success', 'result': None, 'message': 'Пользователь успешно удален'}, **defSetStatusCode(200))
             else:
                 return invalidRequestParams
         except:

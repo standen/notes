@@ -1,6 +1,6 @@
 import { useRoles } from "@/hooks";
 
-import { ColumnsTableRoles } from "./table/columns/ColumnsTableRoles";
+import { ColumnsTableRoles } from "./columns";
 
 import { Flex, Button, Table } from "antd";
 import { Card } from "@/ui";
@@ -15,7 +15,7 @@ export const SettingsRoles = () => {
           <div>search</div>
           <div>
             <Button onClick={() => createRoleModal(refreshRoles)}>
-              Добавить
+              Добавить роль
             </Button>
           </div>
         </Flex>

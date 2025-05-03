@@ -1,7 +1,7 @@
 import { useRoles } from "@/hooks";
 import { IRole } from "@/api";
 
-import { type TableProps, Button, Flex } from "antd";
+import { type TableProps, Button, Flex, Popconfirm } from "antd";
 
 export const ColumnsTableRoles = (
   refreshRoles: () => void
@@ -42,13 +42,19 @@ export const ColumnsTableRoles = (
             >
               Редактировать
             </Button>
-            <Button
-              size="small"
-              danger
-              onClick={() => deleteRoleAction(record.id, () => refreshRoles())}
+            <Popconfirm
+              title="Удаление роли"
+              description="Действительно хотите удалить роль?"
+              okText="Удалить"
+              cancelText="Отмена"
+              onConfirm={() =>
+                deleteRoleAction(record.id, () => refreshRoles())
+              }
             >
-              Удалить
-            </Button>
+              <Button size="small" danger>
+                Удалить
+              </Button>
+            </Popconfirm>
           </Flex>
         );
       },
