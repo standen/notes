@@ -6,20 +6,22 @@ import { Flex, Button, Table } from "antd";
 import { Card } from "@/ui";
 
 export const SettingsUsers = () => {
-  const { usersList } = useUsers();
+  const { usersList, refreshUsers, createUserModal } = useUsers();
   return (
     <Flex gap={10} vertical>
       <Card>
         <Flex justify="space-between">
           <div>search</div>
           <div>
-            <Button>Добавить пользователя</Button>
+            <Button onClick={() => createUserModal(refreshUsers)}>
+              Добавить пользователя
+            </Button>
           </div>
         </Flex>
       </Card>
       <Card>
         <Table
-          columns={ColumnsTableUsers()}
+          columns={ColumnsTableUsers(refreshUsers)}
           locale={{ emptyText: "Пользователи отсутствуют" }}
           dataSource={usersList}
           bordered

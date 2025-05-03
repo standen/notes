@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import axios from "axios";
 
-import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRoles/forms"; 
+import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRoles/forms";
 import { useAxios } from "../useAxios";
 
 import { App, notification, Modal } from "antd";
@@ -16,9 +16,9 @@ export const useRoles = () => {
   });
 
   const createRoleAction = useCallback(
-    async (value: Partial<IRole>, okCallback?: () => void) => {
+    async (roleParams: Partial<IRole>, okCallback?: () => void) => {
       const result = await axios
-        .post(endpoints.roles.allActions, value, {
+        .post(endpoints.roles.allActions, roleParams, {
           withCredentials: true,
         })
         .catch((e) => {
@@ -63,16 +63,11 @@ export const useRoles = () => {
   );
 
   const editRoleModalAction = useCallback(
-    async (
-      roleId: string,
-      roleName: string,
-      rolesList: string[],
-      okCallback?: () => void
-    ) => {
+    async (roleParams: IRole, okCallback?: () => void) => {
       const result = await axios.patch(endpoints.roles.allActions, {
-        roleId: roleId,
-        name: roleName,
-        allowed_actions: rolesList,
+        roleId: roleParams.id,
+        name: roleParams.name,
+        allowed_actions: roleParams.allowed_actions,
       });
 
       okCallback?.();
@@ -83,12 +78,7 @@ export const useRoles = () => {
   );
 
   const editRoleModal = useCallback(
-    async (
-      roleId: string,
-      roleName: string,
-      rolesList: string[],
-      okCallback?: () => void
-    ) => {
+    async (roleParams: IRole, okCallback?: () => void) => {
       const result = await new Promise<IRole>((resolve) => {
         modal.confirm({
           closable: true,
@@ -98,7 +88,10 @@ export const useRoles = () => {
           content: (
             <FormRoleCreateEdit
               getValues={resolve}
-              roleParams={{ name: roleName, allowed_actions: rolesList }}
+              roleParams={{
+                name: roleParams.name,
+                allowed_actions: roleParams.allowed_actions,
+              }}
             />
           ),
         });
@@ -109,9 +102,11 @@ export const useRoles = () => {
       }
 
       await editRoleModalAction(
-        roleId,
-        result?.name,
-        result?.allowed_actions,
+        {
+          id: roleParams.id,
+          name: result.name,
+          allowed_actions: result.allowed_actions,
+        },
         okCallback
       );
 

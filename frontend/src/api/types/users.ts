@@ -1,9 +1,11 @@
 import { IResponse } from "@/hooks";
+import { IRole } from "./roles";
 
 export interface IUser {
   id: string;
   login: string;
-  role: string;
+  password?: string;
+  role: Partial<IRole>
 }
 
 export interface IUsersList extends IResponse {

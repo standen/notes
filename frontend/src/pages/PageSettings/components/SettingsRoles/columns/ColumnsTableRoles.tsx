@@ -33,9 +33,11 @@ export const ColumnsTableRoles = (
               size="small"
               onClick={() =>
                 editRoleModal(
-                  record.id,
-                  record.name,
-                  record.allowed_actions,
+                  {
+                    id: record.id,
+                    allowed_actions: record.allowed_actions,
+                    name: record.name,
+                  },
                   () => refreshRoles()
                 )
               }

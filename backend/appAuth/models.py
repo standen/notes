@@ -37,5 +37,8 @@ class modelUser(models.Model):
         return {
             'id': self.id,
             'login': self.login,
-            'role': self.role.name
+            'role': {
+                'id': self.role.id,
+                'name': self.role.name,
+            }
         }

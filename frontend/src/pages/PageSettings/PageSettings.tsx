@@ -19,7 +19,7 @@ export const PageSettings: FC = () => {
           {
             label: "Глобальные",
             key: "global-settings",
-            children: <Card>0</Card>,
+            children: <Card>В разработке</Card>,
           },
           {
             label: "Пользователи",
@@ -34,7 +34,7 @@ export const PageSettings: FC = () => {
           {
             label: "ЖКХ",
             key: "payments",
-            children: <Card>ЖКХ</Card>,
+            children: <Card>В разработке</Card>,
           },
         ]}
       />

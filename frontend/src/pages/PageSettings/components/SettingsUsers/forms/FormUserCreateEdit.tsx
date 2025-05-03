@@ -30,17 +30,24 @@ export const FormUserCreateEdit: FC<Props> = ({ userParams, getValues }) => {
         <Input placeholder="Логин..." allowClear />
       </Form.Item>
       <Form.Item
-        name="role"
+        name="password"
+        label="Пароль"
+        rules={[{ required: true, message: "Поле является обязательным" }]}
+      >
+        <Input.Password placeholder="Пароль..." allowClear />
+      </Form.Item>
+      <Form.Item
+        name="roleId"
         label="Роль"
-        initialValue={userParams?.role}
+        initialValue={userParams?.role?.id}
         rules={[{ required: true, message: "Поле является обязательным" }]}
       >
         <Select
           placeholder="Роль..."
           disabled={!rolesList}
           options={rolesList?.map((item) => ({
-            label: item,
-            value: item,
+            label: item.name,
+            value: item.id,
           }))}
         />
       </Form.Item>
