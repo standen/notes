@@ -20,7 +20,7 @@ def viewManageRoles(request):
     # получение списка ролей
     if (request.method == 'GET'):
         try:
-            roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True)]
+            roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
             return JsonResponse({'status': 'success', 'result': {'roles': roles}, 'message': None}, **defSetStatusCode(200))
         except:
             return invalidResponse
@@ -75,7 +75,7 @@ def viewManageUsers(request):
     # получение списка пользователей
     if (request.method == 'GET'):
         try:
-            users = [user.returnOne() for user in modelUser.objects.filter(is_active=True)]
+            users = [user.returnOne() for user in modelUser.objects.filter(is_active=True).order_by("login")]
             return JsonResponse({'status': 'success', 'result': {'users': users}, 'message': None}, **defSetStatusCode(200))
         except:
             return invalidResponse

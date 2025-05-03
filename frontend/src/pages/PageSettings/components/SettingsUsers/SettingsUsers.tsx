@@ -1,7 +1,12 @@
+import { useUsers } from "@/hooks";
+
+import { ColumnsTableUsers } from "./columns";
+
 import { Flex, Button, Table } from "antd";
 import { Card } from "@/ui";
 
 export const SettingsUsers = () => {
+  const { usersList } = useUsers();
   return (
     <Flex gap={10} vertical>
       <Card>
@@ -14,9 +19,9 @@ export const SettingsUsers = () => {
       </Card>
       <Card>
         <Table
-          // columns={ColumnsTableRoles(refreshRoles)}
+          columns={ColumnsTableUsers()}
           locale={{ emptyText: "Пользователи отсутствуют" }}
-          // dataSource={rolesList}
+          dataSource={usersList}
           bordered
           pagination={false}
           size="small"
