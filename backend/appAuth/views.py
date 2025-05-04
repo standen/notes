@@ -14,6 +14,8 @@ def defSetStatusCode(statusCode: int):
 
 invalidRequestParams = JsonResponse({'status':'error', 'result': None, 'message': 'Неверные параметры запроса'}, **defSetStatusCode(400))
 invalidResponse = JsonResponse({'status':'error', 'result': None, 'message': 'Сервер не смог обработать запрос'}, **defSetStatusCode(400))
+invalidRequestNoUser = JsonResponse({'status':'error', 'result': None, 'message': 'Пользователь не существует'}, **defSetStatusCode(400))
+invalidRequestWrongPassword = JsonResponse({'status':'error', 'result': None, 'message': 'Неверный пароль'}, **defSetStatusCode(400))
 
 def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
@@ -40,17 +42,22 @@ def viewLogin(request):
         body = json.loads(request.body)
 
         if (compareLists(['login', 'password'], body.keys())):
-            user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
+            try:
+                user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
             
-            s = SessionStore()
-            s['login'] = user.login
-            s.create()
+                s = SessionStore()
+                s['login'] = user.login
+                s.create()
 
-            response = JsonResponse({'status': 'success', 'result': None, 'message': 'Авторизация прошла успешно'}, **defSetStatusCode(200))
-            response.set_cookie('token', s.session_key, httponly=True, secure=True, max_age=1209600)
-            return response
+                response = JsonResponse({'status': 'success', 'result': None, 'message': 'Авторизация прошла успешно'}, **defSetStatusCode(200))
+                response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True, max_age=1209600)
+                print(dir(response))
+                print(response.cookies)
+                return response
+            except:
+                return invalidRequestNoUser
         else:
-            invalidRequestParams
+            return invalidRequestParams
     except:
         return invalidResponse
 

@@ -24,7 +24,7 @@ export const useRoles = () => {
         .catch((e) => {
           notification.error({
             message: e?.response?.data?.message || "ошибка",
-            placement: "bottomRight",
+            placement: "topRight",
           });
         });
 

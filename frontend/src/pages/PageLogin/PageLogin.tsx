@@ -12,46 +12,53 @@ const cx = classNames.bind(styles);
 export const PageLogin: FC = () => {
   const { loginAction } = useAuth();
   const [form] = Form.useForm();
+
   return (
     <section className={cx("grid")}>
       <div className={cx("login-form")}>
         <div>notes</div>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) => console.log(values)}
-        >
-          <Form.Item
-            name="login"
-            label="Логин"
-            rules={[{ required: true, message: "Поле является обязательным" }]}
+        <div>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={(values) => loginAction(values)}
           >
-            <Input
-              placeholder="Логин..."
-              allowClear
-              prefix={<UserOutlined />}
-            />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Пароль"
-            rules={[{ required: true, message: "Поле является обязательным" }]}
-          >
-            <Input.Password
-              placeholder="Пароль..."
-              allowClear
-              prefix={<LockOutlined />}
-            />
-          </Form.Item>
-          <Button
-            type="primary"
-            icon={<LoginOutlined />}
-            htmlType="submit"
-            block
-          >
-            Авторизоваться
-          </Button>
-        </Form>
+            <Form.Item
+              name="login"
+              label="Логин"
+              rules={[
+                { required: true, message: "Поле является обязательным" },
+              ]}
+            >
+              <Input
+                placeholder="Логин..."
+                allowClear
+                prefix={<UserOutlined />}
+              />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Пароль"
+              rules={[
+                { required: true, message: "Поле является обязательным" },
+              ]}
+            >
+              <Input.Password
+                placeholder="Пароль..."
+                allowClear
+                prefix={<LockOutlined />}
+              />
+            </Form.Item>
+            <Button
+              type="primary"
+              icon={<LoginOutlined />}
+              htmlType="submit"
+              block
+            >
+              Авторизоваться
+            </Button>
+          </Form>
+        </div>
         {/* bottom login form */}
         <div>Контакты для связи: tkadensky@ya.ru</div>
       </div>

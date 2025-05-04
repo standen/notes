@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
 .grid {
   display: grid;
   grid-template-columns: 400px auto;
@@ -8,6 +11,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 30px;
+    background-color: map.get(vars.$theme, "contentBgColor");
   }
 
   .login-image {

@@ -3,8 +3,8 @@ const backendUrl = `http://localhost:${port}`;
 
 export const endpoints = {
   auth: {
-    login: `${backendUrl}/login`,
-    logout: `${backendUrl}/logout`,
+    login: `${backendUrl}/auth/login`,
+    logout: `${backendUrl}/auth/logout`,
   },
   permissions: {
     allActions: `${backendUrl}/settings/permissions`,
