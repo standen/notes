@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
         theme={{
           token: {
             fontFamily: "'Montserrat-Regular', serif",
-            colorPrimaryBorder: "transoarent",
+            colorPrimaryBorder: "transparent",
           },
           components: {
             Tabs: {
@@ -24,7 +24,7 @@ createRoot(document.getElementById("root")!).render(
             Input: {
               activeBorderColor: "#7b7de5",
               hoverBorderColor: "#7b7de5",
-            },  
+            },
           },
         }}
       >

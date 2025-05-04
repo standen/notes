@@ -5,7 +5,13 @@ export interface IUser {
   id: string;
   login: string;
   password?: string;
-  role: Partial<IRole>
+  role: Partial<IRole>;
+}
+
+export interface IUserFormValues {
+  login: string;
+  roleId: string;
+  password?: string;
 }
 
 export interface IUsersList extends IResponse {

@@ -18,6 +18,7 @@ export const ColumnsTableUsers = (
       title: "Роль",
       dataIndex: "role",
       key: "role",
+      render: (_, record) => record.role.name,
     },
     {
       title: "Действия",

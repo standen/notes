@@ -5,7 +5,7 @@ import { useAxios } from "../useAxios";
 import { FormUserCreateEdit } from "@/pages/PageSettings/components/SettingsUsers/forms";
 
 import { App, Modal } from "antd";
-import { endpoints, IUser, IUsersList } from "@/api";
+import { endpoints, IUser, IUsersList, IUserFormValues } from "@/api";
 
 export const useUsers = () => {
   const { modal } = App.useApp();
@@ -32,7 +32,7 @@ export const useUsers = () => {
 
   const createUserModal = useCallback(
     async (okCallback?: () => void) => {
-      const result = await new Promise<Partial<IUser>>((resolve) => {
+      const result = await new Promise<IUserFormValues>((resolve) => {
         modal.confirm({
           title: "Создание пользователя",
           icon: null,
@@ -51,7 +51,9 @@ export const useUsers = () => {
         {
           login: result.login,
           password: result.password,
-          role: result.role,
+          role: {
+            id: result.roleId,
+          },
         },
         okCallback
       );
@@ -80,8 +82,7 @@ export const useUsers = () => {
 
   const editUserModal = useCallback(
     async (userParams: Partial<IUser>, okCallback?: () => void) => {
-      console.log(userParams, "callback");
-      const result = await new Promise<Partial<IUser>>((resolve) => {
+      const result = await new Promise<Partial<IUserFormValues>>((resolve) => {
         modal.confirm({
           title: "Редактирование пользователя пользователя",
           icon: null,
@@ -104,12 +105,14 @@ export const useUsers = () => {
         return;
       }
 
+      console.log(result);
+
       await editUserAction(
         {
           id: userParams.id,
           login: result.login,
           password: result.password,
-          role: result.role,
+          role: { id: result.roleId },
         },
         okCallback
       );

@@ -2,13 +2,13 @@ import { FC } from "react";
 
 import { useRoles } from "@/hooks";
 
-import { IUser } from "@/api";
+import { IUserFormValues, IUser } from "@/api";
 
 import { Form, Input, Select, Button, Flex } from "antd";
 
 interface Props {
   userParams?: Partial<IUser>;
-  getValues: (value: IUser) => void;
+  getValues: (value: IUserFormValues) => void;
 }
 
 export const FormUserCreateEdit: FC<Props> = ({ userParams, getValues }) => {
