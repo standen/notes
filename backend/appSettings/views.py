@@ -1,6 +1,5 @@
 import json
 from django.http import JsonResponse
-import time
 
 from appAuth.views import decoratorAuth
 

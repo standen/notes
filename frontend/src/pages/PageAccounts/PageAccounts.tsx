@@ -4,30 +4,25 @@ import classNames from "classnames/bind";
 import { Content } from "@/components";
 
 import { Card } from "@/ui";
-import { Tag } from "antd";
+import { Tag, Flex, Button } from "antd";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const PageAccounts: FC = () => {
-  const items: React.ReactNode[] = Array(20).fill(
-    <div className={cx(["accounts-card-item"])}>
-      <span className={cx(["accounts-card-item-login"])}>GitHub</span>
-      <span>09.04.2025 01:23:45</span>
-      <span>
-        <Tag color="processing">логин</Tag>
-        <Tag color="processing">пароль</Tag>
-        <Tag color="warning">изменить</Tag>
-        <Tag color="error">удалить</Tag>
-      </span>
-    </div>
-  );
-
   return (
     <Content title="Аккаунты">
-      <Card classname={cx("accounts-card")}>
-        {items}
-      </Card>
+      <Flex vertical gap={10}>
+        <Card>
+          <Flex justify="space-between">
+            <div>search</div>
+            <div>
+              <Button>Добавить аккаунт</Button>
+            </div>
+          </Flex>
+        </Card>
+        <Card>logins</Card>
+      </Flex>
     </Content>
   );
 };

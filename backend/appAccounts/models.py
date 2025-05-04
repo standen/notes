@@ -8,7 +8,7 @@ class modelAccounts(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    login = models.CharField()
+    login = models.CharField(unique=True)
     cipher_login = models.BooleanField(default=False)
     password = models.CharField()
     another_secret = models.TextField()
