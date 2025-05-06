@@ -15,4 +15,7 @@ export const endpoints = {
   users: {
     allActions: `${backendUrl}/settings/users`,
   },
+  notes: {
+    allActions: `${backendUrl}/notes/`,
+  }
 };

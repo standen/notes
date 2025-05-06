@@ -1,0 +1,7 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+body {
+  background-color: map.get(vars.$theme, "contentBgColor");
+  padding: 20px;
+}

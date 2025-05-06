@@ -11,8 +11,13 @@ class modelNotes(models.Model):
 
     name = models.CharField()
     text = models.TextField()
-    open_for_all = models.BooleanField(default=True)
     link = models.CharField(unique=True)
     is_cipher = models.BooleanField(default=False)
+    open_for_all = models.BooleanField(default=False)
+    edit_everyone = models.BooleanField(default=False)
 
     owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)
+
+class modelNotesTest(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    text = models.TextField()

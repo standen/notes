@@ -1,0 +1,15 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+body {
+  background-color: map.get(vars.$theme, "contentBgColor");
+  padding: 20px;
+}
+
+.main {
+  min-height: calc(100vh - 40px);
+}
+
+.editor {
+  min-height: calc(100vh - 80px);
+}
