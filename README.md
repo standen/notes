@@ -6,3 +6,5 @@
 1. upperCase для permissions и logins
 1. choices для mapping values
 1. если хочешь менять пользователя, то обязательно менять пароль
+1. style header для таблиц
+1. tabs внутри settings через card tabList

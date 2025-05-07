@@ -13,6 +13,7 @@ createRoot(document.getElementById("root")!).render(
           token: {
             fontFamily: "'Montserrat-Regular', serif",
             colorPrimaryBorder: "transparent",
+            fontWeightStrong: 100,
           },
           components: {
             Tabs: {
@@ -25,6 +26,9 @@ createRoot(document.getElementById("root")!).render(
               activeBorderColor: "#7b7de5",
               hoverBorderColor: "#7b7de5",
             },
+            Card: {
+              bodyPadding: 15,
+            }
           },
         }}
       >

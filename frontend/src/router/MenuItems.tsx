@@ -23,7 +23,7 @@ export const MenuItems: TNavbarPage = {
     description: "Страница с оплатой ЖКХ",
     link: "payments",
     title: "Оплата ЖКХ",
-    icon: <i className="fa-solid fa-money-bill-1-wave"></i>,
+    icon: <i className="fa-solid fa-money-bill-1-wave" />,
   },
   PageSettings: {
     description: "Страница с настройками",

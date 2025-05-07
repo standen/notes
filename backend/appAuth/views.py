@@ -54,8 +54,6 @@ def viewLogin(request):
 
                 response = JsonResponse(**defResponseParams(message='Авторизация прошла успешно'))
                 response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True, max_age=1209600)
-                print(dir(response))
-                print(response.cookies)
                 return response
             except:
                 return invalidRequestNoUser

@@ -13,12 +13,14 @@
     "@aws-crypto/sha256-js": "^5.2.0",
     "@monaco-editor/react": "^4.7.0",
     "@types/node": "^22.15.3",
-    "antd": "^5.24.9",
+    "antd": "5.24.9",
     "axios": "^1.9.0",
     "classnames": "^2.5.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-markdown": "^10.1.0",
     "react-router": "^7.5.3",
+    "react-syntax-highlighter": "^15.6.1",
     "sass": "^1.87.0"
   },
   "devDependencies": {

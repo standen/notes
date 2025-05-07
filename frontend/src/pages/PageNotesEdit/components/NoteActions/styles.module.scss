@@ -1,0 +1,16 @@
+@use "sass:map";
+@use "@assets/scss/vars.scss";
+
+.iconActions {
+  display: flex;
+  gap: 10px;
+  font-size: 20px;
+
+  i {
+    cursor: pointer;
+  }
+
+  .activeAction {
+    color: map.get(vars.$theme, "colorPrimary");
+  }
+}

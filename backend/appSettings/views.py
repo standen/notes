@@ -1,4 +1,4 @@
-import json
+import json, datetime
 from django.http import JsonResponse
 
 from appAuth.views import decoratorAuth
@@ -23,12 +23,16 @@ def viewManageRoles(request):
             return JsonResponse(**defResponseParams(result={'roles': roles}))
         except:
             return invalidResponse
+        
+    # общее для остальных методов
+    try:
+        body = json.loads(request.body)
+    except:
+        return invalidRequestParams
 
     # добавление роли
     if (request.method == 'POST'):
         try:
-            body = json.loads(request.body)
-
             if (compareLists(['name', 'allowed_actions'], body.keys()) 
                     and isinstance(body['allowed_actions'], list)
                     and len(body['allowed_actions']) > 0 
@@ -43,8 +47,6 @@ def viewManageRoles(request):
     # изменение роли
     if (request.method == 'PATCH'):
         try:
-            body = json.loads(request.body)
-
             if (compareLists(['name', 'allowed_actions', 'roleId'], body.keys()) 
                     and isinstance(body['allowed_actions'], list)
                     and len(body['allowed_actions']) > 0 
@@ -59,8 +61,6 @@ def viewManageRoles(request):
     # удаление роли
     if (request.method == 'DELETE'):
         try:
-            body = json.loads(request.body)
-
             if (compareLists(['roleId'], body.keys())):
                 modelUserRole.objects.filter(id=body.get('roleId')).update(is_active=False)
                 return JsonResponse(**defResponseParams(message='Роль успешно удалена'))
@@ -79,11 +79,15 @@ def viewManageUsers(request):
         except:
             return invalidResponse
         
+    # общее для остальных методов
+    try:
+        body = json.loads(request.body)
+    except:
+        return invalidRequestParams
+        
     # добавление пользователя
     if (request.method == 'POST'):
         try:
-            body = json.loads(request.body)
-
             if (compareLists(['login', 'password', 'roleId'], body.keys())):
                 modelUser(login=body.get('login'), password=body.get('password'), role=modelUserRole.objects.get(id=body.get('roleId'))).save()
                 return JsonResponse(**defResponseParams(message='Пользователь успешно создан'))
@@ -95,10 +99,13 @@ def viewManageUsers(request):
      # изменение пользователя
     if (request.method == 'PATCH'):
         try:
-            body = json.loads(request.body)
-
             if (compareLists(['login', 'password', 'roleId', 'userId'], body.keys())):
-                modelUser.objects.filter(id=body.get('userId')).update(login=body.get('login'), password=body.get('password'), role=modelUserRole.objects.get(id=body.get('roleId')))
+                modelUser.objects.filter(id=body.get('userId')).update(
+                    login=body.get('login'), 
+                    password=body.get('password'), 
+                    role=modelUserRole.objects.get(id=body.get('roleId')),
+                    updated_at = datetime.datetime.now()
+                    )
                 return JsonResponse(**defResponseParams(message='Пользователь успешно обновлен'))
             else:
                 return invalidRequestParams
@@ -108,8 +115,6 @@ def viewManageUsers(request):
      # удаление роли
     if (request.method == 'DELETE'):
         try:
-            body = json.loads(request.body)
-
             if (compareLists(['userId'], body.keys())):
                 modelUser.objects.filter(id=body.get('userId')).update(is_active=False)
                 return JsonResponse(**defResponseParams(message='Пользователь успешно удален'))
