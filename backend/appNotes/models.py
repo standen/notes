@@ -18,6 +18,19 @@ class modelNotes(models.Model):
 
     owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)
 
-class modelNotesTest(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    text = models.TextField()
+    def returnOne(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'text': self.text,
+            'link': self.link,
+            'is_cipher': self.is_cipher,
+            'open_for_all': self.open_for_all,
+            'edit_everyone': self.edit_everyone,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'author': {
+                'id': self.owner.id,
+                'login': self.owner.login,
+            }
+        }

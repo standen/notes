@@ -9,13 +9,16 @@ from utils.compareLists import compareLists
 
 from .models import *
 
-def defSetStatusCode(statusCode: int):
-    return {'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
+def defResponseParams(message = None, result = None, statusCode = 200):
+    return {'data': {'status': 'success' if statusCode == 200 else 'error', 'result' : result, 'message': message}, 
+            'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
 
-invalidRequestParams = JsonResponse({'status':'error', 'result': None, 'message': 'Неверные параметры запроса'}, **defSetStatusCode(400))
-invalidResponse = JsonResponse({'status':'error', 'result': None, 'message': 'Сервер не смог обработать запрос'}, **defSetStatusCode(400))
-invalidRequestNoUser = JsonResponse({'status':'error', 'result': None, 'message': 'Пользователь не существует'}, **defSetStatusCode(400))
-invalidRequestWrongPassword = JsonResponse({'status':'error', 'result': None, 'message': 'Неверный пароль'}, **defSetStatusCode(400))
+invalidRequestParams = JsonResponse(**defResponseParams(message='Неверные параметры запроса', statusCode=400))
+invalidResponse = JsonResponse(**defResponseParams(message='Сервер не смог обработать запрос', statusCode=400))
+invalidRequestNoAccess = JsonResponse(**defResponseParams(message='Недостаточно прав для выполнения операции', statusCode=403))
+
+invalidRequestNoUser = JsonResponse(**defResponseParams(message='Пользователь не существует', statusCode=400))
+invalidRequestWrongPassword = JsonResponse(**defResponseParams(message='Неверный пароль', statusCode=400))
 
 def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
@@ -23,7 +26,7 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
         def wrapper(request, *args, **kwargs):
             if (methods):
                 if (not request.method in methods):
-                    return JsonResponse({'status': 'error', 'result': None, 'message': 'Недопустимый тип запроса'}, **defSetStatusCode(405))
+                    return JsonResponse(**defResponseParams(message='Недопустимый тип запроса', statusCode=405))
 
             if (allowed_actions):
                 try:
@@ -49,7 +52,7 @@ def viewLogin(request):
                 s['login'] = user.login
                 s.create()
 
-                response = JsonResponse({'status': 'success', 'result': None, 'message': 'Авторизация прошла успешно'}, **defSetStatusCode(200))
+                response = JsonResponse(**defResponseParams(message='Авторизация прошла успешно'))
                 response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True, max_age=1209600)
                 print(dir(response))
                 print(response.cookies)
