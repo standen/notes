@@ -30,8 +30,8 @@ export const MyRouter: FC = () => {
 
         <Route path={MenuItems.PageSettings.link} element={<PageSettings />} />
       </Route>
-      <Route path={`/note/:noteUrl`} element={<PageNotesView />} />
       <Route path={`/note/edit/:noteUrl`} element={<PageNotesEdit />} />
+      <Route path={`/note/:noteUrl`} element={<PageNotesView />} />
       <Route path="*" element={<h1>404</h1>} />
     </Routes>
   );

@@ -5,11 +5,11 @@ import { Card } from "@/ui";
 import style from "./styles.module.scss";
 
 export const PageNotesView = () => {
-  const urlParams = useParams();
+  const { noteUrl } = useParams();
 
   return (
     <section className={style.main}>
-      <Card>{urlParams?.noteUrl}</Card>
+      <Card>{noteUrl}</Card>
     </section>
   );
 };

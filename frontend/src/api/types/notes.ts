@@ -20,3 +20,9 @@ export interface INotesList extends IResponse {
     notes: INote[];
   } | null;
 }
+
+export interface INoteParams extends IResponse {
+  result: {
+    note: INote;
+  };
+}

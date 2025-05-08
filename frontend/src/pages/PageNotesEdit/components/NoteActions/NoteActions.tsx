@@ -2,9 +2,10 @@ import classNames from "classnames/bind";
 
 import { useNoteActions } from "../../hooks";
 
-import { Flex } from "antd";
+import { Button, Flex, Form, Input } from "antd";
 
 import styles from "./styles.module.scss";
+import { useForm } from "antd/es/form/Form";
 const cx = classNames.bind(styles);
 
 export const NoteActions = () => {
@@ -16,9 +17,20 @@ export const NoteActions = () => {
     isEditEveryOne,
     isReadEveryOne,
   } = useNoteActions();
+  const [form] = useForm();
   return (
     <Flex justify="space-between">
-      <div>123</div>
+      <div>
+        <Form form={form} layout="inline">
+          <Form.Item name="name" label="Наименование">
+            <Input />
+          </Form.Item>
+          <Form.Item name="link" label="Ссылка">
+            <Input />
+          </Form.Item>
+          <Button type="primary">Сохранить</Button>
+        </Form>
+      </div>
       <div className={styles.iconActions}>
         <i
           className={cx(

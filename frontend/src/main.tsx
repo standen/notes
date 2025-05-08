@@ -14,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
             fontFamily: "'Montserrat-Regular', serif",
             colorPrimaryBorder: "transparent",
             fontWeightStrong: 100,
+            colorPrimary: "#7b7de5",
           },
           components: {
             Tabs: {
@@ -28,7 +29,7 @@ createRoot(document.getElementById("root")!).render(
             },
             Card: {
               bodyPadding: 15,
-            }
+            },
           },
         }}
       >
