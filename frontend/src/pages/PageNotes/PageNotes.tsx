@@ -1,13 +1,13 @@
 import { FC } from "react";
 
-import { useNotes } from "@/hooks";
+import { useNotesList } from "@/hooks";
 import { Content } from "@/components";
 import { ColumnsTableNotes } from "./columns";
 
 import { Button, Table, Card } from "antd";
 
 export const PageNotes: FC = () => {
-  const { notesList } = useNotes();
+  const { notesList } = useNotesList();
   return (
     <Content title="Заметки">
       <Card

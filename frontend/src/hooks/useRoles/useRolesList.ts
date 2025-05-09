@@ -2,7 +2,7 @@ import { useAxios } from "../useAxios";
 
 import { endpoints, IRolesList } from "@/api";
 
-export const useRoles = () => {
+export const useRolesList = () => {
   const { data: rolesList, refresh: refreshRoles } = useAxios<IRolesList>({
     method: "get",
     url: endpoints.roles.allActions,

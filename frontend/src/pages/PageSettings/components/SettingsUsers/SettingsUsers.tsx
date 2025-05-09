@@ -1,11 +1,11 @@
-import { useUsers, useUsersActions } from "@/hooks";
+import { useUsersList, useUsersActions } from "@/hooks";
 
 import { ColumnsTableUsers } from "./columns";
 
 import { Button, Table, Card } from "antd";
 
 export const SettingsUsers = () => {
-  const { usersList, refreshUsers } = useUsers();
+  const { usersList, refreshUsers } = useUsersList();
   const { createUserModal } = useUsersActions();
   return (
     <Card

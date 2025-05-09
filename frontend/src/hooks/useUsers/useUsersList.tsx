@@ -2,7 +2,7 @@ import { useAxios } from "../useAxios";
 
 import { endpoints, IUsersList } from "@/api";
 
-export const useUsers = () => {
+export const useUsersList = () => {
   const { data: usersList, refresh: refreshUsers } = useAxios<IUsersList>({
     method: "get",
     url: endpoints.users.allActions,

@@ -1,2 +1,2 @@
-export * from "./useRoles";
+export * from "./useRolesList";
 export * from "./useRolesActions";

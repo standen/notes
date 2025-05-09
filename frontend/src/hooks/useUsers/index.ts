@@ -1,2 +1,2 @@
-export * from "./useUsers";
+export * from "./useUsersList";
 export * from "./useUsersActions";

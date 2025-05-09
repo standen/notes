@@ -1,27 +1,12 @@
 import { useCallback } from "react";
 
-import { useAxios } from "../useAxios";
-import { endpoints, INotesList, INoteParams, INote } from "@/api";
-
+import { INote } from "@/api";
 import { FormNoteEditParams } from "@/pages/PageNotesEdit/forms";
 
 import { App, Modal } from "antd";
 
-export const useNotes = (noteLink?: string) => {
+export const useNotesActions = () => {
   const { modal } = App.useApp();
-
-  const { data: notesList, refresh: refreshNotes } = useAxios<INotesList>({
-    method: "get",
-    url: endpoints.notes.allActions,
-  });
-
-  const { data: noteParams } = useAxios<INoteParams>({
-    method: "post",
-    url: endpoints.notes.allActions,
-    data: {
-      noteLink,
-    },
-  });
 
   const editNoteModal = useCallback(
     async (noteParams?: Partial<INote>) => {
@@ -48,11 +33,6 @@ export const useNotes = (noteLink?: string) => {
     },
     [modal]
   );
-
-  return {
-    notesList: notesList?.data?.result?.notes,
-    refreshNotes,
-    noteParams: noteParams?.data?.result?.note,
-    editNoteModal,
-  };
+  
+  return { editNoteModal };
 };

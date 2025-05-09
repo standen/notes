@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router";
 import classNames from "classnames/bind";
 import Editor from "@monaco-editor/react";
 
-import { useNotes } from "@/hooks";
+import { useNoteParams, useNotesActions } from "@/hooks";
 
 import { Splitter, Card, Button, Flex, Tag } from "antd";
 import { UserOutlined, LinkOutlined } from "@ant-design/icons";
@@ -14,7 +14,8 @@ const cx = classNames.bind(styles);
 export const PageNotesEdit = () => {
   const { noteUrl } = useParams();
 
-  const { editNoteModal, noteParams } = useNotes(noteUrl);
+  const { noteParams } = useNoteParams(noteUrl);
+  const { editNoteModal } = useNotesActions();
 
   const handleChangeParams = useCallback(async () => {
     const result = await editNoteModal(noteParams);

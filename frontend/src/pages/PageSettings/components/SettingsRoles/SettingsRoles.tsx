@@ -1,11 +1,11 @@
-import { useRoles, useRolesActions } from "@/hooks";
+import { useRolesList, useRolesActions } from "@/hooks";
 
 import { ColumnsTableRoles } from "./columns";
 
 import { Button, Table, Card } from "antd";
 
 export const SettingsRoles = () => {
-  const { rolesList, refreshRoles } = useRoles();
+  const { rolesList, refreshRoles } = useRolesList();
   const { createRoleModal } = useRolesActions();
   return (
     <Card

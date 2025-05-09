@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { useRoles } from "@/hooks";
+import { useRolesList } from "@/hooks";
 
 import { IUserFormValues, IUser } from "@/api";
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const FormUserCreateEdit: FC<Props> = ({ userParams, getValues }) => {
-  const { rolesList } = useRoles();
+  const { rolesList } = useRolesList();
   const [form] = Form.useForm();
 
   return (
