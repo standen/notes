@@ -1,34 +1,30 @@
-import { useUsers } from "@/hooks";
+import { useUsers, useUsersActions } from "@/hooks";
 
 import { ColumnsTableUsers } from "./columns";
 
-import { Flex, Button, Table } from "antd";
-import { Card } from "@/ui";
+import { Button, Table, Card } from "antd";
 
 export const SettingsUsers = () => {
-  const { usersList, refreshUsers, createUserModal } = useUsers();
+  const { usersList, refreshUsers } = useUsers();
+  const { createUserModal } = useUsersActions();
   return (
-    <Flex gap={10} vertical>
-      <Card>
-        <Flex justify="space-between">
-          <div>search</div>
-          <div>
-            <Button onClick={() => createUserModal(refreshUsers)}>
-              Добавить пользователя
-            </Button>
-          </div>
-        </Flex>
-      </Card>
-      <Card>
-        <Table
-          columns={ColumnsTableUsers(refreshUsers)}
-          locale={{ emptyText: "Пользователи отсутствуют" }}
-          dataSource={usersList}
-          bordered
-          pagination={false}
-          size="small"
-        />
-      </Card>
-    </Flex>
+    <Card
+      variant="borderless"
+      title={<>search</>}
+      extra={
+        <Button onClick={() => createUserModal(refreshUsers)}>
+          Добавить пользователя
+        </Button>
+      }
+    >
+      <Table
+        columns={ColumnsTableUsers(refreshUsers)}
+        locale={{ emptyText: "Пользователи отсутствуют" }}
+        dataSource={usersList}
+        bordered
+        pagination={false}
+        size="small"
+      />
+    </Card>
   );
 };

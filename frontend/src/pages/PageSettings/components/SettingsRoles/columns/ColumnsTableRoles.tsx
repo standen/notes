@@ -1,4 +1,4 @@
-import { useRoles } from "@/hooks";
+import { useRolesActions } from "@/hooks";
 import { IRole } from "@/api";
 
 import { type TableProps, Button, Flex, Popconfirm } from "antd";
@@ -6,7 +6,7 @@ import { type TableProps, Button, Flex, Popconfirm } from "antd";
 export const ColumnsTableRoles = (
   refreshRoles: () => void
 ): TableProps<IRole>["columns"] => {
-  const { editRoleModal, deleteRoleAction } = useRoles();
+  const { editRoleModal, deleteRoleAction } = useRolesActions();
 
   return [
     {

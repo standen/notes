@@ -1,4 +1,4 @@
-import { useUsers } from "@/hooks";
+import { useUsersActions } from "@/hooks";
 import { type TableProps, Flex, Button, Popconfirm } from "antd";
 
 import { IUser } from "@/api";
@@ -6,7 +6,7 @@ import { IUser } from "@/api";
 export const ColumnsTableUsers = (
   refreshUsers: () => void
 ): TableProps<IUser>["columns"] => {
-  const { editUserModal, deleteUserAction } = useUsers();
+  const { editUserModal, deleteUserAction } = useUsersActions();
 
   return [
     {

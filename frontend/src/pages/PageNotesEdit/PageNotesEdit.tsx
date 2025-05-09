@@ -1,14 +1,14 @@
 import { useCallback } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import classNames from "classnames/bind";
 import Editor from "@monaco-editor/react";
 
 import { useNotes } from "@/hooks";
 
 import { Splitter, Card, Button, Flex, Tag } from "antd";
+import { UserOutlined, LinkOutlined } from "@ant-design/icons";
 
 import styles from "./styles.module.scss";
-import { useEffect } from "react";
 const cx = classNames.bind(styles);
 
 export const PageNotesEdit = () => {
@@ -20,16 +20,28 @@ export const PageNotesEdit = () => {
     const result = await editNoteModal(noteParams);
   }, [editNoteModal, noteParams]);
 
+  if (!noteParams) {
+    return <h1>Заметка отсутствует</h1>;
+  }
+
   return (
     <section className={styles.main}>
       <Card
         title={
           <Flex gap={10}>
-            <Tag>{noteParams?.author?.login}</Tag>
-            <Tag>{noteParams?.link}</Tag>
+            <Tag icon={<UserOutlined />}>{noteParams?.author?.login}</Tag>
+            <Tag icon={<LinkOutlined />}>{noteParams?.link}</Tag>
           </Flex>
         }
-        extra={<Button onClick={handleChangeParams}>Параметры</Button>}
+        extra={
+          <Flex gap={10}>
+            <Button onClick={handleChangeParams}>Параметры</Button>
+            <Button type="primary">Сохранить</Button>
+            <Link to="/notes">
+              <Button>Вернуться</Button>
+            </Link>
+          </Flex>
+        }
       >
         <Splitter>
           <Splitter.Panel min="20%">

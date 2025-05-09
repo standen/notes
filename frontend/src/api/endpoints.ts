@@ -17,5 +17,7 @@ export const endpoints = {
   },
   notes: {
     allActions: `${backendUrl}/notes/`,
-  }
+    edit: (noteLink: string) => `/note/edit/${noteLink}`,
+    add: `/note/edit/new`,
+  },
 };

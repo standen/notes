@@ -1,5 +1,7 @@
 import { type TableProps } from "antd";
-import { INote } from "@/api";
+import { INote, endpoints } from "@/api";
+
+import { useNavigate, Link } from "react-router";
 
 export const ColumnsTableNotes = (): TableProps<INote>["columns"] => {
   return [
@@ -7,6 +9,9 @@ export const ColumnsTableNotes = (): TableProps<INote>["columns"] => {
       title: "Наименование",
       dataIndex: "name",
       key: "name",
+      render: (value, record) => (
+        <Link to={endpoints.notes.edit(record.link)}>{value}</Link>
+      ),
     },
     {
       title: "Ссылка",

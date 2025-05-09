@@ -2,18 +2,12 @@ import { useCallback } from "react";
 import axios from "axios";
 
 import { FormRoleCreateEdit } from "@/pages/PageSettings/components/SettingsRoles/forms";
-import { useAxios } from "../useAxios";
+import { endpoints, IRole } from "@/api";
 
 import { App, notification, Modal } from "antd";
-import { endpoints, IRolesList, IRole } from "@/api";
 
-export const useRoles = () => {
+export const useRolesActions = () => {
   const { modal } = App.useApp();
-
-  const { data: rolesList, refresh: refreshRoles } = useAxios<IRolesList>({
-    method: "get",
-    url: endpoints.roles.allActions,
-  });
 
   const createRoleAction = useCallback(
     async (roleParams: Partial<IRole>, okCallback?: () => void) => {
@@ -127,10 +121,7 @@ export const useRoles = () => {
     },
     []
   );
-
   return {
-    rolesList: rolesList?.data?.result?.roles,
-    refreshRoles,
     createRoleModal,
     editRoleModal,
     deleteRoleAction,

@@ -5,9 +5,10 @@ import { useNavigate } from "react-router";
 import { IAuthForm, IAuthLoginRespone } from "@/api/types/auth";
 import { endpoints } from "@/api";
 
-import { notification } from "antd";
+import { App } from "antd";
 
 export const useAuth = () => {
+  const { notification } = App.useApp();
   const navigate = useNavigate();
 
   const loginAction = useCallback(

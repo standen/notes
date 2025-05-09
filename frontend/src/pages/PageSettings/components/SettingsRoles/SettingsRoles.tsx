@@ -1,35 +1,30 @@
-import { useRoles } from "@/hooks";
+import { useRoles, useRolesActions } from "@/hooks";
 
 import { ColumnsTableRoles } from "./columns";
 
-import { Flex, Button, Table } from "antd";
-import { Card } from "@/ui";
+import { Button, Table, Card } from "antd";
 
 export const SettingsRoles = () => {
-  const { rolesList, createRoleModal, refreshRoles } = useRoles();
-
+  const { rolesList, refreshRoles } = useRoles();
+  const { createRoleModal } = useRolesActions();
   return (
-    <Flex gap={10} vertical>
-      <Card>
-        <Flex justify="space-between">
-          <div>search</div>
-          <div>
-            <Button onClick={() => createRoleModal(refreshRoles)}>
-              Добавить роль
-            </Button>
-          </div>
-        </Flex>
-      </Card>
-      <Card>
-        <Table
-          columns={ColumnsTableRoles(refreshRoles)}
-          locale={{ emptyText: "Роли отсутствуют" }}
-          dataSource={rolesList}
-          bordered
-          pagination={false}
-          size="small"
-        />
-      </Card>
-    </Flex>
+    <Card
+      variant="borderless"
+      title={<>search</>}
+      extra={
+        <Button onClick={() => createRoleModal(refreshRoles)}>
+          Добавить роль
+        </Button>
+      }
+    >
+      <Table
+        columns={ColumnsTableRoles(refreshRoles)}
+        locale={{ emptyText: "Роли отсутствуют" }}
+        dataSource={rolesList}
+        bordered
+        pagination={false}
+        size="small"
+      />
+    </Card>
   );
 };

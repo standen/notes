@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { INote } from "@/api";
 
 import { Form, Input, Button, Checkbox, Flex, ConfigProvider } from "antd";
@@ -10,13 +10,6 @@ interface Props {
 
 export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
   const [form] = Form.useForm();
-
-  useEffect(() => {
-    console.log(noteParams, "form");
-    form.setFieldsValue(noteParams);
-    form.setFieldValue("is_cipher", noteParams?.is_cipher);
-    form.setFieldValue("edit_everyone", noteParams?.edit_everyone);
-  }, [noteParams]);
 
   return (
     <Form
