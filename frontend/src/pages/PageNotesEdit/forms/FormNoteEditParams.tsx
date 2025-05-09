@@ -21,7 +21,26 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
         name="name"
         label="Наименование"
         initialValue={noteParams?.name}
-        rules={[{ required: true, message: "Поле является обязательным" }]}
+        rules={[
+          { required: true, message: "Поле является обязательным" },
+          {
+            validator: (_, value: string) => {
+              const symbols =
+                "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ";
+              const valid = value
+                .split("")
+                .every((item) => symbols.includes(item));
+
+              if (!valid) {
+                return Promise.reject();
+              }
+
+              return Promise.resolve();
+            },
+            message:
+              "Недопустимый символ: только кириллица и пробел",
+          },
+        ]}
       >
         <Input placeholder="Наименование" allowClear />
       </Form.Item>
@@ -29,7 +48,25 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
         name="link"
         label="Ссылка"
         initialValue={noteParams?.link}
-        rules={[{ required: true, message: "Поле является обязательным" }]}
+        rules={[
+          { required: true, message: "Поле является обязательным" },
+          {
+            validator: (_, value: string) => {
+              const symbols = "abcdefghijklmnopqrstuvwxyz-";
+              const valid = value
+                .split("")
+                .every((item) => symbols.includes(item));
+
+              if (!valid) {
+                return Promise.reject();
+              }
+
+              return Promise.resolve();
+            },
+            message:
+              "Недопустимый символ: только маленькие английские буквы и тире",
+          },
+        ]}
       >
         <Input placeholder="Ссылка" allowClear />
       </Form.Item>
@@ -44,7 +81,7 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
         }}
       >
         <div style={{ userSelect: "none" }}>
-          <Form.Item name="is_cipher">
+          <Form.Item name="is_cipher" valuePropName="checked">
             <Checkbox
               defaultChecked={noteParams?.is_cipher ?? false}
               onChange={(e) =>
@@ -54,7 +91,7 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
               Шифровать заметку
             </Checkbox>
           </Form.Item>
-          <Form.Item name="open_for_all">
+          <Form.Item name="open_for_all" valuePropName="checked">
             <Checkbox
               defaultChecked={noteParams?.open_for_all ?? false}
               onChange={(e) =>
@@ -64,7 +101,7 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
               Каждый пользователь может просматривать
             </Checkbox>
           </Form.Item>
-          <Form.Item name="edit_everyone">
+          <Form.Item name="edit_everyone" valuePropName="checked">
             <Checkbox
               defaultChecked={noteParams?.edit_everyone ?? false}
               onChange={(e) =>
