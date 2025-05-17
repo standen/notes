@@ -5,7 +5,6 @@ import { useNoteActions } from "../../hooks";
 import { Button, Flex, Form, Input } from "antd";
 
 import styles from "./styles.module.scss";
-import { useForm } from "antd/es/form/Form";
 const cx = classNames.bind(styles);
 
 export const NoteActions = () => {
@@ -17,7 +16,7 @@ export const NoteActions = () => {
     isEditEveryOne,
     isReadEveryOne,
   } = useNoteActions();
-  const [form] = useForm();
+  const [form] = Form.useForm();
   return (
     <Flex justify="space-between">
       <div>
