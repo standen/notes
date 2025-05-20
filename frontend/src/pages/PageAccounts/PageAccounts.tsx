@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import { Content } from "@/components";
 
 import { Card } from "@/ui";
-import { Tag, Flex, Button } from "antd";
+import { Flex, Button } from "antd";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);

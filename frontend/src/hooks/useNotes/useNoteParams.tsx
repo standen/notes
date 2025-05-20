@@ -5,7 +5,7 @@ import { endpoints, INoteParams } from "@/api";
 export const useNoteParams = (noteLink?: string) => {
   const { data: noteParams } = useAxios<INoteParams>({
     method: "post",
-    url: endpoints.notes.allActions,
+    url: noteLink ? endpoints.notes.allActions : undefined,
     data: {
       noteLink,
     },

@@ -1,10 +1,11 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router";
 import classNames from "classnames/bind";
 import Editor from "@monaco-editor/react";
 
-import { useNoteParams, useNotesActions } from "@/hooks";
+import { useNoteParams } from "@/hooks";
 import { MarkdownView } from "@/components";
+import { NoteActions } from "./components";
 
 import { Splitter, Card, Button, Flex, Tag } from "antd";
 import { UserOutlined, LinkOutlined } from "@ant-design/icons";
@@ -16,13 +17,8 @@ export const PageNotesEdit = () => {
   const { noteUrl } = useParams();
 
   const { noteParams } = useNoteParams(noteUrl);
-  const { editNoteModal } = useNotesActions();
 
   const [textNote, setTextNote] = useState<string>();
-
-  const handleChangeParams = useCallback(async () => {
-    const result = await editNoteModal(noteParams);
-  }, [editNoteModal, noteParams]);
 
   if (!noteParams) {
     return <h1>Заметка отсутствует</h1>;
@@ -33,13 +29,14 @@ export const PageNotesEdit = () => {
       <Card
         title={
           <Flex gap={10}>
+            <Tag color="#87d068">{noteParams?.name}</Tag>
             <Tag icon={<UserOutlined />}>{noteParams?.author?.login}</Tag>
             <Tag icon={<LinkOutlined />}>{noteParams?.link}</Tag>
+            <NoteActions />
           </Flex>
         }
         extra={
           <Flex gap={10}>
-            <Button onClick={handleChangeParams}>Параметры</Button>
             <Button type="primary">Сохранить</Button>
             <Link to="/notes">
               <Button>Вернуться</Button>

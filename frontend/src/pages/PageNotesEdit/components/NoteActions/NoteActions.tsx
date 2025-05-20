@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 
 import { useNoteActions } from "../../hooks";
 
-import { Button, Flex, Form, Input } from "antd";
+import { Flex } from "antd";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
@@ -16,20 +16,8 @@ export const NoteActions = () => {
     isEditEveryOne,
     isReadEveryOne,
   } = useNoteActions();
-  const [form] = Form.useForm();
   return (
     <Flex justify="space-between">
-      <div>
-        <Form form={form} layout="inline">
-          <Form.Item name="name" label="Наименование">
-            <Input />
-          </Form.Item>
-          <Form.Item name="link" label="Ссылка">
-            <Input />
-          </Form.Item>
-          <Button type="primary">Сохранить</Button>
-        </Form>
-      </div>
       <div className={styles.iconActions}>
         <i
           className={cx(
@@ -46,7 +34,7 @@ export const NoteActions = () => {
         <i
           className={cx(
             "fa-solid",
-            "fa-unlock-keyhole",
+            "fa-key",
             isCipher && "activeAction"
           )}
           onClick={handleCipher}
