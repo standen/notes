@@ -9,7 +9,7 @@ class modelAccounts(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     login = models.CharField(unique=True)
-    cipher_login = models.BooleanField(default=False)
+    is_login_cipher = models.BooleanField(default=False)
     password = models.CharField()
     another_secret = models.TextField()
 
@@ -17,10 +17,10 @@ class modelAccounts(models.Model):
 
 class modelAccountsDeleted(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    deleted_at = models.DateTimeField(auto_now_add=True)
+    deleted_at = models.DateTimeField(auto_now=True)
 
-    login = models.CharField()
-    cipher_login = models.BooleanField(default=False)
+    login = models.CharField(unique=True)
+    is_login_cipher = models.BooleanField(default=False)
     password = models.CharField()
     another_secret = models.TextField()
 
