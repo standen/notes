@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 
 import { IAuthForm, IAuthLoginRespone } from "@/api/types/auth";
 import { endpoints } from "@/api";
+import { sha256 } from "@/utils";
 
 import { App } from "antd";
 
@@ -13,12 +14,14 @@ export const useAuth = () => {
 
   const loginAction = useCallback(
     async (value: IAuthForm) => {
+      const password = await sha256(value.password);
+
       return await axios
         .post<IAuthLoginRespone>(
           endpoints.auth.login,
           {
-            login: value.login,
-            password: value.password,
+            login: value.login.toLowerCase(),
+            password,
           },
           { withCredentials: true }
         )
@@ -32,7 +35,7 @@ export const useAuth = () => {
           });
         });
     },
-    [navigate]
+    [navigate, notification]
   );
 
   return { loginAction };

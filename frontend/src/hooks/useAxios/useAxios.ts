@@ -9,7 +9,7 @@ export const useAxios = <T>(params: AxiosRequestConfig) => {
   const fetchData = async (params: AxiosRequestConfig) => {
     setLoading(true);
     await axios
-      .request<T>(params)
+      .request<T>({ withCredentials: true, ...params })
       .then(setData)
       .catch(setError)
       .finally(() => setLoading(false));

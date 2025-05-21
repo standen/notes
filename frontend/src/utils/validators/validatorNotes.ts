@@ -1,5 +1,12 @@
+import { vocab } from "../encoding";
+
 export const symbolsNoteLink = "abcdefghijklmnopqrstuvwxyz-";
-export const symbolsNoteName = ``;
+export const symbolsNoteName =
+  vocab.landEngBig +
+  vocab.landEngSmall +
+  vocab.langRuBig +
+  vocab.langRuSmall +
+  " ";
 
 export const validateNoteLink = (noteLink: string): boolean =>
   noteLink.split("").every((item) => symbolsNoteLink.includes(item));

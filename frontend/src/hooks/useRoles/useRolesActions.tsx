@@ -58,11 +58,15 @@ export const useRolesActions = () => {
 
   const editRoleModalAction = useCallback(
     async (roleParams: IRole, okCallback?: () => void) => {
-      const result = await axios.patch(endpoints.roles.allActions, {
-        roleId: roleParams.id,
-        name: roleParams.name,
-        allowed_actions: roleParams.allowed_actions,
-      });
+      const result = await axios.patch(
+        endpoints.roles.allActions,
+        {
+          roleId: roleParams.id,
+          name: roleParams.name,
+          allowed_actions: roleParams.allowed_actions,
+        },
+        { withCredentials: true }
+      );
 
       okCallback?.();
 
@@ -113,6 +117,7 @@ export const useRolesActions = () => {
     async (roleId: string, okCallback?: () => void) => {
       const result = await axios.delete(endpoints.roles.allActions, {
         data: { roleId },
+        withCredentials: true,
       });
 
       okCallback?.();

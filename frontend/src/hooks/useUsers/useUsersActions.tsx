@@ -4,6 +4,8 @@ import axios from "axios";
 import { endpoints, IUser, IUserFormValues } from "@/api";
 import { FormUserCreateEdit } from "@/pages/PageSettings/components/SettingsUsers/forms";
 
+import { sha256 } from "@/utils";
+
 import { App, Modal } from "antd";
 
 export const useUsersActions = () => {
@@ -11,11 +13,16 @@ export const useUsersActions = () => {
 
   const createUserAction = useCallback(
     async (userParams: Partial<IUser>, okCallback?: () => void) => {
-      const result = await axios.post(endpoints.users.allActions, {
-        login: userParams.login,
-        password: userParams.password,
-        roleId: userParams.role?.id,
-      });
+      const password = await sha256(userParams.password);
+      const result = await axios.post(
+        endpoints.users.allActions,
+        {
+          login: userParams.login,
+          password,
+          roleId: userParams.role?.id,
+        },
+        { withCredentials: true }
+      );
 
       okCallback?.();
 
@@ -60,12 +67,17 @@ export const useUsersActions = () => {
 
   const editUserAction = useCallback(
     async (userParams: Partial<IUser>, okCallback?: () => void) => {
-      const result = await axios.patch(endpoints.users.allActions, {
-        login: userParams.login,
-        password: userParams.password,
-        roleId: userParams.role?.id,
-        userId: userParams.id,
-      });
+      const password = await sha256(userParams.password);
+      const result = await axios.patch(
+        endpoints.users.allActions,
+        {
+          login: userParams.login,
+          password,
+          roleId: userParams.role?.id,
+          userId: userParams.id,
+        },
+        { withCredentials: true }
+      );
 
       okCallback?.();
 
@@ -118,6 +130,7 @@ export const useUsersActions = () => {
     async (userId: string, okCallback?: () => void) => {
       const result = await axios.delete(endpoints.users.allActions, {
         data: { userId },
+        withCredentials: true,
       });
 
       okCallback?.();
