@@ -9,9 +9,11 @@ from utils.compareLists import compareLists
 
 from .models import *
 
-def defResponseParams(message = None, result = None, statusCode = 200, login = ''):
-    return {'data': {'status': 'success' if statusCode == 200 else 'error', 'result' : result, 'message': message, 'login': login}, 
+def defResponseParams(message = None, result = None, statusCode = 200, login = '', **kwargs):
+    response = {'data': {'status': 'success' if statusCode == 200 else 'error', 'result' : result, 'message': message, 'login': login}, 
             'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
+    response['data'].update(**kwargs)
+    return response
 
 invalidRequestParams = JsonResponse(**defResponseParams(message='Неверные параметры запроса', statusCode=400))
 invalidResponse = JsonResponse(**defResponseParams(message='Сервер не смог обработать запрос', statusCode=400))
@@ -26,8 +28,8 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
         @csrf_exempt
         def wrapper(request, *args, **kwargs):
-            login = ''
-
+            allowed_actions = []
+            
             if (methods):
                 if (not request.method in methods):
                     return JsonResponse(**defResponseParams(message='Недопустимый тип запроса', statusCode=405))
@@ -47,7 +49,7 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
                 except:
                     return invalidResponeErrorWithCheckingAllowedActions
 
-            return func(request, *args, **kwargs, login=login)
+            return func(request, *args, **kwargs, allowed_actions=allowed_actions)
         return wrapper
     return decorator
 

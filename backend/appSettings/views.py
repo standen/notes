@@ -11,8 +11,8 @@ from appAuth.views import defResponseParams, invalidRequestParams, invalidRespon
 from appAuth.models import ALLOWED_ACTIONS
 
 @decoratorAuth(['GET'])
-def viewManagePermissions(request):
-    return JsonResponse(**defResponseParams(result={'allowed_actions': ALLOWED_ACTIONS}))
+def viewManagePermissions(request, **kwargs):
+    return JsonResponse(**defResponseParams(result={'allowed_actions': ALLOWED_ACTIONS}, **kwargs))
 
 @decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
 def viewManageRoles(request):
