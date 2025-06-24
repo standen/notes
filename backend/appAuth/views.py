@@ -9,13 +9,15 @@ from utils.compareLists import compareLists
 
 from .models import *
 
-def defResponseParams(message = None, result = None, statusCode = 200):
-    return {'data': {'status': 'success' if statusCode == 200 else 'error', 'result' : result, 'message': message}, 
+def defResponseParams(message = None, result = None, statusCode = 200, login = ''):
+    return {'data': {'status': 'success' if statusCode == 200 else 'error', 'result' : result, 'message': message, 'login': login}, 
             'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
 
 invalidRequestParams = JsonResponse(**defResponseParams(message='Неверные параметры запроса', statusCode=400))
 invalidResponse = JsonResponse(**defResponseParams(message='Сервер не смог обработать запрос', statusCode=400))
 invalidRequestNoAccess = JsonResponse(**defResponseParams(message='Недостаточно прав для выполнения операции', statusCode=403))
+invalidRequestAuthRequired = JsonResponse(**defResponseParams(message='Требуется авторизация', statusCode=401))
+invalidResponeErrorWithCheckingAllowedActions = JsonResponse(**defResponseParams(message='Ошибка при проверке допустимых действий', statusCode=400))
 
 invalidRequestNoUser = JsonResponse(**defResponseParams(message='Пользователь не существует', statusCode=400))
 invalidRequestWrongPassword = JsonResponse(**defResponseParams(message='Неверный пароль', statusCode=400))
@@ -24,17 +26,28 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
         @csrf_exempt
         def wrapper(request, *args, **kwargs):
+            login = ''
+
             if (methods):
                 if (not request.method in methods):
                     return JsonResponse(**defResponseParams(message='Недопустимый тип запроса', statusCode=405))
 
             if (allowed_actions):
                 try:
-                    print(1)
-                except:
-                    print(2)
+                    token = request.COOKIES.get('token')
+                    if (not token):
+                        return invalidRequestAuthRequired
+                    
+                    s = SessionStore(session_key=token)
+                    user_allowed_actions = modelUser.objects.get(login=s['login']).role.allowed_actions['allowed_actions']
+                    login=s['login']
 
-            return func(request, *args, **kwargs)
+                    if (not compareLists(allowed_actions, user_allowed_actions)):
+                        return invalidRequestNoAccess
+                except:
+                    return invalidResponeErrorWithCheckingAllowedActions
+
+            return func(request, *args, **kwargs, login=login)
         return wrapper
     return decorator
 
@@ -66,8 +79,9 @@ def viewLogin(request):
 def viewLogout(request):
     return JsonResponse({})
 
-def viewDeleteAllSessions(request):
-    return JsonResponse({})
+@decoratorAuth('GET', ['SESSIONS_DELETE'])
+def viewDeleteAllSessions(request, **kwargs):
+    return JsonResponse(**defResponseParams(result={}, login=kwargs['login']))
 
 @decoratorAuth()
 def viewTest(request):
