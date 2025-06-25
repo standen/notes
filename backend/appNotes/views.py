@@ -10,12 +10,12 @@ from appAuth.models import modelUser
 from .models import *
 
 @decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
-def viewNotes(request):
+def viewNotes(request, **kwargs):
     # получение списка заметок
     if (request.method == 'GET'):
         try:
             notes = [note.returnForTable() for note in modelNotes.objects.filter(is_active=True).order_by("name")]
-            return JsonResponse(**defResponseParams(result={'notes': notes}))
+            return JsonResponse(**defResponseParams(result={'notes': notes}, **kwargs))
         except:
             return invalidResponse
         
@@ -34,9 +34,9 @@ def viewNotes(request):
             if (len(body.keys()) == 1 and compareLists(['noteLink'], body.keys())):
                 try:
                     note = modelNotes.objects.get(link=body.get('noteLink')).returnOne()
-                    return JsonResponse(**defResponseParams(result={'note': note}))
+                    return JsonResponse(**defResponseParams(result={'note': note}, **kwargs))
                 except:
-                    return JsonResponse(**defResponseParams(message='Заметка не найдена', statusCode=404))
+                    return JsonResponse(**defResponseParams(message='Заметка не найдена', statusCode=404, **kwargs))
             elif (isCreateEditParamsValid):
                 modelNotes(name = body.get('name'),
                            text = body.get('text'),
@@ -46,7 +46,7 @@ def viewNotes(request):
                            edit_everyone = body.get('edit_everyone'),
                            owner = modelUser.objects.get(login=body.get('userLogin'))
                             ).save()
-                return JsonResponse(**defResponseParams(message='Заметка успешно создана'))
+                return JsonResponse(**defResponseParams(message='Заметка успешно создана', **kwargs))
             else:
                 return invalidRequestParams
         except:
@@ -66,7 +66,7 @@ def viewNotes(request):
                     owner = modelUser.objects.get(login=body.get('userLogin')),
                     updated_at = datetime.datetime.now()
                 )
-                return JsonResponse(**defResponseParams(message='Заметка успешно обновлена'))
+                return JsonResponse(**defResponseParams(message='Заметка успешно обновлена', **kwargs))
             else:
                 return invalidRequestParams
 
@@ -78,7 +78,7 @@ def viewNotes(request):
         try:
             if (compareLists(['noteId'], body.keys())):
                 modelNotes.objects.filter(id=body.get('noteId')).update(is_active=False)
-                return JsonResponse(**defResponseParams(message='Заметка успешно удалена'))
+                return JsonResponse(**defResponseParams(message='Заметка успешно удалена', **kwargs))
             else:
                 return invalidRequestParams
         except:

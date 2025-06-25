@@ -12,15 +12,16 @@ from appAuth.models import ALLOWED_ACTIONS
 
 @decoratorAuth(['GET'])
 def viewManagePermissions(request, **kwargs):
+    print(kwargs)
     return JsonResponse(**defResponseParams(result={'allowed_actions': ALLOWED_ACTIONS}, **kwargs))
 
 @decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
-def viewManageRoles(request):
+def viewManageRoles(request, **kwargs):
     # получение списка ролей
     if (request.method == 'GET'):
         try:
             roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
-            return JsonResponse(**defResponseParams(result={'roles': roles}))
+            return JsonResponse(**defResponseParams(result={'roles': roles}, **kwargs))
         except:
             return invalidResponse
         
@@ -38,7 +39,7 @@ def viewManageRoles(request):
                     and len(body['allowed_actions']) > 0 
                     and compareLists(body['allowed_actions'], ALLOWED_ACTIONS)):
                 modelUserRole(name=body.get('name'), allowed_actions={'allowed_actions': body.get('allowed_actions')}).save()
-                return JsonResponse(**defResponseParams(message='Роль успешно создана'))
+                return JsonResponse(**defResponseParams(message='Роль успешно создана', **kwargs))
             else:
                 return invalidRequestParams
         except:
@@ -52,7 +53,7 @@ def viewManageRoles(request):
                     and len(body['allowed_actions']) > 0 
                     and compareLists(body['allowed_actions'], ALLOWED_ACTIONS)):
                 modelUserRole.objects.filter(id=body.get('roleId')).update(name=body.get('name'), allowed_actions={'allowed_actions': body.get('allowed_actions')})
-                return JsonResponse(**defResponseParams(message='Роль успешно обновлена'))
+                return JsonResponse(**defResponseParams(message='Роль успешно обновлена', **kwargs))
             else:
                 return invalidRequestParams
         except:
@@ -63,19 +64,19 @@ def viewManageRoles(request):
         try:
             if (compareLists(['roleId'], body.keys())):
                 modelUserRole.objects.filter(id=body.get('roleId')).update(is_active=False)
-                return JsonResponse(**defResponseParams(message='Роль успешно удалена'))
+                return JsonResponse(**defResponseParams(message='Роль успешно удалена', **kwargs))
             else:
                 return invalidRequestParams
         except:
             return invalidResponse
 
-@decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
-def viewManageUsers(request):
+@decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'], ['USER_EDIT'])
+def viewManageUsers(request, **kwargs):
     # получение списка пользователей
     if (request.method == 'GET'):
         try:
             users = [user.returnOne() for user in modelUser.objects.filter(is_active=True).order_by("login")]
-            return JsonResponse(**defResponseParams(result={'users': users}))
+            return JsonResponse(**defResponseParams(result={'users': users}, **kwargs))
         except:
             return invalidResponse
         
@@ -90,7 +91,7 @@ def viewManageUsers(request):
         try:
             if (compareLists(['login', 'password', 'roleId'], body.keys())):
                 modelUser(login=body.get('login'), password=body.get('password'), role=modelUserRole.objects.get(id=body.get('roleId'))).save()
-                return JsonResponse(**defResponseParams(message='Пользователь успешно создан'))
+                return JsonResponse(**defResponseParams(message='Пользователь успешно создан', **kwargs))
             else:
                 return invalidRequestParams
         except:
@@ -106,7 +107,7 @@ def viewManageUsers(request):
                     role=modelUserRole.objects.get(id=body.get('roleId')),
                     updated_at = datetime.datetime.now()
                     )
-                return JsonResponse(**defResponseParams(message='Пользователь успешно обновлен'))
+                return JsonResponse(**defResponseParams(message='Пользователь успешно обновлен', **kwargs))
             else:
                 return invalidRequestParams
         except:
@@ -117,7 +118,7 @@ def viewManageUsers(request):
         try:
             if (compareLists(['userId'], body.keys())):
                 modelUser.objects.filter(id=body.get('userId')).update(is_active=False)
-                return JsonResponse(**defResponseParams(message='Пользователь успешно удален'))
+                return JsonResponse(**defResponseParams(message='Пользователь успешно удален', **kwargs))
             else:
                 return invalidRequestParams
         except:

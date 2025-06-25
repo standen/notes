@@ -28,12 +28,12 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
     def decorator(func):
         @csrf_exempt
         def wrapper(request, *args, **kwargs):
-            allowed_actions = []
-            
             if (methods):
                 if (not request.method in methods):
                     return JsonResponse(**defResponseParams(message='Недопустимый тип запроса', statusCode=405))
 
+            login = None
+            user_allowed_actions = []
             if (allowed_actions):
                 try:
                     token = request.COOKIES.get('token')
@@ -43,19 +43,21 @@ def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
                     s = SessionStore(session_key=token)
                     user_allowed_actions = modelUser.objects.get(login=s['login']).role.allowed_actions['allowed_actions']
                     login=s['login']
+                    print(login, user_allowed_actions)
+
 
                     if (not compareLists(allowed_actions, user_allowed_actions)):
                         return invalidRequestNoAccess
                 except:
                     return invalidResponeErrorWithCheckingAllowedActions
-
-            return func(request, *args, **kwargs, allowed_actions=allowed_actions)
+                
+            return func(request, *args, **kwargs, allowed_actions=user_allowed_actions, login=login)
         return wrapper
     return decorator
 
 
 @decoratorAuth(['POST'])
-def viewLogin(request):
+def viewLogin(request, **kwargs):
     try:
         body = json.loads(request.body)
 
@@ -67,7 +69,7 @@ def viewLogin(request):
                 s['login'] = user.login
                 s.create()
 
-                response = JsonResponse(**defResponseParams(message='Авторизация прошла успешно'))
+                response = JsonResponse(**defResponseParams(message='Авторизация прошла успешно', **kwargs))
                 response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True, max_age=1209600)
                 return response
             except:
