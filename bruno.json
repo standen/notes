@@ -1,0 +1,114 @@
+{
+  "name": "notes",
+  "version": "1",
+  "items": [
+    {
+      "type": "folder",
+      "name": "auth",
+      "filename": "auth",
+      "seq": 1,
+      "root": {
+        "meta": {
+          "name": "auth",
+          "seq": 1
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "notes",
+      "filename": "notes",
+      "seq": 2,
+      "root": {
+        "meta": {
+          "name": "notes",
+          "seq": 2
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "accounts",
+      "filename": "accounts",
+      "seq": 3,
+      "root": {
+        "meta": {
+          "name": "accounts",
+          "seq": 3
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "birthdays",
+      "filename": "birthdays",
+      "seq": 4,
+      "root": {
+        "meta": {
+          "name": "birthdays",
+          "seq": 4
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "pays",
+      "filename": "pays",
+      "seq": 5,
+      "root": {
+        "meta": {
+          "name": "pays",
+          "seq": 5
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "sett.roles",
+      "filename": "sett.roles",
+      "seq": 6,
+      "root": {
+        "meta": {
+          "name": "sett.roles",
+          "seq": 6
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "sett.perm",
+      "filename": "sett.perm",
+      "seq": 7,
+      "root": {
+        "meta": {
+          "name": "sett.perm",
+          "seq": 7
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "name": "sett.users",
+      "filename": "sett.users",
+      "seq": 8,
+      "root": {
+        "meta": {
+          "name": "sett.users",
+          "seq": 8
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "notes",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0,
+    "filesCount": 0
+  }
+}

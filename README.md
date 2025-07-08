@@ -8,6 +8,7 @@
 1. style header для таблиц
 1. tabs внутри settings через card tabList
 1. note/edit/new - зарезервируй
+1. Кастомный ответ для 404, 405
 
 ## Общие принципы
 

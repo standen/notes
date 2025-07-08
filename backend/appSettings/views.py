@@ -1,4 +1,6 @@
 import json, datetime
+
+from django.views import View
 from django.http import JsonResponse
 
 from appAuth.views import decoratorAuth
@@ -10,10 +12,16 @@ from appAuth.models import *
 from appAuth.views import defResponseParams, invalidRequestParams, invalidResponse
 from appAuth.models import ALLOWED_ACTIONS
 
-@decoratorAuth(['GET'])
-def viewManagePermissions(request, **kwargs):
-    print(kwargs)
-    return JsonResponse(**defResponseParams(result={'allowed_actions': ALLOWED_ACTIONS}, **kwargs))
+from api.CustomJsonResponse import CustomJsonResponse
+
+class viewManagePermissions(View):
+    def get(self, request, *args, **kwargs):
+        return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS})
+
+# @decoratorAuth(['GET'])
+# def viewManagePermissions(request, **kwargs):
+#     print(kwargs)
+#     return JsonResponse(**defResponseParams(result={'allowed_actions': ALLOWED_ACTIONS}, **kwargs))
 
 @decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
 def viewManageRoles(request, **kwargs):

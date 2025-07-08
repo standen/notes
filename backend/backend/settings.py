@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydb',          
+        'USER': 'myuser',         
+        'PASSWORD': 'mypassword', 
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -134,3 +138,5 @@ CORS_ALLOW_CREDENTIALS = True
 
 # in seconds
 SESSION_COOKIE_AGE = 1209600
+
+APPEND_SLASH = False
