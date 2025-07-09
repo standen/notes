@@ -1,6 +1,5 @@
 import uuid
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
 
 ALLOWED_ACTIONS = [
     'USER_CREATE',
@@ -16,13 +15,13 @@ class modelUserRole(models.Model):
     is_active = models.BooleanField(default=True)
 
     name = models.CharField(max_length=50, unique=True)
-    allowed_actions = ArrayField(models.CharField(max_length=50, unique=True))
+    allowed_actions = models.JSONField()
     
     def returnOne(self):
         return {
             'id': self.id,
             'name': self.name,
-            'allowed_actions': self.allowed_actions,
+            'allowed_actions': self.allowed_actions['list'],
         }
 
 class modelUser(models.Model):
@@ -45,3 +44,6 @@ class modelUser(models.Model):
                 'name': self.role.name,
             }
         }
+    
+    def getRolesList(self):
+        return self.role.allowed_actions['list']

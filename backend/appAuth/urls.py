@@ -1,10 +1,10 @@
 from django.urls import path
 
-from .views import *
+from .views import viewLogin
 
 urlpatterns = [
-    path('', viewTest),
-    path('login', viewLogin),
-    path('logout', viewLogout),
-    path('reset', viewDeleteAllSessions)
+    path('/login', viewLogin.as_view()),
+    # path('', viewTest),
+    # path('logout', viewLogout),
+    # path('reset', viewDeleteAllSessions)
 ]

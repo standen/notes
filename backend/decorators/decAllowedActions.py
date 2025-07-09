@@ -1,4 +1,3 @@
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.backends.db import SessionStore
 
 from api.CustomJsonResponse import CustomJsonResponse
@@ -14,15 +13,24 @@ def decAllowedActions(allowedActions = None):
             login = None
             try:
                 token = request.COOKIES.get('token')
+                
                 if (allowedActions and not token):
                     return CustomJsonResponse(status=401)
+                
                 s = SessionStore(session_key=token)
+                login=s['login']
             except:
                 pass
             
             user_allowed_actions = None
             if login:
-                pass
+                try:
+                    user_allowed_actions = modelUser.objects.get(login=login).getRolesList()
+                except:
+                    pass
+            
+            if (not compareLists(user_allowed_actions, allowedActions)):
+                return CustomJsonResponse(status=403)
             
             return func(request, *args, **kwargs, userLogin = login, userAllowedActions=user_allowed_actions)
         return wrapper

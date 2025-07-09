@@ -1,93 +1,43 @@
 import json
+
+from django.views import View
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 
-from utils.crypto.hashSha256 import *
-from utils.compareLists import compareLists
+from api.CustomJsonResponse import CustomJsonResponse
+from decorators.decAllowedActions import decAllowedActions
 
 from .models import *
 
-def defResponseParams(message = None, result = None, statusCode = 200, login = '', **kwargs):
-    response = {'data': {'status': 'success' if statusCode == 200 else 'error', 'result' : result, 'message': message, 'login': login}, 
-            'json_dumps_params': {'ensure_ascii':False}, 'status': statusCode}
-    response['data'].update(**kwargs)
-    return response
-
-invalidRequestParams = JsonResponse(**defResponseParams(message='Неверные параметры запроса', statusCode=400))
-invalidResponse = JsonResponse(**defResponseParams(message='Сервер не смог обработать запрос', statusCode=400))
-invalidRequestNoAccess = JsonResponse(**defResponseParams(message='Недостаточно прав для выполнения операции', statusCode=403))
-invalidRequestAuthRequired = JsonResponse(**defResponseParams(message='Требуется авторизация', statusCode=401))
-invalidResponeErrorWithCheckingAllowedActions = JsonResponse(**defResponseParams(message='Ошибка при проверке допустимых действий', statusCode=400))
-
-invalidRequestNoUser = JsonResponse(**defResponseParams(message='Пользователь не существует', statusCode=400))
-invalidRequestWrongPassword = JsonResponse(**defResponseParams(message='Неверный пароль', statusCode=400))
-
-def decoratorAuth(methods: list[str] = None, allowed_actions: list[str] = None):
-    def decorator(func):
-        @csrf_exempt
-        def wrapper(request, *args, **kwargs):
-            if (methods):
-                if (not request.method in methods):
-                    return JsonResponse(**defResponseParams(message='Недопустимый тип запроса', statusCode=405))
-
-            login = None
-            user_allowed_actions = []
-            if (allowed_actions):
-                try:
-                    token = request.COOKIES.get('token')
-                    if (not token):
-                        return invalidRequestAuthRequired
-                    
-                    s = SessionStore(session_key=token)
-                    user_allowed_actions = modelUser.objects.get(login=s['login']).role.allowed_actions['allowed_actions']
-                    login=s['login']
-                    print(login, user_allowed_actions)
-
-
-                    if (not compareLists(allowed_actions, user_allowed_actions)):
-                        return invalidRequestNoAccess
-                except:
-                    return invalidResponeErrorWithCheckingAllowedActions
-                
-            return func(request, *args, **kwargs, allowed_actions=user_allowed_actions, login=login)
-        return wrapper
-    return decorator
-
-
-@decoratorAuth(['POST'])
-def viewLogin(request, **kwargs):
-    try:
-        body = json.loads(request.body)
-
-        if (compareLists(['login', 'password'], body.keys())):
-            try:
-                user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
+class viewLogin(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            body = json.loads(request.body)
+            login = body.get('login')
+            password = body.get('password')
             
-                s = SessionStore()
-                s['login'] = user.login
-                s.create()
+            if (not login or not password):
+                raise
+        except:
+            return CustomJsonResponse(status=400)
+        
+        try:
+            user = modelUser.objects.get(login=login, password=password, is_active=True)
+            
+            s = SessionStore()
+            s['login'] = user.login
+            s.create()
+            
+            response = CustomJsonResponse(message='Авторизация прошла успешно')
+            response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True)
+            return response
+        except:
+            return CustomJsonResponse(status=400)
 
-                response = JsonResponse(**defResponseParams(message='Авторизация прошла успешно', **kwargs))
-                response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True, max_age=1209600)
-                return response
-            except:
-                return invalidRequestNoUser
-        else:
-            return invalidRequestParams
-    except:
-        return invalidResponse
-
-@decoratorAuth(['POST'])
 def viewLogout(request):
     return JsonResponse({})
 
-@decoratorAuth('GET', ['SESSIONS_DELETE'])
-def viewDeleteAllSessions(request, **kwargs):
-    return JsonResponse(**defResponseParams(result={}, login=kwargs['login']))
-
-@decoratorAuth()
 def viewTest(request):
     # response = JsonResponse.set_cookie()
     # createSession()
@@ -128,13 +78,5 @@ def showSession():
     for i in Session.objects.all():
         print(i)
         print(SessionStore(session_key=i.session_key).get('login'))
-
-def addRole():
-    modelUserRole(name='Admin', allowed_actions={'allowed_actions': ALLOWED_ACTIONS}).save()
-    print(f'Roles count: {len(modelUserRole.objects.all())}')
-
-def addUser():
-    modelUser(login='admin', password=getHashSha256('123'), role=modelUserRole.objects.get(name='Admin')).save()
-    print(f'User count: {len(modelUser.objects.all())}')
 
 
