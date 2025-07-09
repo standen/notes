@@ -11,15 +11,26 @@ def textForStatusCode(statusCode):
 class CustomJsonResponse(JsonResponse):
     def __init__(self, result = None, message = None, status=200, **kwargs):
         
-        if (textForStatusCode(status)):
+        # not message - для кастомизации message при дефолтных status-кодах
+        if (textForStatusCode(status) and not message):
             message = textForStatusCode(status)
             
         data = {
-            'result': result,
             'status': 'success' if status == 200 else 'error',
-            'message': message
         }
         
-        data.update(**kwargs)
+        if message:
+            data.update({'message': message})
+            
+        if result:
+            data.update({'result': result})
+            
+        if (kwargs.get('userLogin')):
+            data.update({'userLogin': kwargs.get('userLogin')})
+            
+        if (kwargs.get('userAllowedActions')):
+            data.update({'userAllowedActions': kwargs.get('userAllowedActions')})
+        
+        # data.update(**kwargs)
         
         super().__init__(data=data, status=status, json_dumps_params={'ensure_ascii':False})

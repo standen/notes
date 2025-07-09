@@ -4,6 +4,8 @@ from django.views import View
 from django.http import JsonResponse
 
 from appAuth.views import decoratorAuth
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from utils.compareLists import compareLists
 
@@ -13,18 +15,60 @@ from appAuth.views import defResponseParams, invalidRequestParams, invalidRespon
 from appAuth.models import ALLOWED_ACTIONS
 
 from api.CustomJsonResponse import CustomJsonResponse
+from decorators.decAllowedActions import decAllowedActions
+
 
 class viewManagePermissions(View):
     def get(self, request, *args, **kwargs):
-        return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS})
+        return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS}, **kwargs)
 
-# @decoratorAuth(['GET'])
-# def viewManagePermissions(request, **kwargs):
-#     print(kwargs)
-#     return JsonResponse(**defResponseParams(result={'allowed_actions': ALLOWED_ACTIONS}, **kwargs))
+@method_decorator(csrf_exempt, name='dispatch')
+class viewManageRoles(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
+            return CustomJsonResponse(result={'roles': roles})
+        except:
+            return CustomJsonResponse(status=400)
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            body = json.loads(request.body)
+        except:
+            return CustomJsonResponse(status=400)
+        
+        try:
+            return CustomJsonResponse({})
+        except:
+            return CustomJsonResponse(status=400)
+    
+    def patch(self, request, *args, **kwargs):
+        try:
+            return CustomJsonResponse({})
+        except:
+            return CustomJsonResponse(status=400)
+    
+    def delete(self, request, *args, **kwargs):
+        try:
+            return CustomJsonResponse({})
+        except:
+            return CustomJsonResponse(status=400)
+    
+class viewManageUsers(View):
+    def get(self, request, *args, **kwargs):
+        return CustomJsonResponse({})
+    
+    def post(self, request, *args, **kwargs):
+        return CustomJsonResponse({})
+    
+    def patch(self, request, *args, **kwargs):
+        return CustomJsonResponse({})
+    
+    def delete(self, request, *args, **kwargs):
+        return CustomJsonResponse({})
 
 @decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'])
-def viewManageRoles(request, **kwargs):
+def viewManageRoles2(request, **kwargs):
     # получение списка ролей
     if (request.method == 'GET'):
         try:
@@ -79,7 +123,7 @@ def viewManageRoles(request, **kwargs):
             return invalidResponse
 
 @decoratorAuth(['GET', 'POST', 'PATCH', 'DELETE'], ['USER_EDIT'])
-def viewManageUsers(request, **kwargs):
+def viewManageUsers2(request, **kwargs):
     # получение списка пользователей
     if (request.method == 'GET'):
         try:
