@@ -7,7 +7,17 @@ ALLOWED_ACTIONS = [
     'USER_DELETE',
     'ROLE_CREATE',
     'ROLE_UPDATE',
-    'ROLE_DELETE'
+    'ROLE_DELETE',
+    'SETTINGS_ACCESS',
+    'NOTE_DELETE',
+    'NOTE_CREATE',
+    'NOTE_READ',
+    'LOGIN_CREATE',
+    'LOGIN_READ',
+    'LOGIN_DELETE',
+    'BIRTHDAY_CREATE',
+    'BIRTHDAY_READ',
+    'BIRTHDAY_DELETE'
 ]
 
 class modelUserRole(models.Model):

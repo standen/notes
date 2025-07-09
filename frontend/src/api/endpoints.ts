@@ -16,7 +16,7 @@ export const endpoints = {
     allActions: `${backendUrl}/settings/users`,
   },
   notes: {
-    allActions: `${backendUrl}/notes/`,
+    allActions: `${backendUrl}/notes`,
     edit: (noteLink: string) => `/note/edit/${noteLink}`,
     add: `/note/edit/new`,
   },

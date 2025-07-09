@@ -9,11 +9,15 @@ from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAllowedActions import decAllowedActions
 
 from utils.compareLists import compareLists
+from utils.isValuesInRequestBody import isValuesInRequestBody
 
 class viewManagePermissions(View):
-    @method_decorator(decAllowedActions('ROLE_CREATE'))
+    @method_decorator(decAllowedActions(['USER_UPDATE']))
     def get(self, request, *args, **kwargs):
-        return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS}, **kwargs)
+        try:
+            return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS}, **kwargs)
+        except:
+            return CustomJsonResponse(status=400)
 
 class viewManageRoles(View):
     def get(self, request, *args, **kwargs):
@@ -25,60 +29,49 @@ class viewManageRoles(View):
     
     def post(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            name = body.get('name')
-            allowed_actions = body.get('allowed_actions')
+            requiredBodyParams = ['name', 'allowed_actions']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not name 
-                or not allowed_actions 
-                or len(allowed_actions) == 0
-                or not compareLists(allowed_actions, ALLOWED_ACTIONS)
-                ):
+            if (not body or not compareLists(body['allowed_actions'], ALLOWED_ACTIONS)):
                 raise
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole(name=name, allowed_actions={'list': allowed_actions}).save()
+            modelUserRole(name=body['name'], allowed_actions={'list': body['allowed_actions']}).save()
             return CustomJsonResponse(message='Роль успешно создана')
         except:
             return CustomJsonResponse(status=400)
     
     def patch(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            roleId = body.get('roleId')
-            name = body.get('name')
-            allowed_actions = body.get('allowed_actions')
+            requiredBodyParams = ['name', 'allowed_actions', 'roleId']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not roleId
-                or not name 
-                or not allowed_actions 
-                or len(allowed_actions) == 0
-                or not compareLists(allowed_actions, ALLOWED_ACTIONS)
-                ):
+            if (not body or not compareLists(body['allowed_actions'], ALLOWED_ACTIONS)):
                 raise
+            
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole.objects.filter(is_active=True, id=roleId).update(name=name, allowed_actions={'list': allowed_actions})
+            modelUserRole.objects.filter(is_active=True, id=body['roleId']).update(name=body['name'], allowed_actions={'list': body['allowed_actions']})
             return CustomJsonResponse(message='Роль успешно изменена')
         except:
             return CustomJsonResponse(status=400)
     
     def delete(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            roleId = body.get('roleId')
+            requiredBodyParams = ['roleId']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not roleId):
+            if (not body):
                 raise
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole.objects.filter(is_active=True, id=roleId).update(is_active=False)
+            modelUserRole.objects.filter(is_active=True, id=body['roleId']).update(is_active=False)
             return CustomJsonResponse(message='Роль успешно удалена')
         except:
             return CustomJsonResponse(status=400)
@@ -93,45 +86,36 @@ class viewManageUsers(View):
     
     def post(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            login = body.get('login')
-            password = body.get('password')
-            roleId = body.get('roleId')
+            requiredBodyParams = ['login', 'password', 'roleId']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not login
-                or not password 
-                or not roleId):
+            if (not body):
                 raise
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser(login=login, password=password, role=modelUserRole.objects.get(id=roleId)).save()
+            modelUser(login=body['login'], password=['password'], role=modelUserRole.objects.get(id=body['roleId'])).save()
             return CustomJsonResponse(message='Пользователь успешно создан')
         except:
             return CustomJsonResponse(status=400)
     
     def patch(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            login = body.get('login')
-            password = body.get('password')
-            roleId = body.get('roleId')
-            userId = body.get('userId')
+            requiredBodyParams = ['login', 'password', 'roleId', 'userId']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not login
-                or not password 
-                or not roleId
-                or not userId):
+            if (not body):
                 raise
+            
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser.objects.filter(id=userId).update(
-                    login=login, 
-                    password=password, 
-                    role=modelUserRole.objects.get(id=roleId),
+            modelUser.objects.filter(id=body['userId']).update(
+                    login=body['login'], 
+                    password=body['password'], 
+                    role=modelUserRole.objects.get(id=body['roleId']),
                     updated_at = datetime.datetime.now()
                     )
             return CustomJsonResponse(message='Пользователь успешно изменен')
@@ -140,16 +124,17 @@ class viewManageUsers(View):
     
     def delete(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            userId = body.get('userId')
+            requiredBodyParams = ['userId']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not userId):
+            if (not body):
                 raise
+            
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser.objects.filter(id=userId).update(is_active=False)
+            modelUser.objects.filter(id=body['userId']).update(is_active=False)
             return CustomJsonResponse(message='Пользователь успешно удален')
         except:
             return CustomJsonResponse(status=400)

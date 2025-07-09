@@ -29,7 +29,7 @@ def decAllowedActions(allowedActions = None):
                 except:
                     pass
             
-            if (not compareLists(user_allowed_actions, allowedActions)):
+            if (not compareLists(allowedActions, user_allowed_actions)):
                 return CustomJsonResponse(status=403)
             
             return func(request, *args, **kwargs, userLogin = login, userAllowedActions=user_allowed_actions)
