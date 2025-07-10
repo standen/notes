@@ -19,16 +19,23 @@ def decAllowedActions(allowedActions = None):
                 
                 s = SessionStore(session_key=token)
                 login=s['login']
+                
+                if (not login):
+                    raise
             except:
-                pass
+                return CustomJsonResponse(status=401)
+                
             
             user_allowed_actions = None
             if login:
                 try:
                     user_allowed_actions = modelUser.objects.get(login=login).getRolesList()
+                    
+                    if (not user_allowed_actions):
+                        raise
                 except:
-                    pass
-            
+                    return CustomJsonResponse(status=401)
+                
             if (not compareLists(allowedActions, user_allowed_actions)):
                 return CustomJsonResponse(status=403)
             

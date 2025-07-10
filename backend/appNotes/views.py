@@ -13,6 +13,7 @@ from utils.compareLists import compareLists
 from utils.isValuesInRequestBody import isValuesInRequestBody
 
 class viewNotes(View):
+    @method_decorator(decAllowedActions(['USER_UPDATE']))
     def get(self, request, *args, **kwargs):
         try:
             notes = [note.returnForTable() for note in modelNotes.objects.filter(is_active=True).order_by("name")]

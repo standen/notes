@@ -5,25 +5,33 @@ from django.http import JsonResponse
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 
+from .models import *
+
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAllowedActions import decAllowedActions
 
-from .models import *
+from utils.isValuesInRequestBody import isValuesInRequestBody
 
 class viewLogin(View):
+    def get(self, request, *args, **kwargs):
+        result = {'count': len( Session.objects.all())}
+        
+        for i in Session.objects.all():
+            result.update({str(i): SessionStore(session_key=i.session_key).get('login')})
+        return CustomJsonResponse(result=result)
+    
     def post(self, request, *args, **kwargs):
         try:
-            body = json.loads(request.body)
-            login = body.get('login')
-            password = body.get('password')
+            requiredBodyParams = ['login', 'password']
+            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
-            if (not login or not password):
+            if (not body):
                 raise
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            user = modelUser.objects.get(login=login, password=password, is_active=True)
+            user = modelUser.objects.get(login=body['login'], password=body['password'], is_active=True)
             
             s = SessionStore()
             s['login'] = user.login
@@ -33,10 +41,22 @@ class viewLogin(View):
             response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True)
             return response
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=400, message=1)
 
-def viewLogout(request):
-    return JsonResponse({})
+class viewLogout(View):
+    def post(self, request, *args, **kwargs):
+        try:
+            token = request.COOKIES.get('token')
+            
+            if (not token):
+                raise
+            
+            SessionStore(session_key=token).flush()
+            response = CustomJsonResponse(message='Сессия успешно завершена')
+            response.delete_cookie(key='token')
+            return response
+        except:
+            return CustomJsonResponse(status=400)
 
 def viewTest(request):
     # response = JsonResponse.set_cookie()
