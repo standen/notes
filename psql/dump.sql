@@ -435,6 +435,7 @@ COPY public."appBirthdays_modeldatesdeleted" (id, deleted_at, note, date, owner_
 
 COPY public."appNotes_modelnotes" (id, created_at, updated_at, is_active, name, text, open_for_all, link, owner_id, edit_everyone, is_cipher) FROM stdin;
 122d5dba-31aa-460f-b383-c6f787e2e634	2025-07-09 20:07:32.255131+00	2025-07-09 20:12:04.964231+00	t	Фильмы 2	Некоторый текст 2	t	films	6b6aa08c-5263-4940-9065-9aea56f99a7e	t	t
+766742ec-8479-447d-88aa-2b57e4a2d888	2025-07-11 13:26:27.700103+00	2025-07-11 13:26:27.700116+00	t	Музыка	text	t	music	6b6aa08c-5263-4940-9065-9aea56f99a7e	t	t
 \.
 
 
@@ -593,11 +594,6 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
-vlr3o9xw122tsf6sszykfv9xjq6wl42f	eyJsb2dpbiI6InN0YW5kZW4ifQ:1uZV37:32gFmyhBVivHrusKOy3psPBULqCv8J0mjLTyI1wutVY	2025-07-23 13:41:25.809662+00
-qsl838bt2kdwqaewfdknq69m4drky2gn	eyJsb2dpbiI6InN0YW5kZW4ifQ:1uZaa5:OaoEIGx-_VA7DOwUER5i8cF69RY4q6nHrwiy8691fkU	2025-07-23 19:35:49.339788+00
-lweiob81to4mfmh861bvxk1okfrjk6y5	eyJsb2dpbiI6InN0YW5kZW4ifQ:1uZohi:vQarTxqTscmodtS13_eaGbxdlLBdr_nFEAQY7L0nAj4	2025-07-24 10:40:38.574233+00
-jnudylnuh19ge59ntidzrhw0vztzwwdb	eyJsb2dpbiI6InN0YW5kZW4ifQ:1uZr0x:8S93OLsPIDX-yBLq4XTiZ_KpaqvME2pp7UC42lo-roo	2025-07-24 13:08:39.706498+00
-2g51sw1lzxh1py3catw52ti9dduilj24	eyJsb2dpbiI6InN0YW5kZW4ifQ:1uZr1E:M739CoXWfWYrhNEDQ7Fx8ic8UUVrfEXOQoHzisxxO_8	2025-07-24 13:08:56.92101+00
 \.
 
 

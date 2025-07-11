@@ -187,8 +187,8 @@
       "items": [
         {
           "type": "http",
-          "name": "get",
-          "filename": "get.bru",
+          "name": "getAll",
+          "filename": "getAll.bru",
           "seq": 1,
           "request": {
             "url": "http://localhost:3000/notes",
@@ -197,6 +197,60 @@
             "params": [],
             "body": {
               "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "getOne",
+          "filename": "getOne.bru",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost:3000/notes",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"action\": \"noteGet\",\n  \"noteLink\": \"films\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "create",
+          "filename": "create.bru",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost:3000/notes",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"action\": \"noteCreate\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": true,\n  \"edit_everyone\": true,\n  \"userLogin\": \"standen\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
