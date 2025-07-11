@@ -1,7 +1,6 @@
 import json
 
 from django.views import View
-from django.http import JsonResponse
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 
@@ -41,7 +40,7 @@ class viewLogin(View):
             response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True)
             return response
         except:
-            return CustomJsonResponse(status=400, message=1)
+            return CustomJsonResponse(status=400)
 
 class viewLogout(View):
     def post(self, request, *args, **kwargs):
@@ -57,46 +56,24 @@ class viewLogout(View):
             return response
         except:
             return CustomJsonResponse(status=400)
-
-def viewTest(request):
-    # response = JsonResponse.set_cookie()
-    # createSession()
-
-    # response.set_cookie(key='token', value='123', httponly=True, secure=True, max_age=800)
-    # print(dir(response))
-
-    # print(dir(request.session.keys()))
-
-    # print(request.COOKIES.get('token'))
-    # response.set_cookie()
-
-    # showSession()
-    # JsonResponse.set_cookie(key='token', value='111', httponly=True, secure=True, max_age=800)
-    # respone.set_signed_cookie('token2', '123', httponly=True, secure=True, max_age=800)
-    # print(request.get_signed_cookie('token2'))
-
-    # flushSession()
-
-    # addRole()
-    # addUser()
-    # print(modelUser.objects.get(login='admin').role.allowed_actions['allowed_actions'])
-    # print(request.session)
-
-    return JsonResponse({'name': 'Denis'})
-
-def createSession():
-    s = SessionStore()
-    s['login'] = 'standen'
-    s.create()
-
-def flushSession():
-    for i in Session.objects.all():
-        SessionStore(session_key=i.session_key).flush()
-
-def showSession():
-    print(f'Всего сессий: {len( Session.objects.all())}')
-    for i in Session.objects.all():
-        print(i)
-        print(SessionStore(session_key=i.session_key).get('login'))
-
-
+        
+class viewUserInfo(View):
+    def post(self, request, *args, **kwargs):
+        result = {}
+        
+        try:
+            token = request.COOKIES.get('token')
+            s = SessionStore(session_key=token)
+            login=s['login']
+        except:
+            return CustomJsonResponse(status=401)
+        
+        if login:
+            result.update({'userLogin': login})
+            try:
+                user_allowed_actions = modelUser.objects.get(login=login).getRolesList()
+            except:
+                return CustomJsonResponse(status=401)
+            result.update({'userAllowedActions': user_allowed_actions})
+            
+        return CustomJsonResponse(result=result)

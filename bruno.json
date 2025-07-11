@@ -24,7 +24,114 @@
           "name": "auth",
           "seq": 2
         }
-      }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "get",
+          "filename": "get.bru",
+          "seq": 2,
+          "request": {
+            "url": "http://localhost:3000/auth/login",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "login",
+          "filename": "login.bru",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost:3000/auth/login",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"login\": \"standen\",\n  \"password\": \"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "logout",
+          "filename": "logout.bru",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost:3000/auth/logout",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "userInfo",
+          "filename": "userInfo.bru",
+          "seq": 4,
+          "request": {
+            "url": "http://localhost:3000/auth/userinfo",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        }
+      ]
     },
     {
       "type": "folder",
@@ -76,7 +183,35 @@
           "name": "notes",
           "seq": 3
         }
-      }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "get",
+          "filename": "get.bru",
+          "seq": 1,
+          "request": {
+            "url": "http://localhost:3000/notes",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        }
+      ]
     },
     {
       "type": "folder",
@@ -264,16 +399,17 @@
       "items": [
         {
           "type": "http",
-          "name": "get",
-          "filename": "get.bru",
-          "seq": 1,
+          "name": "delete",
+          "filename": "delete.bru",
+          "seq": 9,
           "request": {
             "url": "http://localhost:3000/settings/users",
-            "method": "GET",
+            "method": "DELETE",
             "headers": [],
             "params": [],
             "body": {
-              "mode": "none",
+              "mode": "json",
+              "json": "{\n  \"userId\": \"65f19ef0-61ac-4e32-80c7-b97913aee461\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -290,17 +426,16 @@
         },
         {
           "type": "http",
-          "name": "post",
-          "filename": "post.bru",
-          "seq": 2,
+          "name": "get",
+          "filename": "get.bru",
+          "seq": 1,
           "request": {
             "url": "http://localhost:3000/settings/users",
-            "method": "POST",
+            "method": "GET",
             "headers": [],
             "params": [],
             "body": {
-              "mode": "json",
-              "json": "{\n  \"login\": \"standen\",\n  \"password\": \"fsdfsdfsd\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
+              "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -344,17 +479,17 @@
         },
         {
           "type": "http",
-          "name": "delete",
-          "filename": "delete.bru",
-          "seq": 9,
+          "name": "post",
+          "filename": "post.bru",
+          "seq": 2,
           "request": {
             "url": "http://localhost:3000/settings/users",
-            "method": "DELETE",
+            "method": "POST",
             "headers": [],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"userId\": \"65f19ef0-61ac-4e32-80c7-b97913aee461\"\n}",
+              "json": "{\n  \"login\": \"standen\",\n  \"password\": \"fsdfsdfsd\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -381,7 +516,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.0012273788452148438,
-    "filesCount": 14
+    "size": 0.00286865234375,
+    "filesCount": 23
   }
 }
