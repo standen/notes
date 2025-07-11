@@ -1,7 +1,10 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { useNavigate } from "react-router";
 import classNames from "classnames/bind";
 
-import { useAuth } from "@/hooks";
+import { MenuItems } from "@/router";
+
+import { useAuth, useUserInfo } from "@/hooks";
 
 import {
   symbolsLogin,
@@ -17,8 +20,18 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const PageLogin: FC = () => {
+  const navigate = useNavigate();
+
+  const { userInfo } = useUserInfo();
   const { loginAction } = useAuth();
+
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (userInfo?.userLogin) {
+      navigate(MenuItems.PageAccounts.link);
+    }
+  }, [userInfo]);
 
   return (
     <section className={cx("grid")}>

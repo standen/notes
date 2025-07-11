@@ -9,7 +9,6 @@ from .models import modelNotes
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAllowedActions import decAllowedActions
 
-from utils.compareLists import compareLists
 from utils.isValuesInRequestBody import isValuesInRequestBody
 
 class viewNotes(View):
@@ -119,6 +118,3 @@ class viewNotes(View):
             return CustomJsonResponse(message='Заметка успешно удалена')
         except:
             return CustomJsonResponse(status=400)
-        
-        
-# note = modelNotes.objects.get(link=body.get('noteLink')).returnOne()

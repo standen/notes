@@ -5,6 +5,9 @@ export interface IAuthForm {
   password: string;
 }
 
-export interface IAuthLoginRespone extends IResponse {
-  result: null;
+export interface IUserInfo extends IResponse {
+  result?: {
+    userLogin?: string;
+    userAllowedActions?: string[];
+  };
 }

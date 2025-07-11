@@ -5,6 +5,7 @@ export const endpoints = {
   auth: {
     login: `${backendUrl}/auth/login`,
     logout: `${backendUrl}/auth/logout`,
+    userInfo: `${backendUrl}/auth/userinfo`,
   },
   permissions: {
     allActions: `${backendUrl}/settings/permissions`,

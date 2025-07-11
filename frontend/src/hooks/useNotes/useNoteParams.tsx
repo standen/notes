@@ -7,6 +7,7 @@ export const useNoteParams = (noteLink?: string) => {
     method: "post",
     url: noteLink ? endpoints.notes.allActions : undefined,
     data: {
+      action: "noteGet",
       noteLink,
     },
   });

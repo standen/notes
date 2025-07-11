@@ -6,3 +6,4 @@ export * from "./useRoles";
 export * from "./useUsers";
 export * from "./useAccounts";
 export * from "./useNotes";
+export * from "./useUserInfo";

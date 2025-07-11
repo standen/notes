@@ -2,7 +2,10 @@ import { useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-import { IAuthForm, IAuthLoginRespone } from "@/api/types/auth";
+import { MenuItems } from "@/router";
+
+import { IAuthForm } from "@/api/types/auth";
+import { IResponse } from "../useAxios";
 import { endpoints } from "@/api";
 import { sha256 } from "@/utils";
 
@@ -17,7 +20,7 @@ export const useAuth = () => {
       const password = await sha256(value.password);
 
       return await axios
-        .post<IAuthLoginRespone>(
+        .post<IResponse>(
           endpoints.auth.login,
           {
             login: value.login.toLowerCase(),
@@ -26,7 +29,7 @@ export const useAuth = () => {
           { withCredentials: true }
         )
         .then(() => {
-          navigate("/");
+          navigate(MenuItems.PageAccounts.link);
         })
         .catch((e) => {
           notification.error({
