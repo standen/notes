@@ -64,7 +64,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"login\": \"standen\",\n  \"password\": \"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81\"\n}",
+              "json": "{\n  \"login\": \"standen2\",\n  \"password\": \"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -187,6 +187,33 @@
       "items": [
         {
           "type": "http",
+          "name": "create",
+          "filename": "create.bru",
+          "seq": 3,
+          "request": {
+            "url": "http://localhost:3000/notes",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"action\": \"noteCreate\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": true,\n  \"edit_everyone\": true,\n  \"userLogin\": \"standen\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
           "name": "getAll",
           "filename": "getAll.bru",
           "seq": 1,
@@ -223,7 +250,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"action\": \"noteGet\",\n  \"noteLink\": \"films\"\n}",
+              "json": "{\n  \"action\": \"noteGet\",\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -240,17 +267,17 @@
         },
         {
           "type": "http",
-          "name": "create",
-          "filename": "create.bru",
-          "seq": 3,
+          "name": "update",
+          "filename": "update.bru",
+          "seq": 4,
           "request": {
             "url": "http://localhost:3000/notes",
-            "method": "POST",
+            "method": "PATCH",
             "headers": [],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"action\": \"noteCreate\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": true,\n  \"edit_everyone\": true,\n  \"userLogin\": \"standen\"\n}",
+              "json": "{\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": false,\n  \"edit_everyone\": true,\n  \"userLogin\": \"standen\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -516,7 +543,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"login\": \"standen\",\n  \"password\": \"fsdfsdfsd\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\",\n  \"userId\": \"65f19ef0-61ac-4e32-80c7-b97913aee461\"\n}",
+              "json": "{\n  \"login\": \"standen2\",\n  \"password\": \"039058c6f2c0cb492c533b0a4d14ef77cc0f78abccced5287d84a1a2011cfb81\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\",\n  \"userId\": \"8e20723b-556c-49cd-a055-608e05f071ff\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -543,7 +570,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"login\": \"standen\",\n  \"password\": \"fsdfsdfsd\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
+              "json": "{\n  \"login\": \"standen2\",\n  \"password\": \"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -570,7 +597,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.00286865234375,
-    "filesCount": 23
+    "size": 0.003994941711425781,
+    "filesCount": 27
   }
 }

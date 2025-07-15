@@ -8,6 +8,7 @@ from .models import modelNotes
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAllowedActions import decAllowedActions
+from decorators.decUserInfo import decUserInfo
 
 from utils.isValuesInRequestBody import isValuesInRequestBody
 
@@ -42,7 +43,8 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    def postNoteGet(self, request):
+    @method_decorator(decUserInfo())
+    def postNoteGet(self, request, **kwargs):
         try:
             requiredBodyParams = ['noteLink']
             body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
@@ -57,6 +59,16 @@ class viewNotes(View):
             
             if (not note):
                 raise
+            
+            if (isinstance(note.get('open_for_all'), bool) and note.get('open_for_all')):
+                return CustomJsonResponse(result={'note': note})
+            
+            if (not note.get('open_for_all') and kwargs.get('userLogin') == None):
+                return CustomJsonResponse(status=401)
+            
+            # если заметка open_for_all = false и запрос делает не автор заметки, то отдаем 403
+            if (not note.get('open_for_all') and kwargs.get('userLogin') != note['author']['login']):
+                return CustomJsonResponse(status=403)
             
             return CustomJsonResponse(result={'note': note})
         except:
@@ -78,13 +90,23 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
         
+    @method_decorator(decUserInfo())
     def patch(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'userLogin', 'noteId']
+            requiredBodyParams = ['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'noteId']
             body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
             
             if (not body):
                 raise
+        except:
+            return CustomJsonResponse(status=400)
+        
+        try:
+            edit_everyone = None
+            if (isinstance(body.get('edit_everyone'), bool)):
+                edit_everyone = body.get('edit_everyone')
+            
+            
         except:
             return CustomJsonResponse(status=400)
         
@@ -99,7 +121,7 @@ class viewNotes(View):
                     owner = modelUser.objects.get(login=body.get('userLogin')),
                     updated_at = datetime.datetime.now()
                 )
-            return CustomJsonResponse(message='Заметка успешно создана')
+            return CustomJsonResponse(message='Заметка успешно изменена')
         except:
             return CustomJsonResponse(status=400)
     

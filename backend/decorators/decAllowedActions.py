@@ -36,8 +36,9 @@ def decAllowedActions(allowedActions = None):
                 except:
                     return CustomJsonResponse(status=401)
                 
-            if (not compareLists(allowedActions, user_allowed_actions)):
-                return CustomJsonResponse(status=403)
+            if isinstance(allowedActions, list):
+                if (not compareLists(allowedActions, user_allowed_actions)):
+                    return CustomJsonResponse(status=403)
             
             return func(request, *args, **kwargs, userLogin = login, userAllowedActions=user_allowed_actions)
         return wrapper
