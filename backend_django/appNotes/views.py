@@ -61,7 +61,7 @@ class viewNotes(View):
                 raise
             
             if (isinstance(note.get('open_for_all'), bool) and note.get('open_for_all')):
-                return CustomJsonResponse(result={'note': note})
+                return CustomJsonResponse(result={'note': note}, **kwargs)
             
             if (not note.get('open_for_all') and kwargs.get('userLogin') == None):
                 return CustomJsonResponse(status=401)
@@ -70,7 +70,7 @@ class viewNotes(View):
             if (not note.get('open_for_all') and kwargs.get('userLogin') != note['author']['login']):
                 return CustomJsonResponse(status=403)
             
-            return CustomJsonResponse(result={'note': note})
+            return CustomJsonResponse(result={'note': note}, **kwargs)
         except:
             return CustomJsonResponse(status=400)
         
