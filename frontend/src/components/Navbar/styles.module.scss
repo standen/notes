@@ -1,5 +1,5 @@
 @use "sass:map";
-@use "@assets/scss/vars.scss";
+@use "@/assets/scss/vars.scss";
 
 @media (width <= map.get(vars.$breakpoints, "md")) {
   .navbar {

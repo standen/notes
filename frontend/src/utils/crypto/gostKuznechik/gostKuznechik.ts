@@ -6,7 +6,7 @@ import {
   uint8ArrayToStringHex,
   stringAlphabetToUint8Array,
   stringHexToUint8Array,
-} from "@utils/encoding";
+} from "@/utils/encoding";
 
 export class Kuznechik {
   private keys: Uint8Array[];

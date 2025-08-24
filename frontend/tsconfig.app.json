@@ -8,13 +8,6 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@ui/*": ["./src/ui/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@components/*": ["./src/components/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@api/*": ["./src/api/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@store/*": ["./src/store/*"]
     },
 
     /* Bundler mode */

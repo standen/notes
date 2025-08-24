@@ -57,3 +57,6 @@ class modelUser(models.Model):
     
     def getRolesList(self):
         return self.role.allowed_actions['list']
+    
+    def getUserLogin(self):
+        return self.login
