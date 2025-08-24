@@ -12,6 +12,8 @@ class MiddlewareAuth:
         return response
     
     def get_user_info(self, request):
+        login = None
+        user_allowed_actions = None
         
         try:
             token = request.COOKIES.get('token')

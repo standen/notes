@@ -9,23 +9,24 @@ from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decRequiredBodyParams import decRequiredBodyParams
+from decorators.decUserInfo import decUserInfo
 
 class viewLogin(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         result = {}    
         sessions = []
         for i in Session.objects.all():
             if (SessionStore(session_key=i.session_key).get('login') != None):
-                sessions.append({str(i): SessionStore(session_key=i.session_key).get('login')})
+                sessions.append({'login': SessionStore(session_key=i.session_key).get('login'), 'session_key': str(i)})
             else:
                 SessionStore(session_key=i.session_key).flush()
                 
         result.update({'sessions': sessions})
         result.update({'count': len(sessions)})
-        return CustomJsonResponse(result=result, **request.user_data)
+        return CustomJsonResponse(result=result)
     
     @method_decorator(decRequiredBodyParams(['login', 'password']))
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -45,7 +46,7 @@ class viewLogin(View):
             return CustomJsonResponse(status=400)
 
 class viewLogout(View):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
             token = request.COOKIES.get('token')
             
@@ -60,5 +61,6 @@ class viewLogout(View):
             return CustomJsonResponse(status=400)
         
 class viewUserInfo(View):
-    def post(self, request, *args, **kwargs):
-        return CustomJsonResponse()
+    @method_decorator(decUserInfo())
+    def post(self, request, **kwargs):
+        return CustomJsonResponse(**request.user_data)

@@ -9,22 +9,26 @@ from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decRequiredBodyParams import decRequiredBodyParams
 
 class viewManagePermissions(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         try:
-            return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS}, **kwargs)
+            return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS})
         except:
             return CustomJsonResponse(status=400)
 
 class viewManageRoles(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         try:
+            if (request.GET.get('filter') == 'rolesNames'):
+                rolesNames = [role.getRoleName() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
+                return CustomJsonResponse(result={'rolesNames': rolesNames})
+            
             roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
             return CustomJsonResponse(result={'roles': roles})
         except:
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['name', 'allowed_actions']))
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -37,7 +41,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['name', 'allowed_actions', 'roleId']))
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -50,7 +54,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['roleId']))
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -63,15 +67,19 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
     
 class viewManageUsers(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         try:
+            if (request.GET.get('filter') == 'logins'):
+                usersLogins = [user.getUserLogin() for user in modelUser.objects.filter(is_active=True).order_by("login")]
+                return CustomJsonResponse(result={'usersLogins': usersLogins})
+            
             users = [user.returnOne() for user in modelUser.objects.filter(is_active=True).order_by("login")]
             return CustomJsonResponse(result={'users': users})
         except:
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId']))
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -84,7 +92,7 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId', 'userId']))
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -102,7 +110,7 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['userId']))
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request):
         try:
             body = json.loads(request.body)
         except:
