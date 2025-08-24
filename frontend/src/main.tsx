@@ -30,6 +30,9 @@ createRoot(document.getElementById("root")!).render(
             Card: {
               bodyPadding: 15,
             },
+            Form: {
+              itemMarginBottom: 8,
+            },
           },
         }}
       >

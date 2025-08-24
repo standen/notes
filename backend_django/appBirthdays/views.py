@@ -4,8 +4,6 @@ from django.utils.decorators import method_decorator
 
 from api.CustomJsonResponse import CustomJsonResponse
 
-from decorators.decAllowedActions import decAllowedActions
-
 @method_decorator(csrf_exempt, name='dispatch')
 class MyView(View):
     def get(self, request, *args, **kwargs):

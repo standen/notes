@@ -7,7 +7,6 @@ from django.contrib.sessions.backends.db import SessionStore
 from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decAllowedActions import decAllowedActions
 
 from utils.isValuesInRequestBody import isValuesInRequestBody
 

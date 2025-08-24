@@ -7,8 +7,6 @@ from appAuth.models import modelUser
 from .models import modelNotes
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decAllowedActions import decAllowedActions
-from decorators.decUserInfo import decUserInfo
 
 from utils.isValuesInRequestBody import isValuesInRequestBody
 
@@ -43,7 +41,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decUserInfo())
     def postNoteGet(self, request, **kwargs):
         try:
             requiredBodyParams = ['noteLink']
@@ -90,7 +87,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
         
-    @method_decorator(decUserInfo())
     def patch(self, request, *args, **kwargs):
         try:
             requiredBodyParams = ['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'noteId']

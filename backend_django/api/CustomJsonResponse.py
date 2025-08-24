@@ -15,9 +15,7 @@ class CustomJsonResponse(JsonResponse):
         if (textForStatusCode(status) and not message):
             message = textForStatusCode(status)
             
-        data = {
-            'status': 'success' if status == 200 else 'error',
-        }
+        data = {}
         
         if message:
             data.update({'message': message})
@@ -25,10 +23,7 @@ class CustomJsonResponse(JsonResponse):
         if result:
             data.update({'result': result})
             
-        if (kwargs.get('userLogin') != None):
-            data.update({'userLogin': kwargs.get('userLogin')})
+        data.update({'userLogin': kwargs.get('userLogin')})
+        data.update({'userAllowedActions': kwargs.get('userAllowedActions')})
             
-        if (kwargs.get('userAllowedActions') != None):
-            data.update({'userAllowedActions': kwargs.get('userAllowedActions')})
-        
         super().__init__(data=data, status=status, json_dumps_params={'ensure_ascii':False})

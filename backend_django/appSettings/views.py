@@ -6,13 +6,11 @@ from django.utils.decorators import method_decorator
 from appAuth.models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decAllowedActions import decAllowedActions
 
 from utils.compareLists import compareLists
 from utils.isValuesInRequestBody import isValuesInRequestBody
 
 class viewManagePermissions(View):
-    @method_decorator(decAllowedActions(['USER_UPDATE']))
     def get(self, request, *args, **kwargs):
         try:
             return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS}, **kwargs)
