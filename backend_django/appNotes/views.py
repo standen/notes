@@ -7,8 +7,7 @@ from appAuth.models import modelUser
 from .models import modelNotes
 
 from api.CustomJsonResponse import CustomJsonResponse
-
-from utils.isValuesInRequestBody import isValuesInRequestBody
+from decorators.decRequiredBodyParams import decRequiredBodyParams
 
 class viewNotes(View):
     def get(self, request, *args, **kwargs):
@@ -17,14 +16,11 @@ class viewNotes(View):
             return CustomJsonResponse(result={'notes': notes})
         except:
             return CustomJsonResponse(status=400)
-        
+    
+    @method_decorator(decRequiredBodyParams(['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'userLogin']))
     def postNoteCreate(self, request):
         try:
-            requiredBodyParams = ['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'userLogin']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -41,13 +37,10 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['noteLink']))
     def postNoteGet(self, request, **kwargs):
         try:
-            requiredBodyParams = ['noteLink']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -86,14 +79,11 @@ class viewNotes(View):
                 raise
         except:
             return CustomJsonResponse(status=400)
-        
+    
+    @method_decorator(decRequiredBodyParams(['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'noteId']))
     def patch(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone', 'noteId']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -121,18 +111,15 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['noteId']))
     def delete(self, request, *args, **kwargs):
         try:
             body = json.loads(request.body)
-            noteId = body.get('noteId')
-            
-            if (not noteId):
-                raise
         except:
             return CustomJsonResponse(status=400)
         
         try:
-            modelNotes.objects.filter(id=noteId).update(is_active=False)
+            modelNotes.objects.filter(id=body.get('noteId')).update(is_active=False)
             return CustomJsonResponse(message='Заметка успешно удалена')
         except:
             return CustomJsonResponse(status=400)

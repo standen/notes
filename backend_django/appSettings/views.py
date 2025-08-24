@@ -6,9 +6,7 @@ from django.utils.decorators import method_decorator
 from appAuth.models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-
-from utils.compareLists import compareLists
-from utils.isValuesInRequestBody import isValuesInRequestBody
+from decorators.decRequiredBodyParams import decRequiredBodyParams
 
 class viewManagePermissions(View):
     def get(self, request, *args, **kwargs):
@@ -25,13 +23,10 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['name', 'allowed_actions']))
     def post(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['name', 'allowed_actions']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body or not compareLists(body['allowed_actions'], ALLOWED_ACTIONS)):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -41,14 +36,10 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['name', 'allowed_actions', 'roleId']))
     def patch(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['name', 'allowed_actions', 'roleId']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body or not compareLists(body['allowed_actions'], ALLOWED_ACTIONS)):
-                raise
-            
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -58,13 +49,10 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['roleId']))
     def delete(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['roleId']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -82,13 +70,10 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId']))
     def post(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['login', 'password', 'roleId']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -98,14 +83,10 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId', 'userId']))
     def patch(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['login', 'password', 'roleId', 'userId']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
-            
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -120,14 +101,10 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['userId']))
     def delete(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['userId']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
-            
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         

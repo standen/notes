@@ -3,12 +3,12 @@ import json
 from django.views import View
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
+from django.utils.decorators import method_decorator
 
 from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-
-from utils.isValuesInRequestBody import isValuesInRequestBody
+from decorators.decRequiredBodyParams import decRequiredBodyParams
 
 class viewLogin(View):
     def get(self, request, *args, **kwargs):
@@ -18,13 +18,10 @@ class viewLogin(View):
             result.update({str(i): SessionStore(session_key=i.session_key).get('login')})
         return CustomJsonResponse(result=result)
     
+    @method_decorator(decRequiredBodyParams(['login', 'password']))
     def post(self, request, *args, **kwargs):
         try:
-            requiredBodyParams = ['login', 'password']
-            body = isValuesInRequestBody(requiredBodyParams, json.loads(request.body))
-            
-            if (not body):
-                raise
+            body = json.loads(request.body)
         except:
             return CustomJsonResponse(status=400)
         
@@ -58,21 +55,4 @@ class viewLogout(View):
         
 class viewUserInfo(View):
     def post(self, request, *args, **kwargs):
-        result = {}
-        
-        try:
-            token = request.COOKIES.get('token')
-            s = SessionStore(session_key=token)
-            login=s['login']
-        except:
-            return CustomJsonResponse(status=401)
-        
-        if login:
-            result.update({'userLogin': login})
-            try:
-                user_allowed_actions = modelUser.objects.get(login=login).getRolesList()
-            except:
-                return CustomJsonResponse(status=401)
-            result.update({'userAllowedActions': user_allowed_actions})
-            
-        return CustomJsonResponse(result=result)
+        return CustomJsonResponse()
