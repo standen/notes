@@ -31,11 +31,20 @@
           "name": "get",
           "filename": "get.bru",
           "seq": 2,
+          "settings": {},
+          "tags": [],
           "request": {
-            "url": "http://localhost:3000/auth/login",
+            "url": "http://localhost:3000/auth/login?user=some",
             "method": "GET",
             "headers": [],
-            "params": [],
+            "params": [
+              {
+                "name": "user",
+                "value": "some",
+                "type": "query",
+                "enabled": true
+              }
+            ],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
@@ -57,6 +66,8 @@
           "name": "login",
           "filename": "login.bru",
           "seq": 1,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/auth/login",
             "method": "POST",
@@ -84,6 +95,8 @@
           "name": "logout",
           "filename": "logout.bru",
           "seq": 3,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/auth/logout",
             "method": "POST",
@@ -110,6 +123,8 @@
           "name": "userInfo",
           "filename": "userInfo.bru",
           "seq": 4,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/auth/userinfo",
             "method": "POST",
@@ -150,6 +165,8 @@
           "name": "get",
           "filename": "get.bru",
           "seq": 1,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/birthdays/",
             "method": "POST",
@@ -190,6 +207,8 @@
           "name": "create",
           "filename": "create.bru",
           "seq": 3,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/notes",
             "method": "POST",
@@ -217,6 +236,8 @@
           "name": "getAll",
           "filename": "getAll.bru",
           "seq": 1,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/notes",
             "method": "GET",
@@ -243,6 +264,8 @@
           "name": "getOne",
           "filename": "getOne.bru",
           "seq": 2,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/notes",
             "method": "POST",
@@ -250,7 +273,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"action\": \"noteGet\",\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\"\n}",
+              "json": "{\n  \"action\": \"noteGet\",\n  \"noteLink\": \"music\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -270,6 +293,8 @@
           "name": "update",
           "filename": "update.bru",
           "seq": 4,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/notes",
             "method": "PATCH",
@@ -277,7 +302,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": false,\n  \"edit_everyone\": true,\n  \"userLogin\": \"standen\"\n}",
+              "json": "{\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": false,\n  \"edit_everyone\": true\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -323,6 +348,8 @@
           "name": "get",
           "filename": "get.bru",
           "seq": 1,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/permissions",
             "method": "GET",
@@ -363,6 +390,8 @@
           "name": "delete",
           "filename": "delete.bru",
           "seq": 2,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/roles",
             "method": "DELETE",
@@ -389,6 +418,8 @@
           "name": "get",
           "filename": "get.bru",
           "seq": 1,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/roles",
             "method": "GET",
@@ -415,6 +446,8 @@
           "name": "patch",
           "filename": "patch.bru",
           "seq": 2,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/roles",
             "method": "PATCH",
@@ -442,6 +475,8 @@
           "name": "post",
           "filename": "post.bru",
           "seq": 2,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/roles",
             "method": "POST",
@@ -483,6 +518,8 @@
           "name": "delete",
           "filename": "delete.bru",
           "seq": 9,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/users",
             "method": "DELETE",
@@ -510,6 +547,8 @@
           "name": "get",
           "filename": "get.bru",
           "seq": 1,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/users",
             "method": "GET",
@@ -536,6 +575,8 @@
           "name": "patch",
           "filename": "patch.bru",
           "seq": 3,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/users",
             "method": "PATCH",
@@ -563,6 +604,8 @@
           "name": "post",
           "filename": "post.bru",
           "seq": 2,
+          "settings": {},
+          "tags": [],
           "request": {
             "url": "http://localhost:3000/settings/users",
             "method": "POST",
@@ -597,7 +640,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.003994941711425781,
+    "size": 0.003940582275390625,
     "filesCount": 27
   }
 }

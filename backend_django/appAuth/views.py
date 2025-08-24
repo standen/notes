@@ -12,11 +12,17 @@ from decorators.decRequiredBodyParams import decRequiredBodyParams
 
 class viewLogin(View):
     def get(self, request, *args, **kwargs):
-        result = {'count': len( Session.objects.all())}
-        
+        result = {}    
+        sessions = []
         for i in Session.objects.all():
-            result.update({str(i): SessionStore(session_key=i.session_key).get('login')})
-        return CustomJsonResponse(result=result)
+            if (SessionStore(session_key=i.session_key).get('login') != None):
+                sessions.append({str(i): SessionStore(session_key=i.session_key).get('login')})
+            else:
+                SessionStore(session_key=i.session_key).flush()
+                
+        result.update({'sessions': sessions})
+        result.update({'count': len(sessions)})
+        return CustomJsonResponse(result=result, **request.user_data)
     
     @method_decorator(decRequiredBodyParams(['login', 'password']))
     def post(self, request, *args, **kwargs):

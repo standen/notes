@@ -33,6 +33,9 @@ class modelUserRole(models.Model):
             'name': self.name,
             'allowed_actions': self.allowed_actions['list'],
         }
+    
+    def getRoleName(self):
+        return self.name
 
 class modelUser(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

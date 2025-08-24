@@ -22,8 +22,8 @@ class CustomJsonResponse(JsonResponse):
             
         if result:
             data.update({'result': result})
-            
+        
         data.update({'userLogin': kwargs.get('userLogin')})
         data.update({'userAllowedActions': kwargs.get('userAllowedActions')})
-            
+        
         super().__init__(data=data, status=status, json_dumps_params={'ensure_ascii':False})
