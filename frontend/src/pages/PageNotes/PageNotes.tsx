@@ -19,11 +19,7 @@ export const PageNotes: FC = () => {
 
   return (
     <Content title="Заметки">
-      <Card
-        variant="borderless"
-        title={<>search</>}
-        extra={<Button>Добавить заметку</Button>}
-      >
+      <Card title={<>search</>} extra={<Button>Добавить заметку</Button>}>
         <Table
           columns={ColumnsTableNotes()}
           locale={{ emptyText: "Заметки отсутствуют" }}
@@ -33,6 +29,8 @@ export const PageNotes: FC = () => {
           size="small"
         />
       </Card>
+
+      <Table />
     </Content>
   );
 };

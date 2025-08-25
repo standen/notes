@@ -1,12 +1,14 @@
 import { useRolesList, useRolesActions } from "@/hooks";
+import { useRoles } from "@/pages/PageSettings/components/SettingsRoles/hooks";
 
 import { ColumnsTableRoles } from "./columns";
 
 import { Button, Table, Card } from "antd";
 
 export const SettingsRoles = () => {
-  const { rolesList, refreshRoles } = useRolesList();
+  const { refreshRoles } = useRolesList();
   const { createRoleModal } = useRolesActions();
+  const { roles } = useRoles();
   return (
     <Card
       variant="borderless"
@@ -20,7 +22,7 @@ export const SettingsRoles = () => {
       <Table
         columns={ColumnsTableRoles(refreshRoles)}
         locale={{ emptyText: "Роли отсутствуют" }}
-        dataSource={rolesList}
+        dataSource={roles}
         bordered
         pagination={false}
         size="small"

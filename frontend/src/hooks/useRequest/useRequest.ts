@@ -1,7 +1,15 @@
-import axios, { AxiosRequestConfig } from "axios";
 import { useCallback, useMemo } from "react";
+import axios, { AxiosRequestConfig } from "axios";
+
+import { useReportError } from "@/hooks";
+
+import { App } from "antd";
 
 export const useRequest = () => {
+  const { showErrorNotif } = useReportError();
+
+  const { notification } = App.useApp();
+
   const makeRequest = useCallback(
     async <T>(
       params: AxiosRequestConfig,
@@ -12,24 +20,27 @@ export const useRequest = () => {
       loadCallback?.(true);
 
       try {
-        const result = await axios.request<T>(params);
+        const result = await axios.request<T>({
+          ...params,
+          withCredentials: true,
+        });
 
         if (customSuccess) {
-          console.log(customSuccess);
+          notification.success({ message: customSuccess });
         }
 
         return result?.data;
       } catch (e) {
         if (axios.isAxiosError(e)) {
-          console.log(e?.response?.data);
+          showErrorNotif(customError || "Ошибка", e);
         } else {
-          console.log(customError);
+          notification.error({ message: customError });
         }
       } finally {
         loadCallback?.(false);
       }
     },
-    []
+    [showErrorNotif, notification]
   );
 
   return useMemo(() => ({ makeRequest }), [makeRequest]);
