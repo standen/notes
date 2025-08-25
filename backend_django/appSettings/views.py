@@ -11,7 +11,7 @@ from decorators.decRequiredBodyParams import decRequiredBodyParams
 class viewManagePermissions(View):
     def get(self, request):
         try:
-            return CustomJsonResponse({'allowed_actions': ALLOWED_ACTIONS})
+            return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
         except:
             return CustomJsonResponse(status=400)
 

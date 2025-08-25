@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { API } from "@/api";
-import { IResponseRolesList, IRole } from "@/api/endpoints/settings";
+import {
+  IResponseRolesList,
+  IRole,
+  IResponsePermissionsList,
+} from "@/api/endpoints/settings";
 
 import { useRequest } from "@/hooks";
 
@@ -9,6 +13,19 @@ export const useRoles = () => {
   const [roles, setRoles] = useState<IRole[]>();
 
   const { makeRequest } = useRequest();
+
+  const getPermissions = useCallback(async (): Promise<string[]> => {
+    const req = await makeRequest<IResponsePermissionsList>({
+      method: "get",
+      url: API.settings.getPermissions,
+    });
+
+    if (!req) {
+      return [];
+    }
+
+    return req?.result?.permissions ?? [];
+  }, [makeRequest]);
 
   const getRoles = useCallback(async () => {
     const req = await makeRequest<IResponseRolesList>({
@@ -20,7 +37,7 @@ export const useRoles = () => {
       return;
     }
 
-    setRoles(req?.result?.roles);
+    setRoles(req?.result?.roles ?? []);
 
     return req?.result?.roles;
   }, [makeRequest, setRoles]);
@@ -29,5 +46,8 @@ export const useRoles = () => {
     getRoles();
   }, []);
 
-  return useMemo(() => ({ roles, getRoles }), [roles, getRoles]);
+  return useMemo(
+    () => ({ roles, getRoles, getPermissions }),
+    [roles, getRoles, getPermissions]
+  );
 };

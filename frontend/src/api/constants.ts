@@ -6,3 +6,7 @@ export interface IResponse {
   userAllowedActions?: string[] | null;
   userLogin?: string | null;
 }
+
+export const ERRORS_TEXT = {
+  required: "Поле является обязательным",
+};

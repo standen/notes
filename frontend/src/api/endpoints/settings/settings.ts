@@ -8,6 +8,12 @@ export const apiSettings = {
   getUsersLogins: `${BASE_URL}/settings/users?filter=logins`,
 };
 
+export interface IResponsePermissionsList extends IResponse {
+  result?: {
+    permissions?: string[];
+  };
+}
+
 export interface IRole {
   id: string;
   name: string;
