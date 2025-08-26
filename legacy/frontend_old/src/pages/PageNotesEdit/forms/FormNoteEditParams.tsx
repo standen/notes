@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { INote } from "@/api";
 
-import { Form, Input, Button, Checkbox, Flex, ConfigProvider } from "antd";
+import { Form, Input, Button, Checkbox, Flex } from "antd";
 
 interface Props {
   noteParams?: Partial<INote>;
@@ -37,8 +37,7 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
 
               return Promise.resolve();
             },
-            message:
-              "Недопустимый символ: только кириллица и пробел",
+            message: "Недопустимый символ: только кириллица и пробел",
           },
         ]}
       >
@@ -71,48 +70,36 @@ export const FormNoteEditParams: FC<Props> = ({ getValues, noteParams }) => {
         <Input placeholder="Ссылка" allowClear />
       </Form.Item>
 
-      <ConfigProvider
-        theme={{
-          components: {
-            Form: {
-              itemMarginBottom: 6,
-            },
-          },
-        }}
-      >
-        <div style={{ userSelect: "none" }}>
-          <Form.Item name="is_cipher" valuePropName="checked">
-            <Checkbox
-              defaultChecked={noteParams?.is_cipher ?? false}
-              onChange={(e) =>
-                form.setFieldValue("is_cipher", e.target.checked)
-              }
-            >
-              Шифровать заметку
-            </Checkbox>
-          </Form.Item>
-          <Form.Item name="open_for_all" valuePropName="checked">
-            <Checkbox
-              defaultChecked={noteParams?.open_for_all ?? false}
-              onChange={(e) =>
-                form.setFieldValue("open_for_all", e.target.checked)
-              }
-            >
-              Каждый пользователь может просматривать
-            </Checkbox>
-          </Form.Item>
-          <Form.Item name="edit_everyone" valuePropName="checked">
-            <Checkbox
-              defaultChecked={noteParams?.edit_everyone ?? false}
-              onChange={(e) =>
-                form.setFieldValue("edit_everyone", e.target.checked)
-              }
-            >
-              Каждый пользователь может редактировать
-            </Checkbox>
-          </Form.Item>
-        </div>
-      </ConfigProvider>
+      <div style={{ userSelect: "none" }}>
+        <Form.Item name="is_cipher" valuePropName="checked">
+          <Checkbox
+            defaultChecked={noteParams?.is_cipher ?? false}
+            onChange={(e) => form.setFieldValue("is_cipher", e.target.checked)}
+          >
+            Шифровать заметку
+          </Checkbox>
+        </Form.Item>
+        <Form.Item name="open_for_all" valuePropName="checked">
+          <Checkbox
+            defaultChecked={noteParams?.open_for_all ?? false}
+            onChange={(e) =>
+              form.setFieldValue("open_for_all", e.target.checked)
+            }
+          >
+            Каждый пользователь может просматривать
+          </Checkbox>
+        </Form.Item>
+        <Form.Item name="edit_everyone" valuePropName="checked">
+          <Checkbox
+            defaultChecked={noteParams?.edit_everyone ?? false}
+            onChange={(e) =>
+              form.setFieldValue("edit_everyone", e.target.checked)
+            }
+          >
+            Каждый пользователь может редактировать
+          </Checkbox>
+        </Form.Item>
+      </div>
 
       <Flex justify="flex-end">
         <Button htmlType="submit" type="primary">

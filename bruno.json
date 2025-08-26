@@ -186,6 +186,18 @@
     },
     {
       "type": "folder",
+      "name": "pays",
+      "filename": "pays",
+      "seq": 6,
+      "root": {
+        "meta": {
+          "name": "pays",
+          "seq": 6
+        }
+      }
+    },
+    {
+      "type": "folder",
       "name": "notes",
       "filename": "notes",
       "seq": 3,
@@ -211,6 +223,37 @@
             "body": {
               "mode": "json",
               "json": "{\n  \"action\": \"noteCreate\",\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"link\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": true,\n  \"edit_everyone\": true,\n  \"userLogin\": \"standen\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "delete",
+          "filename": "delete.bru",
+          "seq": 5,
+          "settings": {
+            "encodeUrl": true
+          },
+          "tags": [],
+          "request": {
+            "url": "http://localhost:3000/notes",
+            "method": "DELETE",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -310,51 +353,8 @@
               "mode": "inherit"
             }
           }
-        },
-        {
-          "type": "http",
-          "name": "delete",
-          "filename": "delete.bru",
-          "seq": 5,
-          "settings": {
-            "encodeUrl": true
-          },
-          "tags": [],
-          "request": {
-            "url": "http://localhost:3000/notes",
-            "method": "DELETE",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"noteId\": \"766742ec-8479-447d-88aa-2b57e4a2d888\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "inherit"
-            }
-          }
         }
       ]
-    },
-    {
-      "type": "folder",
-      "name": "pays",
-      "filename": "pays",
-      "seq": 6,
-      "root": {
-        "meta": {
-          "name": "pays",
-          "seq": 6
-        }
-      }
     },
     {
       "type": "folder",
@@ -423,7 +423,8 @@
             "headers": [],
             "params": [],
             "body": {
-              "mode": "none",
+              "mode": "json",
+              "json": "{\n  \"roleId\": \"\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -450,6 +451,41 @@
             "method": "GET",
             "headers": [],
             "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "getRolesNames",
+          "filename": "getRolesNames.bru",
+          "seq": 2,
+          "settings": {},
+          "tags": [],
+          "request": {
+            "url": "http://localhost:3000/settings/roles?filter=rolesNames",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "filter",
+                "value": "rolesNames",
+                "type": "query",
+                "enabled": true
+              }
+            ],
             "body": {
               "mode": "none",
               "formUrlEncoded": [],
@@ -510,41 +546,6 @@
             "body": {
               "mode": "json",
               "json": "{\n  \"name\": \"admin\",\n  \"allowed_actions\": [\n    \"USER_CREATE\",\n    \"USER_UPDATE\",\n    \"USER_DELETE\",\n    \"ROLE_CREATE\",\n    \"ROLE_UPDATE\",\n    \"ROLE_DELETE\"\n]\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "inherit"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "getRolesNames",
-          "filename": "getRolesNames.bru",
-          "seq": 2,
-          "settings": {},
-          "tags": [],
-          "request": {
-            "url": "http://localhost:3000/settings/roles?filter=rolesNames",
-            "method": "GET",
-            "headers": [],
-            "params": [
-              {
-                "name": "filter",
-                "value": "rolesNames",
-                "type": "query",
-                "enabled": true
-              }
-            ],
-            "body": {
-              "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -632,6 +633,41 @@
         },
         {
           "type": "http",
+          "name": "getUsersLogins",
+          "filename": "getUsersLogins.bru",
+          "seq": 2,
+          "settings": {},
+          "tags": [],
+          "request": {
+            "url": "http://localhost:3000/settings/users?filter=logins",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "filter",
+                "value": "logins",
+                "type": "query",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
           "name": "patch",
           "filename": "patch.bru",
           "seq": 4,
@@ -687,41 +723,6 @@
               "mode": "inherit"
             }
           }
-        },
-        {
-          "type": "http",
-          "name": "getUsersLogins",
-          "filename": "getUsersLogins.bru",
-          "seq": 2,
-          "settings": {},
-          "tags": [],
-          "request": {
-            "url": "http://localhost:3000/settings/users?filter=logins",
-            "method": "GET",
-            "headers": [],
-            "params": [
-              {
-                "name": "filter",
-                "value": "logins",
-                "type": "query",
-                "enabled": true
-              }
-            ],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "inherit"
-            }
-          }
         }
       ]
     }
@@ -735,7 +736,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.003940582275390625,
-    "filesCount": 27
+    "size": 0.004555702209472656,
+    "filesCount": 30
   }
 }
