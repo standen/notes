@@ -52,7 +52,7 @@ export const uint8ArrayToStringHex = (bytes: Uint8Array): string => {
 
   for (let i = 0; i < bytes.length; i++) {
     const byte = bytes[i];
-    let hex = BYTE_TO_HEX_MAP[byte];
+    const hex = BYTE_TO_HEX_MAP[byte];
 
     result += hex;
   }

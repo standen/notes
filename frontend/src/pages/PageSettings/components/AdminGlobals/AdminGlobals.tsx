@@ -3,7 +3,7 @@ import { Content } from "@/views/ViewMain/components";
 export const AdminGlobals = () => {
   return (
     <>
-      <Content>AdminGlobals</Content>
+      <Content>В разработке</Content>
     </>
   );
 };

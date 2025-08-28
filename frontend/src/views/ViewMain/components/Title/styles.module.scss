@@ -1,7 +1,11 @@
 .title {
   display: flex;
   padding: 0 48px;
-  height: 80px;
+  margin: 24px 0;
   align-items: center;
   justify-content: space-between;
+
+  &:last-child {
+    margin: 0 0 24px 0;
+  }
 }

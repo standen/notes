@@ -1,17 +1,19 @@
-enum EEncodingType {
-  numbers,
-  landEngSmall,
-  landEngBig,
-  langRuSmall,
-  langRuBig,
-  symbols,
-  sugar,
-}
+export const EncodingTypes = [
+  "numbers",
+  "langEngSmall",
+  "langEngBig",
+  "langRuSmall",
+  "langRuBig",
+  "symbols",
+  "sugar",
+] as const;
 
-export const vocab: Record<keyof typeof EEncodingType, string> = {
+type TEncodingTypes = (typeof EncodingTypes)[number];
+
+export const vocab: Record<TEncodingTypes, string> = {
   numbers: "0123456789",
-  landEngSmall: "abcdefghijklmnopqrstuvwxyz",
-  landEngBig: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  langEngSmall: "abcdefghijklmnopqrstuvwxyz",
+  langEngBig: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   langRuSmall: "абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
   langRuBig: "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
   symbols: "~`'\"!@#№$;:,^%&?*()-+=|\\<>[]{}._ ",
@@ -20,5 +22,3 @@ export const vocab: Record<keyof typeof EEncodingType, string> = {
 };
 
 export const ALPHABET = Object.values(vocab).join("");
-
-
