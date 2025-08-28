@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
-import { PAGES_NAMES } from "@/router/types";
+import { PAGES_NAMES, type TMenuPagesNames } from "@/router/types";
 import { NavMenu } from "@/router/constants";
 
 import { Menu } from "antd";
@@ -11,7 +11,7 @@ export const HeaderMenu = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (PAGES_NAMES.includes(location.pathname)) {
+    if (PAGES_NAMES.includes(location.pathname as TMenuPagesNames)) {
       navigate(location.pathname);
     }
   }, [location, navigate]);
@@ -29,7 +29,9 @@ export const HeaderMenu = () => {
         label: NavMenu[item]?.title,
       }))}
       style={{ flex: 1, minWidth: 0 }}
-      onSelect={({ key }) => navigate(NavMenu[key]?.url ?? PAGES_NAMES[0])}
+      onSelect={({ key }) =>
+        navigate(NavMenu[key as TMenuPagesNames]?.url ?? PAGES_NAMES[0])
+      }
     />
   );
 };

@@ -1,14 +1,22 @@
-import { NavMenu } from "@/router/constants";
-
 import { Content, Title } from "@/views/ViewMain/components";
+import { Button, Flex, Input } from "antd";
+
+const { Search } = Input;
 
 export const PageAccounts = () => {
   return (
     <div>
       <Title
-        title={NavMenu.PageAccounts.title}
-        left={<>left</>}
-        right={<>right</>}
+        left={
+          <Button color="blue" variant="solid">
+            Добавить аккаунт
+          </Button>
+        }
+        right={
+          <Flex>
+            <Search placeholder="Поиск по логину" allowClear />
+          </Flex>
+        }
       />
       <Content>123</Content>
     </div>

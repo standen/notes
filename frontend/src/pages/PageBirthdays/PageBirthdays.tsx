@@ -1,14 +1,22 @@
-import { NavMenu } from "@/router/constants";
-
 import { Content, Title } from "@/views/ViewMain/components";
+import { Button, Flex, Input } from "antd";
+
+const { Search } = Input;
 
 export const PageBirthdays = () => {
   return (
     <div>
       <Title
-        title={NavMenu.PageBirthdays.title}
-        left={<>left</>}
-        right={<>right</>}
+        left={
+          <Button color="blue" variant="solid">
+            Добавить событие
+          </Button>
+        }
+        right={
+          <Flex>
+            <Search placeholder="Поиск по ФИО" allowClear />
+          </Flex>
+        }
       />
       <Content>123</Content>
     </div>

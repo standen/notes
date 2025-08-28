@@ -1,10 +1,9 @@
 const PAGE_PREFIX = "Page";
-export const PAGES_NAMES: string[] = [
+export const PAGES_NAMES = [
   `${PAGE_PREFIX}Accounts`,
   `${PAGE_PREFIX}Notes`,
   `${PAGE_PREFIX}Birthdays`,
   `${PAGE_PREFIX}Settings`,
-  `${PAGE_PREFIX}404`,
 ] as const;
 
 export type TMenuPagesNames = (typeof PAGES_NAMES)[number];
