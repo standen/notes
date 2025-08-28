@@ -1,10 +1,12 @@
 import { useCallback, useMemo } from "react";
 
-import type { TFormAuth } from "@/hooks/useAuth/forms/FormAuth/types";
+import { type IResponseAuthUserInfo } from "@/api/auth";
+import type { TFormAuth } from "@/hooks/useAuth/forms/FormAuth";
 
 import { API } from "@/api";
 import { useRequest } from "@/hooks";
 import { sha256 } from "@/utils";
+import { storeUserInfo } from "@/store";
 
 import { FormAuth } from "@/hooks/useAuth/forms";
 
@@ -13,6 +15,36 @@ import { App } from "antd";
 export const useAuth = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
+  const { setLoadingUser, setUser } = storeUserInfo();
+
+  const getUserInfo = useCallback(async () => {
+    const user = await makeRequest<IResponseAuthUserInfo>(
+      {
+        method: "post",
+        url: API.auth.userInfo,
+      },
+      "Ошибка при получении информации о пользователе",
+      setLoadingUser
+    );
+
+    if (!user) {
+      return;
+    }
+
+    setUser({
+      login: user?.userLogin,
+      allowedActions: user?.userAllowedActions ?? [],
+    });
+  }, [makeRequest, setUser, setLoadingUser]);
+
+  const logout = useCallback(async () => {
+    await makeRequest(
+      { method: "post", url: API.auth.logout },
+      "Ошибка при выходе из профиля"
+    );
+
+    getUserInfo();
+  }, [getUserInfo, makeRequest]);
 
   const auth = useCallback(async () => {
     const modalAuth = modal.confirm({
@@ -20,7 +52,7 @@ export const useAuth = () => {
       footer: null,
       icon: null,
       closable: true,
-      width: 600,
+      width: 500,
       content: null,
     });
 
@@ -41,14 +73,19 @@ export const useAuth = () => {
         url: API.auth.login,
         data: {
           password,
-          login: authData.login,
+          login: authData?.login?.toLocaleLowerCase(),
         },
       },
       "Ошибка во время авторизации"
     );
 
-    modalAuth.destroy();
-  }, [makeRequest, modal]);
+    getUserInfo();
 
-  return useMemo(() => ({ auth }), [auth]);
+    modalAuth.destroy();
+  }, [makeRequest, modal, getUserInfo]);
+
+  return useMemo(
+    () => ({ auth, getUserInfo, logout }),
+    [auth, getUserInfo, logout]
+  );
 };

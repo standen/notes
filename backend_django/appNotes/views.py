@@ -62,7 +62,8 @@ class viewNotes(View):
             return CustomJsonResponse(result={'note': note})
         except:
             return CustomJsonResponse(status=400)
-        
+    
+    @method_decorator(decRequiredBodyParams(['action']))
     def post(self, request):
         try:
             action = json.loads(request.body).get('action')

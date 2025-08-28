@@ -1,6 +1,8 @@
 import { useCallback, useMemo } from "react";
 import axios, { type AxiosRequestConfig } from "axios";
 
+import type { IResponse } from "@/api/types";
+
 import { useReportError } from "@/hooks";
 
 import { App } from "antd";
@@ -11,7 +13,7 @@ export const useRequest = () => {
   const { notification } = App.useApp();
 
   const makeRequest = useCallback(
-    async <T>(
+    async <T extends IResponse>(
       params: AxiosRequestConfig,
       customError?: string,
       loadCallback?: (load: boolean) => void,
@@ -25,15 +27,20 @@ export const useRequest = () => {
           withCredentials: true,
         });
 
-        if (customSuccess) {
-          notification.success({ message: customSuccess });
+        if (result?.data?.message || customSuccess) {
+          notification.success({
+            message: result?.data?.message || customSuccess,
+          });
         }
 
         return result?.data;
       } catch (e) {
         console.log(e);
         if (axios.isAxiosError(e)) {
-          showErrorNotif(customError || "Ошибка", e);
+          showErrorNotif(
+            e?.response?.data?.message || customError || "Ошибка",
+            e
+          );
         } else {
           notification.error({ message: customError });
         }

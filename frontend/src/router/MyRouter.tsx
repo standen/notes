@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router";
 
 import { NavMenu } from "@/router/constants";
 
+import { useAuth } from "@/hooks";
+
 import { ViewMain } from "@/views";
 import {
   PageSettings,
@@ -10,8 +12,15 @@ import {
   PageBirthdays,
   PageError404,
 } from "@/pages";
+import { useEffect } from "react";
 
 export const MyRouter = () => {
+  const { getUserInfo } = useAuth();
+
+  useEffect(() => {
+    getUserInfo();
+  }, [getUserInfo]);
+
   return (
     <Routes>
       <Route path="" element={<ViewMain />}>

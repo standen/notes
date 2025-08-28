@@ -9,7 +9,9 @@ type errors =
   | "error404"
   | "required"
   | "regexp"
-  | "notAllValidate";
+  | "notAllValidate"
+  | "loginExists"
+  | "roleExists";
 export const ERRORS_TEXT: Record<errors, string> = {
   error401: "Требуется авторизация",
   error403: "Доступ к данной странице запрещен",
@@ -17,4 +19,6 @@ export const ERRORS_TEXT: Record<errors, string> = {
   required: "Поле является обязательным",
   regexp: "Недопустимое значение поля",
   notAllValidate: "Не все поля прошли валидацию",
+  loginExists: "Данный логин занят",
+  roleExists: "Данная роль уже существует",
 };

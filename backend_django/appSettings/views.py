@@ -28,7 +28,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['name', 'allowed_actions']))
-    def post(self, request):
+    def postRoleCreate(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -37,6 +37,36 @@ class viewManageRoles(View):
         try:
             modelUserRole(name=body['name'], allowed_actions={'list': body['allowed_actions']}).save()
             return CustomJsonResponse(message='Роль успешно создана')
+        except:
+            return CustomJsonResponse(status=400)
+        
+    @method_decorator(decRequiredBodyParams(['roleId']))
+    def postRoleGet(self, request):
+        try:
+            body = json.loads(request.body)
+        except:
+            return CustomJsonResponse(status=400)
+        
+        try:
+            role = modelUserRole.objects.get(id=body.get('roleId'), is_active=True)
+            return CustomJsonResponse(result={'roleParams': role.returnOne()})
+        except:
+            return CustomJsonResponse(status=400)
+        
+    @method_decorator(decRequiredBodyParams(['action']))
+    def post(self, request):
+        try:
+            action = json.loads(request.body).get('action')
+            
+            if (not action):
+                raise
+            
+            if (action == 'roleGet'):
+                return self.postRoleGet(request)
+            elif (action == 'roleCreate'):
+                return self.postRoleCreate(request)
+            else:
+                raise
         except:
             return CustomJsonResponse(status=400)
     

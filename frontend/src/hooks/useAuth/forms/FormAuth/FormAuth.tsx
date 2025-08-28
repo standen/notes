@@ -1,6 +1,5 @@
 import type { FC } from "react";
 
-import { type TFormAuth } from "./types";
 import { ERRORS_TEXT } from "@/constants";
 
 import { useReportError } from "@/hooks/useReportError";
@@ -14,6 +13,11 @@ import {
 
 import { Button, Flex, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
+export type TFormAuth = {
+  login: string;
+  password: string;
+};
 
 interface Props {
   resolve: (values: TFormAuth) => void;

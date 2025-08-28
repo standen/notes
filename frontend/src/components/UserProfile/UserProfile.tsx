@@ -1,18 +1,46 @@
+import { useMemo } from "react";
+
+import { storeUserInfo } from "@/store";
 import { useAuth } from "@/hooks";
 
-import { Tag } from "antd";
+import { Tag, Popconfirm } from "antd";
 
 export const UserProfile = () => {
-  const { auth } = useAuth();
+  const { auth, logout } = useAuth();
+  const { user } = storeUserInfo();
 
-  return (
-    <Tag
-      color="blue"
-      bordered={false}
-      style={{ cursor: "pointer" }}
-      onClick={auth}
-    >
-      Авторизоваться
-    </Tag>
-  );
+  const content = useMemo(() => {
+    if (!user?.login) {
+      return (
+        <Tag
+          color="blue"
+          bordered={false}
+          style={{ cursor: "pointer" }}
+          onClick={auth}
+        >
+          Авторизоваться
+        </Tag>
+      );
+    }
+
+    return (
+      <Popconfirm
+        title="Выйти из профиля"
+        description="Это действие необратимо"
+        onConfirm={logout}
+        okText="Выйти"
+        cancelText="Нет"
+      >
+        <Tag
+          color="blue-inverse"
+          bordered={false}
+          style={{ cursor: "pointer" }}
+        >
+          {user?.login}
+        </Tag>
+      </Popconfirm>
+    );
+  }, [user, auth, logout]);
+
+  return <>{content}</>;
 };
