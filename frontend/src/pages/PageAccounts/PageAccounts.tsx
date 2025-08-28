@@ -2,11 +2,11 @@ import { NavMenu } from "@/router/constants";
 
 import { Content, Title } from "@/views/ViewMain/components";
 
-export const PageSettings = () => {
+export const PageAccounts = () => {
   return (
     <div>
       <Title
-        title={NavMenu.PageSettings.title}
+        title={NavMenu.PageAccounts.title}
         left={<>left</>}
         right={<>right</>}
       />

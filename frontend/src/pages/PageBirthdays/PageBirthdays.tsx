@@ -2,11 +2,11 @@ import { NavMenu } from "@/router/constants";
 
 import { Content, Title } from "@/views/ViewMain/components";
 
-export const PageSettings = () => {
+export const PageBirthdays = () => {
   return (
     <div>
       <Title
-        title={NavMenu.PageSettings.title}
+        title={NavMenu.PageBirthdays.title}
         left={<>left</>}
         right={<>right</>}
       />

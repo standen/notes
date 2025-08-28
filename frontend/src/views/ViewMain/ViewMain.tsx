@@ -1,35 +1,23 @@
 import { Outlet } from "react-router";
-import { Layout, Menu, Flex, Tag } from "antd";
 
-const { Header, Footer } = Layout;
+import { HeaderMenu } from "@/components";
+import { Layout, Flex, Tag } from "antd";
 
-const items = Array.from({ length: 15 }).map((_, index) => ({
-  key: index + 1,
-  label: `nav ${index + 1}`,
-}));
+const { Header } = Layout;
 
 export const ViewMain = () => {
   return (
     <Layout>
       <Header>
-        <Flex align="center" gap={8}>
-          <Tag>Ключ</Tag>
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["2"]}
-            items={items}
-            style={{ flex: 1, minWidth: 0 }}
-            onSelect={({ key }) => console.log(key)}
-          />
+        <Flex align="center" gap={8} justify="space-between">
+          <HeaderMenu />
+          <div>
+            <Tag color="#f50">Ключ</Tag>
+            <Tag color="#1677ff">Авторизоваться</Tag>
+          </div>
         </Flex>
       </Header>
-      <div style={{ height: "100%" }}>
-        <Outlet />
-      </div>
-      <Footer style={{ textAlign: "center" }}>
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
-      </Footer>
+      <Outlet />
     </Layout>
   );
 };
