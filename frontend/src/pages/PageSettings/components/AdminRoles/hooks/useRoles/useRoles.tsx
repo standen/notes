@@ -1,11 +1,11 @@
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState, useEffect } from "react";
 
 import {
   type IRole,
   type IResponsePermissionsList,
   type IResponseRolesNames,
-  type IResponseUsersLogins,
   type IResponseRoleParams,
+  type IResponseRolesList,
 } from "@/api/settings";
 import { type TFormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/FormEditRole";
 
@@ -16,17 +16,19 @@ import { FormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/F
 
 import { App } from "antd";
 
-export const useRoleEdit = () => {
+export const useRoles = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
+
+  const [roles, setRoles] = useState<IRole[]>([]);
 
   const getPermissions = useCallback(async (): Promise<
     string[] | undefined
   > => {
-    const perms = await makeRequest<IResponsePermissionsList>(
-      { method: "get", url: API.settings.permissions },
-      "Ошибка при получении списка allowedActions"
-    );
+    const perms = await makeRequest<IResponsePermissionsList>({
+      params: { method: "get", url: API.settings.permissions },
+      customError: "Ошибка при получении списка allowedActions",
+    });
 
     if (!perms) {
       return;
@@ -42,15 +44,17 @@ export const useRoleEdit = () => {
       }
 
       const roleParams = await makeRequest<IResponseRoleParams>({
-        method: "post",
-        url: API.settings.roles,
-        data: {
-          action: "roleGet",
-          roleId,
+        params: {
+          method: "post",
+          url: API.settings.roles,
+          data: {
+            action: "roleGet",
+            roleId,
+          },
         },
       });
 
-      if (!roleParams) {
+      if (!roleParams?.result) {
         return;
       }
 
@@ -60,31 +64,25 @@ export const useRoleEdit = () => {
   );
 
   const getRolesNames = useCallback(async (): Promise<string[] | undefined> => {
-    const rolesNames = await makeRequest<IResponseRolesNames>(
-      { method: "get", url: API.settings.allUsersRolesNames },
-      "Ошибка при получении списка ранее созданных ролей"
-    );
+    const rolesNames = await makeRequest<IResponseRolesNames>({
+      params: { method: "get", url: API.settings.allUsersRolesNames },
+      customError: "Ошибка при получении списка ранее созданных ролей",
+    });
 
-    if (!rolesNames) {
+    if (!rolesNames?.result) {
       return;
     }
 
     return rolesNames?.result?.rolesNames;
   }, [makeRequest]);
 
-  const getUsersLogins = useCallback(async (): Promise<
-    string[] | undefined
-  > => {
-    const usersLogins = await makeRequest<IResponseUsersLogins>(
-      { method: "get", url: API.settings.allUsersRolesNames },
-      "Ошибка при получении списка ранее созданных ролей"
-    );
+  const getRoles = useCallback(async () => {
+    const roles = await makeRequest<IResponseRolesList>({
+      params: { method: "get", url: API.settings.roles },
+      customError: "Ошибка при получении списка ролей",
+    });
 
-    if (!usersLogins) {
-      return;
-    }
-
-    return usersLogins?.result?.usersLogins;
+    setRoles(roles?.result?.roles ?? []);
   }, [makeRequest]);
 
   const editRole = useCallback(
@@ -132,8 +130,8 @@ export const useRoleEdit = () => {
         return;
       }
 
-      await makeRequest(
-        {
+      await makeRequest({
+        params: {
           method: roleId ? "patch" : "post",
           url: API.settings.roles,
           data: roleId
@@ -148,13 +146,38 @@ export const useRoleEdit = () => {
                 allowed_actions: roleData?.allowed_actions,
               },
         },
-        "Ошибка при обработке роли"
-      );
+        customError: "Ошибка при обработке роли",
+        okCallBack: getRoles,
+      });
 
       modalRole.destroy();
     },
-    [getPermissions, getRolesNames, getRoleParams, modal, makeRequest]
+    [getPermissions, getRolesNames, getRoleParams, modal, makeRequest, getRoles]
   );
 
-  return useMemo(() => ({ editRole }), [editRole]);
+  const delRole = useCallback(
+    async (roleId: string) => {
+      await makeRequest({
+        params: {
+          method: "delete",
+          url: API.settings.roles,
+          data: {
+            roleId,
+          },
+        },
+        customError: "Во время удаления роли произошла ошибка",
+        okCallBack: getRoles,
+      });
+    },
+    [makeRequest, getRoles]
+  );
+
+  useEffect(() => {
+    getRoles();
+  }, [getRoles]);
+
+  return useMemo(
+    () => ({ delRole, editRole, roles }),
+    [delRole, editRole, roles]
+  );
 };

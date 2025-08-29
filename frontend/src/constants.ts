@@ -1,5 +1,7 @@
-type entity = "notes";
+type entity = "notes" | "roles" | "users";
 export const NO_DATA: Record<entity, string> = {
+  roles: "Роли отсутствуют",
+  users: "Пользователи отсутствуют",
   notes: "Заметки отсутствуют",
 };
 

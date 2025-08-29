@@ -11,6 +11,8 @@ import {
   AdminUsers,
 } from "@/pages/PageSettings/components";
 import { Title } from "@/views/ViewMain/components";
+import { Loader } from "@/components";
+
 import { Segmented } from "antd";
 
 export const PageSettings = () => {
@@ -33,7 +35,7 @@ export const PageSettings = () => {
   }, [currentItem]);
 
   return (
-    <div>
+    <Loader>
       <Title
         left={
           <Segmented<TSettingsItems>
@@ -46,6 +48,6 @@ export const PageSettings = () => {
         right={<></>}
       />
       {content}
-    </div>
+    </Loader>
   );
 };

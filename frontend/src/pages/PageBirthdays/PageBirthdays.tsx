@@ -1,3 +1,4 @@
+import { Loader } from "@/components";
 import { Content, Title } from "@/views/ViewMain/components";
 import { Button, Flex, Input } from "antd";
 
@@ -5,7 +6,7 @@ const { Search } = Input;
 
 export const PageBirthdays = () => {
   return (
-    <div>
+    <Loader>
       <Title
         left={
           <Button color="blue" variant="solid">
@@ -19,6 +20,6 @@ export const PageBirthdays = () => {
         }
       />
       <Content>123</Content>
-    </div>
+    </Loader>
   );
 };

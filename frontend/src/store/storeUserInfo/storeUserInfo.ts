@@ -8,8 +8,6 @@ interface IUser {
 interface store {
   user: IUser;
   setUser: (user: IUser) => void;
-  loadingUser: boolean;
-  setLoadingUser: (state: boolean) => void;
 }
 
 export const storeUserInfo = create<store>()((set) => ({
@@ -18,6 +16,4 @@ export const storeUserInfo = create<store>()((set) => ({
     allowedActions: [],
   },
   setUser: (user: IUser) => set({ user }),
-  loadingUser: false,
-  setLoadingUser: (state: boolean) => set({ loadingUser: state }),
 }));

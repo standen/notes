@@ -15,17 +15,16 @@ import { App } from "antd";
 export const useAuth = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
-  const { setLoadingUser, setUser } = storeUserInfo();
+  const { setUser } = storeUserInfo();
 
   const getUserInfo = useCallback(async () => {
-    const user = await makeRequest<IResponseAuthUserInfo>(
-      {
+    const user = await makeRequest<IResponseAuthUserInfo>({
+      params: {
         method: "post",
         url: API.auth.userInfo,
       },
-      "Ошибка при получении информации о пользователе",
-      setLoadingUser
-    );
+      customError: "Ошибка при получении информации о пользователе",
+    });
 
     if (!user) {
       return;
@@ -35,13 +34,13 @@ export const useAuth = () => {
       login: user?.userLogin,
       allowedActions: user?.userAllowedActions ?? [],
     });
-  }, [makeRequest, setUser, setLoadingUser]);
+  }, [makeRequest, setUser]);
 
   const logout = useCallback(async () => {
-    await makeRequest(
-      { method: "post", url: API.auth.logout },
-      "Ошибка при выходе из профиля"
-    );
+    await makeRequest({
+      params: { method: "post", url: API.auth.logout },
+      customError: "Ошибка при выходе из профиля",
+    });
 
     getUserInfo();
   }, [getUserInfo, makeRequest]);
@@ -67,8 +66,8 @@ export const useAuth = () => {
 
     const password = await sha256(authData.password);
 
-    await makeRequest(
-      {
+    await makeRequest({
+      params: {
         method: "post",
         url: API.auth.login,
         data: {
@@ -76,8 +75,8 @@ export const useAuth = () => {
           login: authData?.login?.toLocaleLowerCase(),
         },
       },
-      "Ошибка во время авторизации"
-    );
+      customError: "Ошибка во время авторизации",
+    });
 
     getUserInfo();
 

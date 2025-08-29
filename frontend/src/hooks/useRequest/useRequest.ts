@@ -3,52 +3,53 @@ import axios, { type AxiosRequestConfig } from "axios";
 
 import type { IResponse } from "@/api/types";
 
+import { storeRequestLoader } from "@/store";
 import { useReportError } from "@/hooks";
 
 import { App } from "antd";
 
 export const useRequest = () => {
   const { showErrorNotif } = useReportError();
-
   const { notification } = App.useApp();
+  const { setLoad } = storeRequestLoader();
 
   const makeRequest = useCallback(
-    async <T extends IResponse>(
-      params: AxiosRequestConfig,
-      customError?: string,
-      loadCallback?: (load: boolean) => void,
-      customSuccess?: string
-    ) => {
-      loadCallback?.(true);
+    async <T extends IResponse>(indata: {
+      params: AxiosRequestConfig;
+      customError?: string;
+      customSuccess?: string;
+      okCallBack?: () => void;
+    }) => {
+      setLoad(true);
 
       try {
         const result = await axios.request<T>({
-          ...params,
+          ...indata.params,
           withCredentials: true,
         });
 
-        if (result?.data?.message || customSuccess) {
+        if (result?.data?.message || indata?.customSuccess) {
           notification.success({
-            message: result?.data?.message || customSuccess,
+            message: result?.data?.message || indata?.customSuccess,
           });
         }
 
         return result?.data;
       } catch (e) {
-        console.log(e);
         if (axios.isAxiosError(e)) {
           showErrorNotif(
-            e?.response?.data?.message || customError || "Ошибка",
+            e?.response?.data?.message || indata?.customError || "Ошибка",
             e
           );
         } else {
-          notification.error({ message: customError });
+          notification.error({ message: indata?.customError });
         }
       } finally {
-        loadCallback?.(false);
+        setLoad(false);
+        indata?.okCallBack?.();
       }
     },
-    [showErrorNotif, notification]
+    [showErrorNotif, notification, setLoad]
   );
 
   return useMemo(() => ({ makeRequest }), [makeRequest]);

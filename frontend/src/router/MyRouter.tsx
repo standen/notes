@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router";
 
 import { NavMenu } from "@/router/constants";
@@ -12,7 +13,6 @@ import {
   PageBirthdays,
   PageError404,
 } from "@/pages";
-import { useEffect } from "react";
 
 export const MyRouter = () => {
   const { getUserInfo } = useAuth();
