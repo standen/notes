@@ -152,6 +152,8 @@ export const useRoles = () => {
         okCallBack: getRoles,
       });
 
+      // getRoles();
+
       modalRole.destroy();
     },
     [getPermissions, getRolesNames, getRoleParams, modal, makeRequest, getRoles]
@@ -170,6 +172,8 @@ export const useRoles = () => {
         customError: "Во время удаления роли произошла ошибка",
         okCallBack: getRoles,
       });
+
+      // getRoles();
     },
     [makeRequest, getRoles]
   );

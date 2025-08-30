@@ -91,7 +91,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole.objects.get(id=body['roleId']).delete()
+            modelUserRole.objects.filter(id=body.get('roleId')).delete()
             return CustomJsonResponse(message='Роль успешно удалена')
         except:
             return CustomJsonResponse(status=400)
