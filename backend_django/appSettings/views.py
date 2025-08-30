@@ -19,10 +19,10 @@ class viewManageRoles(View):
     def get(self, request):
         try:
             if (request.GET.get('filter') == 'rolesNames'):
-                rolesNames = [role.getRoleName() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
+                rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
                 return CustomJsonResponse(result={'rolesNames': rolesNames})
             
-            roles = [role.returnOne() for role in modelUserRole.objects.filter(is_active=True).order_by("name")]
+            roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
             return CustomJsonResponse(result={'roles': roles})
         except:
             return CustomJsonResponse(status=400)
@@ -35,7 +35,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole(name=body['name'], allowed_actions={'list': body['allowed_actions']}).save()
+            modelUserRole(name=body.get('name'), allowed_actions={'list': body.get('allowed_actions')}).save()
             return CustomJsonResponse(message='Роль успешно создана')
         except:
             return CustomJsonResponse(status=400)
@@ -48,7 +48,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
         
         try:
-            role = modelUserRole.objects.get(id=body.get('roleId'), is_active=True)
+            role = modelUserRole.objects.get(id=body.get('roleId'))
             return CustomJsonResponse(result={'roleParams': role.returnOne()})
         except:
             return CustomJsonResponse(status=400)
@@ -78,7 +78,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole.objects.filter(is_active=True, id=body['roleId']).update(name=body['name'], allowed_actions={'list': body['allowed_actions']})
+            modelUserRole.objects.filter(id=body.get('roleId')).update(name=body.get('name'), allowed_actions={'list': body.get('allowed_actions')})
             return CustomJsonResponse(message='Роль успешно изменена')
         except:
             return CustomJsonResponse(status=400)
@@ -91,7 +91,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUserRole.objects.filter(is_active=True, id=body['roleId']).update(is_active=False)
+            modelUserRole.objects.get(id=body['roleId']).delete()
             return CustomJsonResponse(message='Роль успешно удалена')
         except:
             return CustomJsonResponse(status=400)
@@ -100,10 +100,10 @@ class viewManageUsers(View):
     def get(self, request):
         try:
             if (request.GET.get('filter') == 'logins'):
-                usersLogins = [user.getUserLogin() for user in modelUser.objects.filter(is_active=True).order_by("login")]
+                usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
                 return CustomJsonResponse(result={'usersLogins': usersLogins})
             
-            users = [user.returnOne() for user in modelUser.objects.filter(is_active=True).order_by("login")]
+            users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
             return CustomJsonResponse(result={'users': users})
         except:
             return CustomJsonResponse(status=400)
@@ -147,7 +147,7 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser.objects.filter(id=body['userId']).update(is_active=False)
+            modelUser.objects.get(id=body['userId']).delete()
             return CustomJsonResponse(message='Пользователь успешно удален')
         except:
             return CustomJsonResponse(status=400)

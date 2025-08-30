@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 
-ALLOWED_ACTIONS = [
+ALLOWED_ACTIONS = sorted([
     'USER_CREATE',
     'USER_UPDATE',
     'USER_DELETE',
@@ -19,11 +19,10 @@ ALLOWED_ACTIONS = [
     'BIRTHDAY_READ',
     'BIRTHDAY_DELETE',
     'ACCESS_SETTINGS'
-]
+])
 
 class modelUserRole(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    is_active = models.BooleanField(default=True)
 
     name = models.CharField(max_length=50, unique=True)
     allowed_actions = models.JSONField()
@@ -40,7 +39,7 @@ class modelUserRole(models.Model):
 
 class modelUser(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    is_active = models.BooleanField(default=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -119,7 +119,9 @@ export const useRoles = () => {
             <FormEditRole
               permissions={perms}
               roleParams={roleParams}
-              rolesNames={rolesNames}
+              rolesNames={rolesNames.filter(
+                (item) => item !== roleParams?.name
+              )}
               resolve={resolve}
             />
           ),

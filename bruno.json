@@ -125,7 +125,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"some\": 222\n}",
+              "json": "",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -183,18 +183,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "folder",
-      "name": "pays",
-      "filename": "pays",
-      "seq": 6,
-      "root": {
-        "meta": {
-          "name": "pays",
-          "seq": 6
-        }
-      }
     },
     {
       "type": "folder",
@@ -358,6 +346,18 @@
     },
     {
       "type": "folder",
+      "name": "pays",
+      "filename": "pays",
+      "seq": 6,
+      "root": {
+        "meta": {
+          "name": "pays",
+          "seq": 6
+        }
+      }
+    },
+    {
+      "type": "folder",
       "name": "sett.perm",
       "filename": "sett.perm",
       "seq": 8,
@@ -424,7 +424,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"roleId\": \"\"\n}",
+              "json": "{\n  \"roleId\": \"c7dad2a0-1d10-4a2a-b0cc-37b22bf68ec7\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -533,8 +533,8 @@
         },
         {
           "type": "http",
-          "name": "post",
-          "filename": "post.bru",
+          "name": "roleCreate",
+          "filename": "roleCreate.bru",
           "seq": 5,
           "settings": {},
           "tags": [],
@@ -545,7 +545,36 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"name\": \"admin\",\n  \"allowed_actions\": [\n    \"USER_CREATE\",\n    \"USER_UPDATE\",\n    \"USER_DELETE\",\n    \"ROLE_CREATE\",\n    \"ROLE_UPDATE\",\n    \"ROLE_DELETE\"\n]\n}",
+              "json": "{\n  \"action\": \"roleCreate\",\n  \"name\": \"adminsome\",\n  \"allowed_actions\": [\n    \"USER_CREATE\",\n    \"USER_UPDATE\",\n    \"USER_DELETE\",\n    \"ROLE_CREATE\",\n    \"ROLE_UPDATE\",\n    \"ROLE_DELETE\"\n]\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "roleGet",
+          "filename": "roleGet.bru",
+          "seq": 6,
+          "settings": {},
+          "tags": [],
+          "request": {
+            "url": "http://localhost:3000/settings/roles",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"action\": \"roleGet\",\n  \"roleId\": \"87d8e2b9-38bb-4e72-81cf-3af574c40e2c\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -736,7 +765,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.004555702209472656,
-    "filesCount": 30
+    "size": 0.0047740936279296875,
+    "filesCount": 31
   }
 }
