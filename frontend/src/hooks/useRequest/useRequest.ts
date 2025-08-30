@@ -18,7 +18,6 @@ export const useRequest = () => {
       params: AxiosRequestConfig;
       customError?: string;
       customSuccess?: string;
-      okCallBack?: () => Promise<void>;
     }) => {
       setLoad(true);
 
@@ -45,7 +44,6 @@ export const useRequest = () => {
           notification.error({ message: indata?.customError });
         }
       } finally {
-        await indata?.okCallBack?.();
         setLoad(false);
       }
     },

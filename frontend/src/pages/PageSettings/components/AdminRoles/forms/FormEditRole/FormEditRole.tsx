@@ -71,7 +71,7 @@ export const FormEditRole: FC<Props> = (props) => {
       >
         <Select
           mode="multiple"
-          disabled={!permissions}
+          disabled={permissions?.length === 0}
           placeholder="Перечень допустимых значений..."
           options={permissions?.map((item) => ({
             label: item,

@@ -1,11 +1,11 @@
 import { useMemo, useCallback, useState, useEffect } from "react";
 
-import {
-  type IRole,
-  type IResponsePermissionsList,
-  type IResponseRolesNames,
-  type IResponseRoleParams,
-  type IResponseRolesList,
+import type {
+  IRole,
+  IResponsePermissionsList,
+  IResponseRolesNames,
+  IResponseRoleParams,
+  IResponseRolesList,
 } from "@/api/settings";
 import { type TFormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/FormEditRole";
 
@@ -22,27 +22,17 @@ export const useRoles = () => {
 
   const [roles, setRoles] = useState<IRole[]>([]);
 
-  const getPermissions = useCallback(async (): Promise<
-    string[] | undefined
-  > => {
+  const getPermissions = useCallback(async (): Promise<string[]> => {
     const perms = await makeRequest<IResponsePermissionsList>({
       params: { method: "get", url: API.settings.permissions },
       customError: "Ошибка при получении списка allowedActions",
     });
 
-    if (!perms) {
-      return;
-    }
-
-    return perms?.result?.permissions;
+    return perms?.result?.permissions ?? [];
   }, [makeRequest]);
 
   const getRoleParams = useCallback(
     async (roleId: string): Promise<IRole | undefined> => {
-      if (!roleId) {
-        return;
-      }
-
       const roleParams = await makeRequest<IResponseRoleParams>({
         params: {
           method: "post",
@@ -54,26 +44,18 @@ export const useRoles = () => {
         },
       });
 
-      if (!roleParams?.result) {
-        return;
-      }
-
       return roleParams?.result?.roleParams;
     },
     [makeRequest]
   );
 
-  const getRolesNames = useCallback(async (): Promise<string[] | undefined> => {
+  const getRolesNames = useCallback(async (): Promise<string[]> => {
     const rolesNames = await makeRequest<IResponseRolesNames>({
       params: { method: "get", url: API.settings.allUsersRolesNames },
       customError: "Ошибка при получении списка ранее созданных ролей",
     });
 
-    if (!rolesNames?.result) {
-      return;
-    }
-
-    return rolesNames?.result?.rolesNames;
+    return rolesNames?.result?.rolesNames ?? [];
   }, [makeRequest]);
 
   const getRoles = useCallback(async () => {
@@ -82,7 +64,7 @@ export const useRoles = () => {
       customError: "Ошибка при получении списка ролей",
     });
 
-    setRoles(roles?.result?.roles ?? []);
+    return roles?.result?.roles ?? [];
   }, [makeRequest]);
 
   const editRole = useCallback(
@@ -90,7 +72,7 @@ export const useRoles = () => {
       const perms = await getPermissions();
       const rolesNames = await getRolesNames();
 
-      if (!perms || !rolesNames) {
+      if (perms?.length === 0) {
         return;
       }
 
@@ -149,10 +131,9 @@ export const useRoles = () => {
               },
         },
         customError: "Ошибка при обработке роли",
-        okCallBack: getRoles,
       });
 
-      // getRoles();
+      getRoles();
 
       modalRole.destroy();
     },
@@ -170,20 +151,22 @@ export const useRoles = () => {
           },
         },
         customError: "Во время удаления роли произошла ошибка",
-        okCallBack: getRoles,
       });
 
-      // getRoles();
+      getRoles();
     },
     [makeRequest, getRoles]
   );
 
   useEffect(() => {
-    getRoles();
+    (async () => {
+      const roles = await getRoles();
+      setRoles(roles);
+    })();
   }, [getRoles]);
 
   return useMemo(
-    () => ({ delRole, editRole, roles }),
-    [delRole, editRole, roles]
+    () => ({ delRole, editRole, roles, getRoles }),
+    [delRole, editRole, roles, getRoles]
   );
 };

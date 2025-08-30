@@ -24,7 +24,7 @@ export const AdminRoles = () => {
     <>
       <Title
         left={
-          <Button color="blue" variant="solid" onClick={() => editRole()}>
+          <Button type="primary" onClick={() => editRole()}>
             Добавить роль
           </Button>
         }

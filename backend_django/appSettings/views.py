@@ -109,7 +109,7 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId']))
-    def post(self, request):
+    def postUserCreate(self, request):
         try:
             body = json.loads(request.body)
         except:
@@ -121,6 +121,36 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator(decRequiredBodyParams(['userId']))
+    def postUserGet(self, request):
+        try:
+            body = json.loads(request.body)
+        except:
+            return CustomJsonResponse(status=400)
+        
+        try:
+            user = modelUser.objects.get(id=body.get('userId'))
+            return CustomJsonResponse(result={'userParams': user.returnOne()})
+        except:
+            return CustomJsonResponse(status=400)
+        
+    @method_decorator(decRequiredBodyParams(['action']))
+    def post(self, request):
+        try:
+            action = json.loads(request.body).get('action')
+            
+            if (not action):
+                raise
+            
+            if (action == 'userGet'):
+                return self.postUserGet(request)
+            elif (action == 'userCreate'):
+                return self.postUserCreate(request)
+            else:
+                raise
+        except:
+            return CustomJsonResponse(status=400)
+    
     @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId', 'userId']))
     def patch(self, request):
         try:
@@ -129,10 +159,17 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser.objects.filter(id=body['userId']).update(
-                    login=body['login'], 
-                    password=body['password'], 
-                    role=modelUserRole.objects.get(id=body['roleId']),
+            if (body.get('password') == None):
+                modelUser.objects.filter(id=body.get('userId')).update(
+                    login=body.get('login'), 
+                    role=modelUserRole.objects.get(id=body.get('roleId')),
+                    updated_at = datetime.datetime.now()
+                    )
+            else:
+                modelUser.objects.filter(id=body.get('userId')).update(
+                    login=body.get('login'), 
+                    password=body.get('password'), 
+                    role=modelUserRole.objects.get(id=body.get('roleId')),
                     updated_at = datetime.datetime.now()
                     )
             return CustomJsonResponse(message='Пользователь успешно изменен')
@@ -147,7 +184,7 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser.objects.get(id=body['userId']).delete()
+            modelUser.objects.get(id=body.get('userId')).delete()
             return CustomJsonResponse(message='Пользователь успешно удален')
         except:
             return CustomJsonResponse(status=400)

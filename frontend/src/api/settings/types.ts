@@ -30,8 +30,30 @@ export interface IResponseRoleParams extends IResponse {
   };
 }
 
+export interface IUser {
+  id: string;
+  login: string;
+  password: string;
+  role: {
+    id: string;
+    name: string;
+  };
+}
+
 export interface IResponseUsersLogins extends IResponse {
   result?: {
     usersLogins?: string[];
+  };
+}
+
+export interface IResponseUserParams extends IResponse {
+  result?: {
+    userParams?: IUser;
+  };
+}
+
+export interface IResponseUsersList extends IResponse {
+  result?: {
+    users?: IUser[];
   };
 }

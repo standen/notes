@@ -1,13 +1,7 @@
 ## Необходимые доработки
 
-1. нет проверки на lowerCase
-1. нет проверки, что логин уже существует
-1. upperCase для permissions и logins
-1. choices для mapping values
+1. lowerCase для полей unique=true
 1. если хочешь менять пользователя, то обязательно менять пароль
-1. style header для таблиц
-1. tabs внутри settings через card tabList
-1. note/edit/new - зарезервируй
 1. Кастомный ответ для 404, 405
 
 ## Общие принципы

@@ -46,7 +46,7 @@ class modelUser(models.Model):
     login = models.CharField(unique=True, max_length=50)
     password = models.CharField()
 
-    role = models.ForeignKey(modelUserRole, on_delete=models.PROTECT)
+    role = models.ForeignKey(modelUserRole, on_delete=models.DO_NOTHING)
 
     def returnOne(self):
         return {
