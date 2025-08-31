@@ -5,11 +5,12 @@ import { ERRORS_TEXT } from "@/constants";
 import type { IRole } from "@/api/settings";
 
 import { useReportError } from "@/hooks/useReportError";
-import { storeRequestLoader } from "@/store/storeRequestLoader";
+
+import { Loader } from "@/components";
 
 import { validateRoleName, SYMBOLS_ROLE_NAME } from "./validators";
 
-import { Form, Input, Select, Flex, Button, Spin } from "antd";
+import { Form, Input, Select, Flex, Button } from "antd";
 
 export type TFormEditRole = {
   name: string;
@@ -27,10 +28,9 @@ export const FormEditRole: FC<Props> = (props) => {
   const { permissions, rolesNames, roleParams, resolve } = props;
 
   const { showSimpleError } = useReportError();
-  const { load } = storeRequestLoader();
 
   return (
-    <Spin spinning={load}>
+    <Loader>
       <Form<TFormEditRole>
         layout="vertical"
         autoComplete="off"
@@ -89,6 +89,6 @@ export const FormEditRole: FC<Props> = (props) => {
           </Button>
         </Flex>
       </Form>
-    </Spin>
+    </Loader>
   );
 };

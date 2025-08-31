@@ -5,7 +5,8 @@ import { ERRORS_TEXT } from "@/constants";
 import type { IRole, IUser } from "@/api/settings";
 
 import { useReportError } from "@/hooks/useReportError";
-import { storeRequestLoader } from "@/store/storeRequestLoader";
+
+import { Loader } from "@/components";
 
 import {
   SYMBOLS_USER_LOGIN,
@@ -14,7 +15,7 @@ import {
   validatorUserPassword,
 } from "./validators";
 
-import { Form, Input, Select, Flex, Button, Spin } from "antd";
+import { Form, Input, Select, Flex, Button } from "antd";
 
 export type TFormEditUser = {
   login: string;
@@ -33,10 +34,9 @@ export const FormEditUser: FC<Props> = (props) => {
   const { roles, userParams, userLogins, resolve } = props;
 
   const { showSimpleError } = useReportError();
-  const { load } = storeRequestLoader();
 
   return (
-    <Spin spinning={load}>
+    <Loader>
       <Form<TFormEditUser>
         layout="vertical"
         autoComplete="off"
@@ -148,6 +148,6 @@ export const FormEditUser: FC<Props> = (props) => {
           </Button>
         </Flex>
       </Form>
-    </Spin>
+    </Loader>
   );
 };

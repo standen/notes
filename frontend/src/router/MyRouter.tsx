@@ -9,6 +9,7 @@ import { ViewMain } from "@/views";
 import {
   PageSettings,
   PageNotes,
+  PageNoteEngine,
   PageAccounts,
   PageBirthdays,
   PageError404,
@@ -25,6 +26,7 @@ export const MyRouter = () => {
     <Routes>
       <Route path="" element={<ViewMain />}>
         <Route path={NavMenu.PageAccounts.url} element={<PageAccounts />} />
+        <Route path="/note/:noteLink" element={<PageNoteEngine />} />
         <Route path={NavMenu.PageNotes.url} element={<PageNotes />} />
         <Route path={NavMenu.PageBirthdays.url} element={<PageBirthdays />} />
         <Route path={NavMenu.PageSettings.url} element={<PageSettings />} />
