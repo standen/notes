@@ -19,7 +19,7 @@ export const PageBirthdays = () => {
           </Flex>
         }
       />
-      <Content>123</Content>
+      <Content>В разработке</Content>
     </Loader>
   );
 };

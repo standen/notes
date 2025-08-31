@@ -4,7 +4,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 
 from appAuth.models import modelUser
-from .models import modelNotes
+from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decRequiredBodyParams import decRequiredBodyParams
@@ -12,7 +12,7 @@ from decorators.decRequiredBodyParams import decRequiredBodyParams
 class viewNotes(View):
     def get(self, request):
         try:
-            notes = [note.returnForTable() for note in modelNotes.objects.filter(is_active=True).order_by("name")]
+            notes = [note.returnForTable() for note in modelNotes.objects.all().order_by("name")]
             return CustomJsonResponse(result={'notes': notes})
         except:
             return CustomJsonResponse(status=400)
@@ -88,7 +88,7 @@ class viewNotes(View):
             return CustomJsonResponse(status=400)
         
         try:
-            note = modelNotes.objects.get(link=body['noteLink']).returnOne()
+            note = modelNotes.objects.get(link=body.get('noteLink')).returnOne()
             
             if (note == None):
                 raise
@@ -101,7 +101,7 @@ class viewNotes(View):
             
             if (not note.get('edit_everyone') and request.user_data.get('userLogin') != note['author']['login']):
                 return CustomJsonResponse(status=403)
-                
+            
             modelNotes.objects.filter(link=body.get('noteLink')).update(
                     name = body.get('name'),
                     text = body.get('text'),
@@ -125,7 +125,7 @@ class viewNotes(View):
             return CustomJsonResponse(status=400)
         
         try:
-            note = modelNotes.objects.get(id=body['noteId']).returnOne()
+            note = modelNotes.objects.get(id=body.get('noteId')).returnOne()
             
             if (request.user_data.get('userLogin') == None):
                 return CustomJsonResponse(status=401)
@@ -133,7 +133,15 @@ class viewNotes(View):
             if (request.user_data.get('userLogin') != note['author']['login']):
                 return CustomJsonResponse(status=403)
             
-            modelNotes.objects.filter(id=body.get('noteId')).update(is_active=False)
+            note = modelNotes.objects.get(id=body.get('noteId'))
+            modelNotes.objects.filter(id=body.get('noteId')).delete()
+            modelNotesDeleted(name = note.name,
+                    text = note.text,
+                    link = note.link,
+                    is_cipher = note.is_cipher,
+                    open_for_all = note.open_for_all,
+                    edit_everyone = note.edit_everyone,
+                    owner = note.owner).save()
             return CustomJsonResponse(message='Заметка успешно удалена')
         except:
             return CustomJsonResponse(status=400)

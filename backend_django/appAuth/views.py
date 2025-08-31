@@ -33,7 +33,7 @@ class viewLogin(View):
             return CustomJsonResponse(status=400)
         
         try:
-            user = modelUser.objects.get(login=body['login'], password=body['password'], is_active=True)
+            user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
             
             s = SessionStore()
             s['login'] = user.login

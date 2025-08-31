@@ -10,7 +10,6 @@ class modelNotes(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
 
     name = models.CharField()
     text = models.TextField()
@@ -48,3 +47,18 @@ class modelNotes(models.Model):
                 'login': self.owner.login,
             }
         }
+
+class modelNotesDeleted(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    deleted_at = models.DateTimeField(auto_now_add=True)
+    
+    name = models.CharField()
+    text = models.TextField()
+    link = models.CharField()
+    
+    is_cipher = models.BooleanField(default=False)
+    open_for_all = models.BooleanField(default=False)
+    edit_everyone = models.BooleanField(default=False)
+
+    owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)
