@@ -12,6 +12,10 @@ from decorators.decRequiredBodyParams import decRequiredBodyParams
 class viewNotes(View):
     def get(self, request):
         try:
+            if (request.GET.get('filter') == 'links'):
+                notesLinks = [note.getNoteLink() for note in modelNotes.objects.all().order_by("name")]
+                return CustomJsonResponse(result={'notesLinks': notesLinks})
+            
             notes = [note.returnForTable() for note in modelNotes.objects.all().order_by("name")]
             return CustomJsonResponse(result={'notes': notes})
         except:

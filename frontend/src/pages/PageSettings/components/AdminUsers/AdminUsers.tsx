@@ -38,10 +38,12 @@ export const AdminUsers = () => {
         <List
           size="small"
           dataSource={users?.filter((item) =>
-            item?.login?.includes(searchString)
+            item?.login
+              ?.toLocaleLowerCase()
+              ?.includes(searchString?.toLocaleLowerCase())
           )}
           renderItem={(item) => (
-            <List.Item key={""}>
+            <List.Item key={item?.id}>
               <Flex gap={8}>
                 <Tag>{item?.role?.name}</Tag>
                 <div>{item?.login}</div>

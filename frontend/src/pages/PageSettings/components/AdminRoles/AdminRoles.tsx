@@ -42,7 +42,9 @@ export const AdminRoles = () => {
         <List
           size="small"
           dataSource={roles.filter((item) =>
-            item?.name?.includes(searchString)
+            item?.name
+              ?.toLocaleLowerCase()
+              ?.includes(searchString?.toLocaleLowerCase())
           )}
           renderItem={(item) => (
             <List.Item key={item?.id}>

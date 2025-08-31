@@ -200,7 +200,7 @@
           "type": "http",
           "name": "create",
           "filename": "create.bru",
-          "seq": 3,
+          "seq": 4,
           "settings": {},
           "tags": [],
           "request": {
@@ -229,7 +229,7 @@
           "type": "http",
           "name": "delete",
           "filename": "delete.bru",
-          "seq": 5,
+          "seq": 6,
           "settings": {
             "encodeUrl": true
           },
@@ -288,7 +288,7 @@
           "type": "http",
           "name": "getOne",
           "filename": "getOne.bru",
-          "seq": 2,
+          "seq": 3,
           "settings": {},
           "tags": [],
           "request": {
@@ -298,7 +298,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"action\": \"noteGet\",\n  \"noteLink\": \"music\"\n}",
+              "json": "{\n  \"action\": \"noteGet\",\n  \"noteLink\": \"films\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -317,7 +317,7 @@
           "type": "http",
           "name": "update",
           "filename": "update.bru",
-          "seq": 4,
+          "seq": 5,
           "settings": {},
           "tags": [],
           "request": {
@@ -327,7 +327,42 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"noteLink\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": false,\n  \"edit_everyone\": true\n}",
+              "json": "{\n  \"name\": \"Музыка\",\n  \"text\": \"text\",\n  \"noteLink\": \"music\",\n  \"is_cipher\": true,\n  \"open_for_all\": true,\n  \"edit_everyone\": true\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "getNotesLinks",
+          "filename": "getNotesLinks.bru",
+          "seq": 2,
+          "settings": {},
+          "tags": [],
+          "request": {
+            "url": "http://localhost:3000/notes?filter=links",
+            "method": "GET",
+            "headers": [],
+            "params": [
+              {
+                "name": "filter",
+                "value": "links",
+                "type": "query",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -424,7 +459,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"roleId\": \"c7dad2a0-1d10-4a2a-b0cc-37b22bf68ec7\"\n}",
+              "json": "{\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -607,7 +642,7 @@
           "type": "http",
           "name": "delete",
           "filename": "delete.bru",
-          "seq": 5,
+          "seq": 6,
           "settings": {},
           "tags": [],
           "request": {
@@ -699,7 +734,7 @@
           "type": "http",
           "name": "patch",
           "filename": "patch.bru",
-          "seq": 4,
+          "seq": 5,
           "settings": {},
           "tags": [],
           "request": {
@@ -726,8 +761,37 @@
         },
         {
           "type": "http",
-          "name": "post",
-          "filename": "post.bru",
+          "name": "userCreate",
+          "filename": "userCreate.bru",
+          "seq": 4,
+          "settings": {},
+          "tags": [],
+          "request": {
+            "url": "http://localhost:3000/settings/users",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"action\": \"userCreate\",\n  \"login\": \"standen4444\",\n  \"password\": \"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "userGet",
+          "filename": "userGet.bru",
           "seq": 3,
           "settings": {},
           "tags": [],
@@ -738,7 +802,7 @@
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"login\": \"standen2\",\n  \"password\": \"a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3\",\n  \"roleId\": \"4150afd7-9cb5-4cc9-99f9-657ee0ec0d90\"\n}",
+              "json": "{\n  \"action\": \"userGet\",\n  \"userId\": \"6b6aa08c-5263-4940-9065-9aea56f99a7e\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -765,7 +829,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.0047740936279296875,
-    "filesCount": 31
+    "size": 0.005064964294433594,
+    "filesCount": 32
   }
 }

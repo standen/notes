@@ -5,12 +5,13 @@ import type {
   IResponseUserParams,
   IResponseUsersList,
   IResponseUsersLogins,
+  IResponseRolesList,
+  IRole,
 } from "@/api/settings";
 import type { TFormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
 
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
-import { useRoles } from "@/pages/PageSettings/components/AdminRoles/hooks";
 
 import { FormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
 
@@ -20,9 +21,17 @@ import { sha256 } from "@/utils";
 export const useUsers = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
-  const { getRoles } = useRoles();
 
   const [users, setUsers] = useState<IUser[]>([]);
+
+  const getRoles = useCallback(async (): Promise<IRole[]> => {
+    const roles = await makeRequest<IResponseRolesList>({
+      params: { method: "get", url: API.settings.roles },
+      customError: "Ошибка при получении списка ролей",
+    });
+
+    return roles?.result?.roles ?? [];
+  }, [makeRequest]);
 
   const getUsersLogins = useCallback(async (): Promise<string[]> => {
     const usersLogins = await makeRequest<IResponseUsersLogins>({
