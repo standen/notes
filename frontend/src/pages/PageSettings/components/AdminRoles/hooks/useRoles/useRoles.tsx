@@ -64,6 +64,7 @@ export const useRoles = () => {
       customError: "Ошибка при получении списка ролей",
     });
 
+    setRoles(roles?.result?.roles ?? []);
     return roles?.result?.roles ?? [];
   }, [makeRequest]);
 
@@ -159,10 +160,7 @@ export const useRoles = () => {
   );
 
   useEffect(() => {
-    (async () => {
-      const roles = await getRoles();
-      setRoles(roles);
-    })();
+    getRoles();
   }, [getRoles]);
 
   return useMemo(

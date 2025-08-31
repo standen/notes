@@ -151,7 +151,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId', 'userId']))
+    @method_decorator(decRequiredBodyParams(['login', 'roleId', 'userId']))
     def patch(self, request):
         try:
             body = json.loads(request.body)

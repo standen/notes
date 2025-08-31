@@ -3,8 +3,7 @@ import {
   uint8ArrayToStringHex,
 } from "@/utils/encoding";
 
-export const sha256 = async (message?: string) => {
-  if (!message) return "";
+export const sha256 = async (message: string) => {
   const hashBuffer = await crypto.subtle.digest(
     "SHA-256",
     stringAlphabetToUint8Array(message)

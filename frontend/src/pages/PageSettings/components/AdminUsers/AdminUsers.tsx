@@ -12,7 +12,7 @@ import { CloseOutlined, EditOutlined } from "@ant-design/icons";
 const { Search } = Input;
 
 export const AdminUsers = () => {
-  const { users, editUser } = useUsers();
+  const { users, editUser, delUser } = useUsers();
 
   const [searchString, setSearchString] = useState<string>("");
 
@@ -54,7 +54,7 @@ export const AdminUsers = () => {
                 <Popconfirm
                   title={`Удалить пользователя '${item?.login}'`}
                   description="Это действие необратимо"
-                  onConfirm={() => {}}
+                  onConfirm={() => delUser(item?.id)}
                   okText="Удалить"
                   cancelText="Нет"
                   okType="danger"

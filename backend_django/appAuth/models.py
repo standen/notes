@@ -35,7 +35,7 @@ class modelUserRole(models.Model):
         }
     
     def getRoleName(self):
-        return self.name
+        return self.name.lower()
 
 class modelUser(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -62,4 +62,4 @@ class modelUser(models.Model):
         return self.role.allowed_actions['list']
     
     def getUserLogin(self):
-        return self.login
+        return self.login.lower()

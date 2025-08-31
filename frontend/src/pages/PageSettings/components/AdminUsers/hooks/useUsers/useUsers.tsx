@@ -15,6 +15,7 @@ import { useRoles } from "@/pages/PageSettings/components/AdminRoles/hooks";
 import { FormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
 
 import { App } from "antd";
+import { sha256 } from "@/utils";
 
 export const useUsers = () => {
   const { modal } = App.useApp();
@@ -41,6 +42,7 @@ export const useUsers = () => {
       customError: "Ошибка при получении списка пользователей",
     });
 
+    setUsers(users?.result?.users ?? []);
     return users?.result?.users ?? [];
   }, [makeRequest]);
 
@@ -110,21 +112,26 @@ export const useUsers = () => {
         return;
       }
 
+      let pass = null;
+      if (userData?.password) {
+        pass = await sha256(userData?.password);
+      }
+
       await makeRequest({
         params: {
-          method: userData ? "patch" : "post",
+          method: userId ? "patch" : "post",
           url: API.settings.users,
           data: userId
             ? {
                 userId,
                 login: userData?.login,
-                password: userData?.password,
+                password: pass,
                 roleId: userData?.roleId,
               }
             : {
                 action: "userCreate",
                 login: userData?.login,
-                password: userData?.password,
+                password: pass,
                 roleId: userData?.roleId,
               },
         },
@@ -138,12 +145,30 @@ export const useUsers = () => {
     [getRoles, getUsersLogins, getUserParams, modal, getUsers, makeRequest]
   );
 
+  const delUser = useCallback(
+    async (userId: string) => {
+      await makeRequest({
+        params: {
+          method: "delete",
+          url: API.settings.users,
+          data: {
+            userId,
+          },
+        },
+        customError: "Во время удаления пользователя произошла ошибка",
+      });
+
+      getUsers();
+    },
+    [makeRequest, getUsers]
+  );
+
   useEffect(() => {
-    (async () => {
-      const users = await getUsers();
-      setUsers(users);
-    })();
+    getUsers();
   }, [getUsers]);
 
-  return useMemo(() => ({ editUser, users }), [editUser, users]);
+  return useMemo(
+    () => ({ editUser, delUser, users }),
+    [editUser, delUser, users]
+  );
 };
