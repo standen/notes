@@ -5,11 +5,13 @@ import { NavMenu } from "@/router/constants";
 
 import { useAuth } from "@/hooks";
 
+import { Loader } from "@/components";
 import { ViewMain } from "@/views";
 import {
   PageSettings,
   PageNotes,
   PageNoteEngine,
+  PageNoteView,
   PageAccounts,
   PageBirthdays,
   PageError404,
@@ -24,13 +26,36 @@ export const MyRouter = () => {
 
   return (
     <Routes>
-      <Route path="" element={<ViewMain />}>
+      <Route
+        path=""
+        element={
+          <Loader>
+            <ViewMain />
+          </Loader>
+        }
+      >
         <Route path={NavMenu.PageAccounts.url} element={<PageAccounts />} />
-        <Route path="/note/:noteLink" element={<PageNoteEngine />} />
         <Route path={NavMenu.PageNotes.url} element={<PageNotes />} />
         <Route path={NavMenu.PageBirthdays.url} element={<PageBirthdays />} />
         <Route path={NavMenu.PageSettings.url} element={<PageSettings />} />
       </Route>
+
+      <Route
+        path="/note/:noteLink"
+        element={
+          <Loader>
+            <PageNoteView />
+          </Loader>
+        }
+      />
+      <Route
+        path="/editnote"
+        element={
+          <Loader>
+            <PageNoteEngine />
+          </Loader>
+        }
+      />
 
       <Route path="*" element={<PageError404 />} />
     </Routes>

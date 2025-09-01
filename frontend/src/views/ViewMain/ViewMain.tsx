@@ -1,8 +1,11 @@
 import { Outlet } from "react-router";
+import classNames from "classnames/bind";
 
 import { HeaderMenu, UserKey, UserProfile } from "@/components";
 import { Layout, Flex } from "antd";
 
+import styles from "./styles.module.scss";
+const cx = classNames.bind(styles);
 const { Header } = Layout;
 
 export const ViewMain = () => {
@@ -17,7 +20,9 @@ export const ViewMain = () => {
           </div>
         </Flex>
       </Header>
-      <Outlet />
+      <div className={cx("content")}>
+        <Outlet />
+      </div>
     </Layout>
   );
 };

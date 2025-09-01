@@ -4,7 +4,6 @@ import { NO_DATA } from "@/constants";
 
 import { useNotes } from "@/pages/PageNotes/hooks";
 
-import { Loader } from "@/components";
 import { Content, Title } from "@/views/ViewMain/components";
 
 import { Button, Flex, Input, List, Popconfirm, Tag } from "antd";
@@ -18,7 +17,7 @@ export const PageNotes = () => {
   const [searchString, setSearchString] = useState<string>("");
 
   return (
-    <Loader>
+    <>
       <Title
         left={
           <Button color="blue" variant="solid">
@@ -70,6 +69,6 @@ export const PageNotes = () => {
           locale={{ emptyText: NO_DATA.notes }}
         />
       </Content>
-    </Loader>
+    </>
   );
 };
