@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
+import { NavMenu } from "@/router/constants";
 import { NO_DATA } from "@/constants";
 
 import { useNotes } from "@/pages/PageNotes/hooks";
@@ -13,6 +15,8 @@ const { Search } = Input;
 
 export const PageNotes = () => {
   const { notes } = useNotes();
+
+  const navigate = useNavigate();
 
   const [searchString, setSearchString] = useState<string>("");
 
@@ -51,7 +55,11 @@ export const PageNotes = () => {
               <Flex gap={8}>
                 <EditOutlined
                   style={{ cursor: "pointer" }}
-                  onClick={() => {}}
+                  onClick={() =>
+                    navigate(NavMenu.PageNoteEngine.url, {
+                      state: { noteLink: item?.link },
+                    })
+                  }
                 />
                 <Popconfirm
                   title={`Удалить заметку '${item?.link}'`}

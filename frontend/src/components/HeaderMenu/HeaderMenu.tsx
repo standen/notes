@@ -21,13 +21,16 @@ export const HeaderMenu = () => {
       theme="dark"
       mode="horizontal"
       defaultSelectedKeys={[
-        PAGES_NAMES.find((item) => NavMenu[item]?.url === location.pathname) ??
-          PAGES_NAMES[0],
+        PAGES_NAMES?.find(
+          (item) => NavMenu?.[item]?.url === location?.pathname
+        ) ?? "",
       ]}
-      items={PAGES_NAMES.map((item) => ({
-        key: item,
-        label: NavMenu[item]?.title,
-      }))}
+      items={PAGES_NAMES.filter((item) => NavMenu?.[item]?.isMenuItem).map(
+        (item) => ({
+          key: item,
+          label: NavMenu?.[item]?.title,
+        })
+      )}
       style={{ flex: 1, minWidth: 0 }}
       onSelect={({ key }) =>
         navigate(NavMenu[key as TMenuPagesNames]?.url ?? PAGES_NAMES[0])

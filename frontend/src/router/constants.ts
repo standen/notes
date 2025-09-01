@@ -4,17 +4,26 @@ export const NavMenu: TNavMenu = {
   PageAccounts: {
     title: "Аккаунты",
     url: "/",
+    isMenuItem: true,
   },
   PageNotes: {
     title: "Заметки",
     url: "/notes",
+    isMenuItem: true,
+  },
+  PageNoteEngine: {
+    title: "Редактирование заметки",
+    url: "/editnote",
+    isMenuItem: false,
   },
   PageBirthdays: {
     title: "Дни рождения",
     url: "/birthdays",
+    isMenuItem: true,
   },
   PageSettings: {
     title: "Настройки",
     url: "/settings",
+    isMenuItem: true,
   },
 };
