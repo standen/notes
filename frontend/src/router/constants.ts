@@ -17,7 +17,7 @@ export const NavMenu: TNavMenu = {
     isMenuItem: false,
   },
   PageBirthdays: {
-    title: "Дни рождения",
+    title: "События",
     url: "/birthdays",
     isMenuItem: true,
   },

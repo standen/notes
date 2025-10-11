@@ -14,7 +14,7 @@ export const PageBirthdays = () => {
         }
         right={
           <Flex>
-            <Search placeholder="Поиск по ФИО" allowClear />
+            <Search placeholder="Поиск события" allowClear />
           </Flex>
         }
       />

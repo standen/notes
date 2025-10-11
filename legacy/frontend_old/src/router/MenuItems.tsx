@@ -16,7 +16,7 @@ export const MenuItems: TNavbarPage = {
   PageBirthdays: {
     description: "Страница с днями рождения",
     link: "/birthdays",
-    title: "Дни рождения",
+    title: "События",
     icon: <i className="fa-solid fa-cake-candles" />,
   },
   PagePayments: {
