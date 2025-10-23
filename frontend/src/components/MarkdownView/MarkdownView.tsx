@@ -1,1 +1,3 @@
-export const MarkdownView = () => {};
+export const MarkdownView = () => {
+  return <>markdown</>;
+};

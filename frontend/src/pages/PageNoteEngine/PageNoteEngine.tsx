@@ -1,14 +1,19 @@
-import { type FC } from "react";
+import { useEffect, type FC } from "react";
 import { useNavigate, useLocation } from "react-router";
+import classNames from "classnames/bind";
 
 import { NavMenu } from "@/router/constants";
 
 import { useNoteToggles } from "@/pages/PageNoteEngine/components/NoteToggles/hooks";
 
+import { MarkdownView, MarkdownEditor } from "@/components";
 import { Content, Title } from "@/views/ViewMain/components";
 import { NoteToggles } from "./components";
 
-import { Flex, Button } from "antd";
+import { Flex, Button, Tag, Alert } from "antd";
+
+import styles from "./styles.module.scss";
+const cx = classNames.bind(styles);
 
 export const PageNoteEngine: FC = () => {
   const { open, edit, cipher, changeOpen, changeEdit, changeCipher } =
@@ -17,20 +22,33 @@ export const PageNoteEngine: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location?.state?.noteLink);
+  useEffect(() => {
+    if (location?.state?.noteLink) {
+      console.log(location?.state?.noteLink);
+    }
+  }, [location?.state?.noteLink]);
+
+  if (!location?.state?.noteLink) {
+    return "Заметка не существует!";
+  }
 
   return (
     <>
       <Title
         left={
-          <NoteToggles
-            open={open}
-            edit={edit}
-            cipher={cipher}
-            changeOpen={changeOpen}
-            changeEdit={changeEdit}
-            changeCipher={changeCipher}
-          />
+          <>
+            <NoteToggles
+              open={open}
+              edit={edit}
+              cipher={cipher}
+              changeOpen={changeOpen}
+              changeEdit={changeEdit}
+              changeCipher={changeCipher}
+            />
+            <Tag>{location?.state?.noteLink}</Tag>
+            <Tag>{location?.state?.noteLink}</Tag>
+            <Alert message="123" />
+          </>
         }
         right={
           <Flex gap={8}>
@@ -41,7 +59,14 @@ export const PageNoteEngine: FC = () => {
           </Flex>
         }
       />
-      <Content>123</Content>
+      <div className={cx("noteEditContent")}>
+        <Content>
+          <MarkdownView />
+        </Content>
+        <Content>
+          <MarkdownEditor />
+        </Content>
+      </div>
     </>
   );
 };
