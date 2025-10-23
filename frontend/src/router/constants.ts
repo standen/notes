@@ -16,9 +16,9 @@ export const NavMenu: TNavMenu = {
     url: "/editnote",
     isMenuItem: false,
   },
-  PageBirthdays: {
+  PageEvents: {
     title: "События",
-    url: "/birthdays",
+    url: "/events",
     isMenuItem: true,
   },
   PageSettings: {

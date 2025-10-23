@@ -3,7 +3,7 @@ import { Button, Flex, Input } from "antd";
 
 const { Search } = Input;
 
-export const PageBirthdays = () => {
+export const PageEvents = () => {
   return (
     <>
       <Title

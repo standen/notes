@@ -2,7 +2,7 @@ const PAGE_PREFIX = "Page";
 export const PAGES_NAMES = [
   `${PAGE_PREFIX}Accounts`,
   `${PAGE_PREFIX}Notes`,
-  `${PAGE_PREFIX}Birthdays`,
+  `${PAGE_PREFIX}Events`,
   `${PAGE_PREFIX}Settings`,
   `${PAGE_PREFIX}NoteEngine`,
 ] as const;

@@ -13,7 +13,7 @@ import {
   PageNoteEngine,
   PageNoteView,
   PageAccounts,
-  PageBirthdays,
+  PageEvents,
   PageError404,
 } from "@/pages";
 
@@ -37,7 +37,7 @@ export const MyRouter = () => {
         <Route path={NavMenu.PageAccounts.url} element={<PageAccounts />} />
         <Route path={NavMenu.PageNotes.url} element={<PageNotes />} />
         <Route path="/editnote" element={<PageNoteEngine />} />
-        <Route path={NavMenu.PageBirthdays.url} element={<PageBirthdays />} />
+        <Route path={NavMenu.PageEvents.url} element={<PageEvents />} />
         <Route path={NavMenu.PageSettings.url} element={<PageSettings />} />
       </Route>
 

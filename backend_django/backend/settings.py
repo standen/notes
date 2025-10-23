@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'appAuth',
     'appAccounts',
     'appNotes',
-    'appBirthdays',
+    'appEvents',
     'appSettings'
 ]
 

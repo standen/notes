@@ -20,6 +20,6 @@ urlpatterns = [
     path('auth', include('appAuth.urls')),
     path('accounts', include('appAccounts.urls')),
     path('notes', include('appNotes.urls')),
-    path('birthdays', include('appBirthdays.urls')),
+    path('events', include('appEvents.urls')),
     path('settings', include('appSettings.urls')),
 ]
