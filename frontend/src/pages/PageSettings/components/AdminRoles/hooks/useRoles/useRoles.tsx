@@ -46,7 +46,7 @@ export const useRoles = () => {
 
       return roleParams?.result?.roleParams;
     },
-    [makeRequest]
+    [makeRequest],
   );
 
   const getRolesNames = useCallback(async (): Promise<string[]> => {
@@ -103,12 +103,12 @@ export const useRoles = () => {
               permissions={perms}
               roleParams={roleParams}
               rolesNames={rolesNames.filter(
-                (item) => item !== roleParams?.name
+                (item) => item !== roleParams?.name,
               )}
               resolve={resolve}
             />
           ),
-        })
+        }),
       );
 
       if (!roleData) {
@@ -138,7 +138,14 @@ export const useRoles = () => {
 
       modalRole.destroy();
     },
-    [getPermissions, getRolesNames, getRoleParams, modal, makeRequest, getRoles]
+    [
+      getPermissions,
+      getRolesNames,
+      getRoleParams,
+      modal,
+      makeRequest,
+      getRoles,
+    ],
   );
 
   const delRole = useCallback(
@@ -156,7 +163,7 @@ export const useRoles = () => {
 
       getRoles();
     },
-    [makeRequest, getRoles]
+    [makeRequest, getRoles],
   );
 
   useEffect(() => {
@@ -165,6 +172,6 @@ export const useRoles = () => {
 
   return useMemo(
     () => ({ delRole, editRole, roles, getRoles }),
-    [delRole, editRole, roles, getRoles]
+    [delRole, editRole, roles, getRoles],
   );
 };

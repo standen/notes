@@ -29,9 +29,9 @@ export const MyRouter = () => {
       <Route
         path=""
         element={
-          <Loader>
+          <Loader.body>
             <ViewMain />
-          </Loader>
+          </Loader.body>
         }
       >
         <Route path={NavMenu.PageAccounts.url} element={<PageAccounts />} />
@@ -44,9 +44,9 @@ export const MyRouter = () => {
       <Route
         path="/note/:noteLink"
         element={
-          <Loader>
+          <Loader.body>
             <PageNoteView />
-          </Loader>
+          </Loader.body>
         }
       />
 

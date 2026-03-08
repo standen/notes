@@ -14,13 +14,13 @@ export const ViewMain = () => {
       <Header>
         <Flex align="center" gap={8} justify="space-between">
           <HeaderMenu />
-          <div>
+          <div className={cx(["keyProfile"])}>
             <UserKey />
             <UserProfile />
           </div>
         </Flex>
       </Header>
-      <div className={cx("content")}>
+      <div className={cx(["content"])}>
         <Outlet />
       </div>
     </Layout>

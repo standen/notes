@@ -11,15 +11,18 @@ import { App } from "antd";
 export const useRequest = () => {
   const { showErrorNotif } = useReportError();
   const { notification } = App.useApp();
-  const { setLoad } = storeRequestLoader();
+  const { setLoad, setLoadModal } = storeRequestLoader();
 
   const makeRequest = useCallback(
-    async <T extends IResponse>(indata: {
-      params: AxiosRequestConfig;
-      customError?: string;
-      customSuccess?: string;
-    }) => {
-      setLoad(true);
+    async <T extends IResponse>(
+      indata: {
+        params: AxiosRequestConfig;
+        customError?: string;
+        customSuccess?: string;
+      },
+      isModal?: boolean,
+    ) => {
+      isModal ? setLoadModal(true) : setLoad(true);
 
       try {
         const result = await axios.request<T>({
@@ -38,16 +41,16 @@ export const useRequest = () => {
         if (axios.isAxiosError(e)) {
           showErrorNotif(
             e?.response?.data?.message || indata?.customError || "Ошибка",
-            e
+            e,
           );
         } else {
           notification.error({ message: indata?.customError });
         }
       } finally {
-        setLoad(false);
+        isModal ? setLoadModal(false) : setLoad(false);
       }
     },
-    [showErrorNotif, notification, setLoad]
+    [showErrorNotif, notification, setLoad],
   );
 
   return useMemo(() => ({ makeRequest }), [makeRequest]);

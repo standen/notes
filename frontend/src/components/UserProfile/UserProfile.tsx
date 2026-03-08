@@ -1,9 +1,13 @@
 import { useMemo } from "react";
+import classNames from "classnames/bind";
 
 import { storeUserInfo } from "@/store";
 import { useAuth } from "@/hooks";
 
 import { Tag, Popconfirm } from "antd";
+
+import styles from "./styles.module.scss";
+const cx = classNames.bind(styles);
 
 export const UserProfile = () => {
   const { auth, logout } = useAuth();
@@ -14,8 +18,8 @@ export const UserProfile = () => {
       return (
         <Tag
           color="blue"
-          bordered={false}
-          style={{ cursor: "pointer" }}
+          variant="filled"
+          className={cx(["tagToLink"])}
           onClick={auth}
         >
           Авторизоваться
@@ -33,8 +37,8 @@ export const UserProfile = () => {
       >
         <Tag
           color="blue-inverse"
-          bordered={false}
-          style={{ cursor: "pointer" }}
+          variant="filled"
+          className={cx(["tagToLink"])}
         >
           {user?.login}
         </Tag>

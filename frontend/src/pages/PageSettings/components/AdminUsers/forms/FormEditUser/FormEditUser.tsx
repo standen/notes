@@ -36,7 +36,7 @@ export const FormEditUser: FC<Props> = (props) => {
   const { showSimpleError } = useReportError();
 
   return (
-    <Loader>
+    <Loader.body>
       <Form<TFormEditUser>
         layout="vertical"
         autoComplete="off"
@@ -148,6 +148,6 @@ export const FormEditUser: FC<Props> = (props) => {
           </Button>
         </Flex>
       </Form>
-    </Loader>
+    </Loader.body>
   );
 };
