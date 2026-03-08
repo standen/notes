@@ -1065,6 +1065,18 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.59.0.tgz#4584a8a87b29188a4c1fe987a9fcf701e256d86c"
   integrity sha512-2HRCml6OztYXyJXAvdDXPKcawukWY2GpR5/nxKp4iBgiO3wcoEGkAaqctIbZcNB6KlUQBIqt8VYkNSj2397EfA==
 
+"@standen/crypto@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@standen/crypto/-/crypto-0.0.4.tgz#a1ce6787ed9491e2a3712d88073b8c3df504f780"
+  integrity sha512-JytSQNh83drKSRFgBAOh8mylaQYuGTbCBUZS7suMgneGVvGERC0x/hfsW9i/TrnzNy+l+6LXa3FfyFTnYaE2IQ==
+  dependencies:
+    "@standen/encoding" "^0.0.5"
+
+"@standen/encoding@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@standen/encoding/-/encoding-0.0.5.tgz#ad6476008ee895b765c0fd29ec07cef34e40bb15"
+  integrity sha512-ibPYJzI6b2+nzfR1It/B0y+OSxJ9sIuFAokFz6Qf8aogwgk55qsEMMcXlqqUK4k3u+i7o3eK1rQI3skL3RHtwQ==
+
 "@swc/core-darwin-arm64@1.15.18":
   version "1.15.18"
   resolved "https://registry.yarnpkg.com/@swc/core-darwin-arm64/-/core-darwin-arm64-1.15.18.tgz#fb487392f7bbe3179166b9b0d128916e39a627af"

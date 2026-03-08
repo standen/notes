@@ -5,7 +5,6 @@ import type { TFormAuth } from "@/hooks/useAuth/forms/FormAuth";
 
 import { API } from "@/api";
 import { useRequest } from "@/hooks";
-import { sha256 } from "@/utils";
 import { storeUserInfo } from "@/store";
 
 import { FormAuth } from "@/hooks/useAuth/forms";
@@ -56,7 +55,7 @@ export const useAuth = () => {
     });
 
     const authData = await new Promise<TFormAuth>((resolve) =>
-      modalAuth.update({ content: <FormAuth resolve={resolve} /> })
+      modalAuth.update({ content: <FormAuth resolve={resolve} /> }),
     );
 
     if (!authData) {
@@ -64,7 +63,8 @@ export const useAuth = () => {
       return;
     }
 
-    const password = await sha256(authData.password);
+    // TODO: sha256 password
+    const password = authData.password;
 
     await makeRequest({
       params: {
@@ -85,6 +85,6 @@ export const useAuth = () => {
 
   return useMemo(
     () => ({ auth, getUserInfo, logout }),
-    [auth, getUserInfo, logout]
+    [auth, getUserInfo, logout],
   );
 };

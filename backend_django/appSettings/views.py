@@ -116,7 +116,7 @@ class viewManageUsers(View):
             return CustomJsonResponse(status=400)
         
         try:
-            modelUser(login=body['login'], password=['password'], role=modelUserRole.objects.get(id=body['roleId'])).save()
+            modelUser(login=body.get('login'), password=body.get('password'), role=modelUserRole.objects.get(id=body.get('roleId'))).save()
             return CustomJsonResponse(message='Пользователь успешно создан')
         except:
             return CustomJsonResponse(status=400)

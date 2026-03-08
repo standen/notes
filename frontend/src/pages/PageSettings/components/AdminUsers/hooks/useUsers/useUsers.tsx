@@ -16,7 +16,6 @@ import { API } from "@/api";
 import { FormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
 
 import { App } from "antd";
-import { sha256 } from "@/utils";
 
 export const useUsers = () => {
   const { modal } = App.useApp();
@@ -71,7 +70,7 @@ export const useUsers = () => {
 
       return userParams?.result?.userParams;
     },
-    [makeRequest]
+    [makeRequest],
   );
 
   const editUser = useCallback(
@@ -109,12 +108,12 @@ export const useUsers = () => {
               roles={roles}
               userParams={userParams}
               userLogins={userLogins?.filter(
-                (item) => item !== userParams?.login
+                (item) => item !== userParams?.login,
               )}
               resolve={resolve}
             />
           ),
-        })
+        }),
       );
 
       if (!userData) {
@@ -123,7 +122,8 @@ export const useUsers = () => {
 
       let pass = null;
       if (userData?.password) {
-        pass = await sha256(userData?.password);
+        // TODO: sha256 password
+        pass = userData?.password;
       }
 
       await makeRequest({
@@ -151,7 +151,7 @@ export const useUsers = () => {
 
       modalUser.destroy();
     },
-    [getRoles, getUsersLogins, getUserParams, modal, getUsers, makeRequest]
+    [getRoles, getUsersLogins, getUserParams, modal, getUsers, makeRequest],
   );
 
   const delUser = useCallback(
@@ -169,7 +169,7 @@ export const useUsers = () => {
 
       getUsers();
     },
-    [makeRequest, getUsers]
+    [makeRequest, getUsers],
   );
 
   useEffect(() => {
@@ -178,6 +178,6 @@ export const useUsers = () => {
 
   return useMemo(
     () => ({ editUser, delUser, users }),
-    [editUser, delUser, users]
+    [editUser, delUser, users],
   );
 };
