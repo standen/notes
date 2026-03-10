@@ -8,8 +8,6 @@ import { useReportError } from "@/hooks/useReportError";
 
 import { Loader } from "@/components";
 
-import { validateRoleName, SYMBOLS_ROLE_NAME } from "./validators";
-
 import { Form, Input, Select, Flex, Button } from "antd";
 
 export type TFormEditRole = {
@@ -41,12 +39,14 @@ export const FormEditRole: FC<Props> = (props) => {
           name="name"
           initialValue={roleParams?.name}
           label="Наименование роли"
-          tooltip={`Допустимые символы: "${SYMBOLS_ROLE_NAME}"`}
+          // TODO
+          tooltip={`Допустимые символы: ""`}
           rules={[
             { required: true, message: ERRORS_TEXT.required },
             {
               validator: (_, value) => {
-                if (!validateRoleName(value)) {
+                // TODO
+                if (false) {
                   return Promise.reject();
                 }
                 return Promise.resolve();

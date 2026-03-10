@@ -36,7 +36,7 @@ export const PageSettings = () => {
   return (
     <>
       <Title
-        left={
+        right={
           <Segmented<TSettingsItems>
             defaultValue={currentItem}
             shape="round"
@@ -44,7 +44,7 @@ export const PageSettings = () => {
             onChange={setCurrentItem}
           />
         }
-        right={<></>}
+        left={<></>}
       />
       {content}
     </>

@@ -32,7 +32,7 @@ export const useRequest = () => {
 
         if (result?.data?.message || indata?.customSuccess) {
           notification.success({
-            message: result?.data?.message || indata?.customSuccess,
+            title: result?.data?.message || indata?.customSuccess,
           });
         }
 
@@ -44,7 +44,7 @@ export const useRequest = () => {
             e,
           );
         } else {
-          notification.error({ message: indata?.customError });
+          notification.error({ title: indata?.customError });
         }
       } finally {
         isModal ? setLoadModal(false) : setLoad(false);

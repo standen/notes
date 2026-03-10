@@ -1,34 +1,28 @@
 import { useState } from "react";
 
-import { NO_DATA } from "@/constants";
-
 import { Content, Title } from "@/views/ViewMain/components";
 
 import { useRoles } from "@/pages/PageSettings/components/AdminRoles/hooks";
+import { TableRolesList } from "@/pages/PageSettings/components/AdminRoles/tables";
 
-import { Flex, Input, Button, List, Tooltip, Popconfirm } from "antd";
-import {
-  CloseOutlined,
-  EditOutlined,
-  QuestionCircleOutlined,
-} from "@ant-design/icons";
+import { Flex, Input, Button } from "antd";
 
 const { Search } = Input;
 
 export const AdminRoles = () => {
-  const { delRole, editRole, roles } = useRoles();
+  const { editRole, roles } = useRoles();
 
   const [searchString, setSearchString] = useState<string>("");
 
   return (
     <>
       <Title
-        left={
+        right={
           <Button type="primary" onClick={() => editRole()}>
             Добавить роль
           </Button>
         }
-        right={
+        left={
           <Flex>
             <Search
               placeholder="Поиск по роли"
@@ -39,40 +33,12 @@ export const AdminRoles = () => {
         }
       />
       <Content>
-        <List
-          size="small"
-          dataSource={roles.filter((item) =>
+        <TableRolesList
+          roles={roles.filter((item) =>
             item?.name
               ?.toLocaleLowerCase()
-              ?.includes(searchString?.toLocaleLowerCase())
+              ?.includes(searchString?.toLocaleLowerCase()),
           )}
-          renderItem={(item) => (
-            <List.Item key={item?.id}>
-              <Flex gap={8}>
-                {item?.name}
-                <Tooltip title={item?.allowed_actions?.join(", ")}>
-                  <QuestionCircleOutlined />
-                </Tooltip>
-              </Flex>
-              <Flex gap={8}>
-                <EditOutlined
-                  style={{ cursor: "pointer" }}
-                  onClick={() => editRole(item?.id)}
-                />
-                <Popconfirm
-                  title={`Удалить роль '${item?.name}'`}
-                  description="Это действие необратимо"
-                  onConfirm={() => delRole(item?.id)}
-                  okText="Удалить"
-                  cancelText="Нет"
-                  okType="danger"
-                >
-                  <CloseOutlined style={{ cursor: "pointer", color: "#f00" }} />
-                </Popconfirm>
-              </Flex>
-            </List.Item>
-          )}
-          locale={{ emptyText: NO_DATA.roles }}
         />
       </Content>
     </>

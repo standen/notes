@@ -23,12 +23,12 @@ export const PageNotes = () => {
   return (
     <>
       <Title
-        left={
+        right={
           <Button color="blue" variant="solid">
             Добавить заметку
           </Button>
         }
-        right={
+        left={
           <Flex>
             <Search
               placeholder="Поиск по заметке"
@@ -44,7 +44,7 @@ export const PageNotes = () => {
           dataSource={notes?.filter((item) =>
             item?.name
               ?.toLocaleLowerCase()
-              ?.includes(searchString?.toLocaleLowerCase())
+              ?.includes(searchString?.toLocaleLowerCase()),
           )}
           renderItem={(item) => (
             <List.Item key={item?.id}>

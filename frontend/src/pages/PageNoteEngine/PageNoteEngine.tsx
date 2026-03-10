@@ -35,7 +35,7 @@ export const PageNoteEngine: FC = () => {
   return (
     <>
       <Title
-        left={
+        right={
           <>
             <NoteToggles
               open={open}
@@ -50,7 +50,7 @@ export const PageNoteEngine: FC = () => {
             <Alert message="123" />
           </>
         }
-        right={
+        left={
           <Flex gap={8}>
             <Button type="primary">Сохранить</Button>
             <Button onClick={() => navigate(NavMenu.PageNotes.url)}>

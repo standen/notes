@@ -19,12 +19,12 @@ export const AdminUsers = () => {
   return (
     <>
       <Title
-        left={
+        right={
           <Button type="primary" onClick={() => editUser()}>
             Добавить пользователя
           </Button>
         }
-        right={
+        left={
           <Flex>
             <Search
               placeholder="Поиск по логину"
@@ -40,7 +40,7 @@ export const AdminUsers = () => {
           dataSource={users?.filter((item) =>
             item?.login
               ?.toLocaleLowerCase()
-              ?.includes(searchString?.toLocaleLowerCase())
+              ?.includes(searchString?.toLocaleLowerCase()),
           )}
           renderItem={(item) => (
             <List.Item key={item?.id}>

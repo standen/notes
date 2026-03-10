@@ -32,13 +32,13 @@ export const useReportError = () => {
         ),
       });
     },
-    [modal, Text]
+    [modal, Text],
   );
 
   const showErrorNotif = useCallback(
     (errorText: string, error: AxiosError) => {
       notification.error({
-        message: "Ошибка",
+        title: "Ошибка",
         description: errorText,
         actions: (
           <Flex vertical>
@@ -54,18 +54,18 @@ export const useReportError = () => {
         ),
       });
     },
-    [notification, showErrorDetails]
+    [notification, showErrorDetails],
   );
 
   const showSimpleError = useCallback(
     (errorText: string) => {
-      notification.error({ message: errorText });
+      notification.error({ title: errorText });
     },
-    [notification]
+    [notification],
   );
 
   return useMemo(
     () => ({ showErrorNotif, showErrorDetails, showSimpleError }),
-    [showErrorNotif, showErrorDetails, showSimpleError]
+    [showErrorNotif, showErrorDetails, showSimpleError],
   );
 };

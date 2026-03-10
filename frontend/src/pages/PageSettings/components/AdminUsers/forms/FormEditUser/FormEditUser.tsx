@@ -8,13 +8,6 @@ import { useReportError } from "@/hooks/useReportError";
 
 import { Loader } from "@/components";
 
-import {
-  SYMBOLS_USER_LOGIN,
-  SYMBOLS_USER_PASSWORD,
-  validatorUserLogin,
-  validatorUserPassword,
-} from "./validators";
-
 import { Form, Input, Select, Flex, Button } from "antd";
 
 export type TFormEditUser = {
@@ -47,7 +40,8 @@ export const FormEditUser: FC<Props> = (props) => {
           name="login"
           initialValue={userParams?.login}
           label="Логин"
-          tooltip={`Допустимые символы: "${SYMBOLS_USER_LOGIN}"`}
+          // TODO
+          tooltip={`Допустимые символы: ""`}
           rules={[
             { required: true, message: ERRORS_TEXT.required },
             {
@@ -55,8 +49,8 @@ export const FormEditUser: FC<Props> = (props) => {
                 if (!value) {
                   return Promise.resolve();
                 }
-
-                if (!validatorUserLogin(value)) {
+                // TODO
+                if (false) {
                   return Promise.reject();
                 }
                 return Promise.resolve();
@@ -79,7 +73,8 @@ export const FormEditUser: FC<Props> = (props) => {
         <Form.Item
           name="password"
           label="Пароль"
-          tooltip={`Допустимые символы: "${SYMBOLS_USER_PASSWORD}"`}
+          // TODO
+          tooltip={`Допустимые символы: ""`}
           rules={[
             {
               required: true,
@@ -105,7 +100,8 @@ export const FormEditUser: FC<Props> = (props) => {
                 }
 
                 if (!userParams) {
-                  if (!validatorUserPassword(value)) {
+                  // TODO
+                  if (false) {
                     return Promise.reject();
                   }
 
@@ -113,7 +109,8 @@ export const FormEditUser: FC<Props> = (props) => {
                 }
 
                 if (userParams) {
-                  if (value && !validatorUserPassword(value)) {
+                  // TODO
+                  if (value && false) {
                     return Promise.reject();
                   }
 

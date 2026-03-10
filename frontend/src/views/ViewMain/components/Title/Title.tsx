@@ -1,4 +1,4 @@
-import type { ReactElement, FC } from "react";
+import React, { type ReactElement, type FC } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./styles.module.scss";

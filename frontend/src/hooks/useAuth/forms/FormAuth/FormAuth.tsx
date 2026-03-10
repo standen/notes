@@ -4,13 +4,6 @@ import { ERRORS_TEXT } from "@/constants";
 
 import { useReportError } from "@/hooks/useReportError";
 
-import {
-  SYMBOLS_LOGIN,
-  SYMBOLS_PASSWORD,
-  validateLogin,
-  validatePassword,
-} from "./validators";
-
 import { Button, Flex, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
@@ -35,12 +28,14 @@ export const FormAuth: FC<Props> = ({ resolve }) => {
       <Form.Item
         name="login"
         label="Логин"
-        tooltip={`Допустимые символы: "${SYMBOLS_LOGIN}"`}
+        // TODO
+        tooltip={`Допустимые символы: ""`}
         rules={[
           { required: true, message: ERRORS_TEXT.required },
           {
             validator: (_, value) => {
-              if (!validateLogin(value)) {
+              // TODO
+              if (false) {
                 return Promise.reject();
               }
               return Promise.resolve();
@@ -54,12 +49,14 @@ export const FormAuth: FC<Props> = ({ resolve }) => {
       <Form.Item
         name="password"
         label="Пароль"
-        tooltip={`Допустимые символы: "${SYMBOLS_PASSWORD}"`}
+        // TODO
+        tooltip={`Допустимые символы: ""`}
         rules={[
           { required: true, message: ERRORS_TEXT.required },
           {
             validator: (_, value) => {
-              if (!validatePassword(value)) {
+              // TODO
+              if (false) {
                 return Promise.reject();
               }
               return Promise.resolve();

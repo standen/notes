@@ -7,12 +7,12 @@ export const PageAccounts = () => {
   return (
     <>
       <Title
-        left={
+        right={
           <Button color="blue" variant="solid">
             Добавить аккаунт
           </Button>
         }
-        right={
+        left={
           <Flex>
             <Search placeholder="Поиск по логину" allowClear />
           </Flex>

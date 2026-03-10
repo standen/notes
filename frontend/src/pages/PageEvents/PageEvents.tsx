@@ -7,12 +7,12 @@ export const PageEvents = () => {
   return (
     <>
       <Title
-        left={
+        right={
           <Button color="blue" variant="solid">
             Добавить событие
           </Button>
         }
-        right={
+        left={
           <Flex>
             <Search placeholder="Поиск события" allowClear />
           </Flex>
