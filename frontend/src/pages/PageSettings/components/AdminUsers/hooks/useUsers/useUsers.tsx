@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { sha256 } from "js-sha256";
 
 import type {
   IUser,
@@ -122,8 +123,7 @@ export const useUsers = () => {
 
       let pass = null;
       if (userData?.password) {
-        // TODO: sha256 password
-        pass = userData?.password;
+        pass = sha256(userData?.password);
       }
 
       await makeRequest({

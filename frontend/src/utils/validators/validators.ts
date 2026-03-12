@@ -1,12 +1,12 @@
 import { ERROR_MESSAGES } from "./validatorsErrorMessages";
 import { POSSIBLE_SYMBOLS, SYMBOLS } from "./validatorsPossibleSymbols";
-import { MAX_LENGTH } from "./validatorsMaxLength";
+import { MAX_LENGTH, MIN_LENGTH } from "./validatorsMinMaxLength";
 
 import { type TValidateEntities } from "./types";
 
 type TValidateParams = {
   check: (indata: string) => boolean;
-  errorText: string;
+  requires: string;
 };
 
 const validateLogin = (login: string): boolean => {
@@ -14,7 +14,7 @@ const validateLogin = (login: string): boolean => {
     return false;
   }
 
-  if (login.length > MAX_LENGTH.login) {
+  if (login.length > MAX_LENGTH.login || login.length < MIN_LENGTH.login) {
     return false;
   }
 
@@ -34,7 +34,10 @@ const validatePassword = (password: string): boolean => {
     return false;
   }
 
-  if (password.length > MAX_LENGTH.password) {
+  if (
+    password.length > MAX_LENGTH.password ||
+    password.length < MIN_LENGTH.password
+  ) {
     return false;
   }
 
@@ -58,22 +61,22 @@ const validateNoteName = (noteName: string): boolean => {
 export const validate: Record<TValidateEntities, TValidateParams> = {
   login: {
     check: validateLogin,
-    errorText: ERROR_MESSAGES.login,
+    requires: ERROR_MESSAGES.login,
   },
   password: {
     check: validatePassword,
-    errorText: ERROR_MESSAGES.password,
+    requires: ERROR_MESSAGES.password,
   },
   noteLink: {
     check: validateNoteLink,
-    errorText: ERROR_MESSAGES.noteLink,
+    requires: ERROR_MESSAGES.noteLink,
   },
   noteName: {
     check: validateNoteName,
-    errorText: ERROR_MESSAGES.noteName,
+    requires: ERROR_MESSAGES.noteName,
   },
   roleName: {
     check: validateRoleName,
-    errorText: ERROR_MESSAGES.roleName,
+    requires: ERROR_MESSAGES.roleName,
   },
 };

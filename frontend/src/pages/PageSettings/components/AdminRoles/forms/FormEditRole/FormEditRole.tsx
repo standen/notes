@@ -1,5 +1,7 @@
 import { type FC } from "react";
 
+import { validate } from "@/utils";
+
 import { ERRORS_TEXT } from "@/constants";
 
 import type { IRole } from "@/api/settings";
@@ -39,14 +41,12 @@ export const FormEditRole: FC<Props> = (props) => {
           name="name"
           initialValue={roleParams?.name}
           label="Наименование роли"
-          // TODO
-          tooltip={`Допустимые символы: ""`}
+          tooltip={validate.roleName.requires}
           rules={[
             { required: true, message: ERRORS_TEXT.required },
             {
               validator: (_, value) => {
-                // TODO
-                if (false) {
+                if (!validate.roleName.check(value)) {
                   return Promise.reject();
                 }
                 return Promise.resolve();

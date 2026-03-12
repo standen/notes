@@ -1,5 +1,6 @@
 import type { FC } from "react";
 
+import { validate } from "@/utils";
 import { ERRORS_TEXT } from "@/constants";
 
 import { useReportError } from "@/hooks/useReportError";
@@ -28,14 +29,12 @@ export const FormAuth: FC<Props> = ({ resolve }) => {
       <Form.Item
         name="login"
         label="Логин"
-        // TODO
-        tooltip={`Допустимые символы: ""`}
+        tooltip={validate.login.requires}
         rules={[
           { required: true, message: ERRORS_TEXT.required },
           {
             validator: (_, value) => {
-              // TODO
-              if (false) {
+              if (!validate.login.check(value)) {
                 return Promise.reject();
               }
               return Promise.resolve();
@@ -49,14 +48,12 @@ export const FormAuth: FC<Props> = ({ resolve }) => {
       <Form.Item
         name="password"
         label="Пароль"
-        // TODO
-        tooltip={`Допустимые символы: ""`}
+        tooltip={validate.password.requires}
         rules={[
           { required: true, message: ERRORS_TEXT.required },
           {
             validator: (_, value) => {
-              // TODO
-              if (false) {
+              if (!validate.password.check(value)) {
                 return Promise.reject();
               }
               return Promise.resolve();

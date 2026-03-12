@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { sha256 } from "js-sha256";
 
 import { type IResponseAuthUserInfo } from "@/api/auth";
 import type { TFormAuth } from "@/hooks/useAuth/forms/FormAuth";
@@ -63,8 +64,7 @@ export const useAuth = () => {
       return;
     }
 
-    // TODO: sha256 password
-    const password = authData.password;
+    const password = sha256(authData.password);
 
     await makeRequest({
       params: {

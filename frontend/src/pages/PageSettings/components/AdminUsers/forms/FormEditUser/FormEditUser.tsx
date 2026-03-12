@@ -1,5 +1,6 @@
 import { type FC } from "react";
 
+import { validate } from "@/utils";
 import { ERRORS_TEXT } from "@/constants";
 
 import type { IRole, IUser } from "@/api/settings";
@@ -40,8 +41,7 @@ export const FormEditUser: FC<Props> = (props) => {
           name="login"
           initialValue={userParams?.login}
           label="Логин"
-          // TODO
-          tooltip={`Допустимые символы: ""`}
+          tooltip={validate.login.requires}
           rules={[
             { required: true, message: ERRORS_TEXT.required },
             {
@@ -49,10 +49,11 @@ export const FormEditUser: FC<Props> = (props) => {
                 if (!value) {
                   return Promise.resolve();
                 }
-                // TODO
-                if (false) {
+
+                if (!validate.login.check(value)) {
                   return Promise.reject();
                 }
+
                 return Promise.resolve();
               },
               message: ERRORS_TEXT.regexp,
@@ -73,8 +74,7 @@ export const FormEditUser: FC<Props> = (props) => {
         <Form.Item
           name="password"
           label="Пароль"
-          // TODO
-          tooltip={`Допустимые символы: ""`}
+          tooltip={validate.password.requires}
           rules={[
             {
               required: true,
@@ -100,8 +100,7 @@ export const FormEditUser: FC<Props> = (props) => {
                 }
 
                 if (!userParams) {
-                  // TODO
-                  if (false) {
+                  if (!validate.password.check(value)) {
                     return Promise.reject();
                   }
 
@@ -109,8 +108,7 @@ export const FormEditUser: FC<Props> = (props) => {
                 }
 
                 if (userParams) {
-                  // TODO
-                  if (value && false) {
+                  if (value && !validate.password.check(value)) {
                     return Promise.reject();
                   }
 
