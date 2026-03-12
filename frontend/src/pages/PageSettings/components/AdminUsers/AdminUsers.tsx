@@ -1,13 +1,15 @@
 import { useState } from "react";
 
+import { type IUser } from "@/api/settings";
+
 import { NO_DATA } from "@/constants";
 
+import { columnsTableRolesList } from "@/pages/PageSettings/components/AdminUsers/tables";
 import { useUsers } from "@/pages/PageSettings/components/AdminUsers/hooks";
 
 import { Content, Title } from "@/views/ViewMain/components";
 
-import { Flex, Input, Button, List, Tag, Popconfirm } from "antd";
-import { CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { Flex, Input, Button, Table } from "antd";
 
 const { Search } = Input;
 
@@ -35,38 +37,17 @@ export const AdminUsers = () => {
         }
       />
       <Content>
-        <List
+        <Table<IUser>
+          bordered
           size="small"
-          dataSource={users?.filter((item) =>
+          locale={{ emptyText: NO_DATA.roles }}
+          columns={columnsTableRolesList(editUser, delUser)}
+          dataSource={users.filter((item) =>
             item?.login
               ?.toLocaleLowerCase()
               ?.includes(searchString?.toLocaleLowerCase()),
           )}
-          renderItem={(item) => (
-            <List.Item key={item?.id}>
-              <Flex gap={8}>
-                <Tag>{item?.role?.name}</Tag>
-                <div>{item?.login}</div>
-              </Flex>
-              <Flex gap={8}>
-                <EditOutlined
-                  style={{ cursor: "pointer" }}
-                  onClick={() => editUser(item?.id)}
-                />
-                <Popconfirm
-                  title={`Удалить пользователя '${item?.login}'`}
-                  description="Это действие необратимо"
-                  onConfirm={() => delUser(item?.id)}
-                  okText="Удалить"
-                  cancelText="Нет"
-                  okType="danger"
-                >
-                  <CloseOutlined style={{ cursor: "pointer", color: "#f00" }} />
-                </Popconfirm>
-              </Flex>
-            </List.Item>
-          )}
-          locale={{ emptyText: NO_DATA.users }}
+          pagination={false}
         />
       </Content>
     </>

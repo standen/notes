@@ -1,38 +1,28 @@
-import { Tag, Flex, Popconfirm, type TableColumnsType } from "antd";
+import { Flex, Popconfirm, Tag, type TableColumnsType } from "antd";
 
-import { type IRole } from "@/api/settings";
+import { type IUser } from "@/api/settings";
 
 export const columnsTableRolesList = (
-  del: (roleId: string) => void,
   edit: (roleId: string) => void,
-): TableColumnsType<IRole> => {
+  del: (roleId: string) => void,
+): TableColumnsType<IUser> => {
   return [
     {
-      key: "name",
-      dataIndex: "name",
-      title: "Имя роли",
+      key: "login",
+      dataIndex: "login",
+      title: "Имя пользователя",
     },
     {
-      key: "allowed_actions",
-      dataIndex: "allowed_actions",
-      title: "Права",
-      render: (_, { allowed_actions }) => {
-        return (
-          <Flex gap="small" wrap>
-            {allowed_actions.map((item) => (
-              <Tag key={item} color="blue" variant="outlined">
-                {item}
-              </Tag>
-            ))}
-          </Flex>
-        );
-      },
+      key: "role",
+      dataIndex: "role",
+      title: "Роль",
+      render: (_, { role }) => role?.name,
     },
     {
       key: "actions",
       dataIndex: "actions",
       title: "Действия",
-      render: (_, { id, name }) => {
+      render: (_, { id }) => {
         return (
           <Flex gap={8}>
             <Tag
@@ -44,7 +34,7 @@ export const columnsTableRolesList = (
               Редактировать
             </Tag>
             <Popconfirm
-              title={`Удалить роль '${name}'`}
+              title={`Удалить пользователя '${id}'`}
               description="Это действие необратимо"
               onConfirm={() => del(id)}
               okText="Удалить"

@@ -1,16 +1,20 @@
 import { useState } from "react";
 
+import { type IRole } from "@/api/settings";
+
+import { NO_DATA } from "@/constants";
+
+import { columnsTableRolesList } from "@/pages/PageSettings/components/AdminRoles/tables";
 import { Content, Title } from "@/views/ViewMain/components";
 
 import { useRoles } from "@/pages/PageSettings/components/AdminRoles/hooks";
-import { TableRolesList } from "@/pages/PageSettings/components/AdminRoles/tables";
 
-import { Flex, Input, Button } from "antd";
+import { Flex, Input, Button, Table } from "antd";
 
 const { Search } = Input;
 
 export const AdminRoles = () => {
-  const { editRole, roles } = useRoles();
+  const { editRole, delRole, roles } = useRoles();
 
   const [searchString, setSearchString] = useState<string>("");
 
@@ -33,12 +37,17 @@ export const AdminRoles = () => {
         }
       />
       <Content>
-        <TableRolesList
-          roles={roles.filter((item) =>
+        <Table<IRole>
+          bordered
+          size="small"
+          locale={{ emptyText: NO_DATA.roles }}
+          columns={columnsTableRolesList(delRole, editRole)}
+          dataSource={roles.filter((item) =>
             item?.name
               ?.toLocaleLowerCase()
               ?.includes(searchString?.toLocaleLowerCase()),
           )}
+          pagination={false}
         />
       </Content>
     </>
