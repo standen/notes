@@ -20,7 +20,7 @@ export const columnsTableRolesList = (
         return (
           <Flex gap="small" wrap>
             {allowed_actions.map((item) => (
-              <Tag key={item} color="blue" variant="outlined">
+              <Tag key={item} color="blue" variant="filled">
                 {item}
               </Tag>
             ))}

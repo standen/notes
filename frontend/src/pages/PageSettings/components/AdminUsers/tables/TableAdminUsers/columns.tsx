@@ -22,7 +22,7 @@ export const columnsTableRolesList = (
       key: "actions",
       dataIndex: "actions",
       title: "Действия",
-      render: (_, { id }) => {
+      render: (_, { id, login }) => {
         return (
           <Flex gap={8}>
             <Tag
@@ -34,7 +34,7 @@ export const columnsTableRolesList = (
               Редактировать
             </Tag>
             <Popconfirm
-              title={`Удалить пользователя '${id}'`}
+              title={`Удалить пользователя '${login}'`}
               description="Это действие необратимо"
               onConfirm={() => del(id)}
               okText="Удалить"
