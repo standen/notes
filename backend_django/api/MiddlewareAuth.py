@@ -2,6 +2,7 @@ from django.contrib.sessions.backends.db import SessionStore
 
 from appAuth.models import modelUser
 
+# модифицирует request, добавляя атрибут user_data с параметрами userLogin и userAllowedActions
 class MiddlewareAuth:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -32,4 +33,4 @@ class MiddlewareAuth:
         except:
             pass
         
-        request.user_data = {'userLogin': login, 'userAllowedActions': user_allowed_actions}
+        request.user_data = {'userLogin': login, 'userAllowedActions': user_allowed_actions, 'suck': True}
