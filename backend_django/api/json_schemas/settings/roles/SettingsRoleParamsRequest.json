@@ -1,0 +1,22 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Roles List Request",
+	"type": "object",
+	"properties": {
+		"action": {
+			"type": "string",
+			"enum": [
+				"get_role_params"
+			]
+		},
+		"role_id": {
+			"type": "string",
+			"format": "uuid"
+		}
+	},
+	"required": [
+		"action",
+		"role_id"
+	],
+	"additionalProperties": false
+}

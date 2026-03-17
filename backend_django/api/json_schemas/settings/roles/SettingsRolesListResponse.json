@@ -1,0 +1,51 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Roles List Response",
+	"oneOf": [
+		{
+			"$ref": "../../common/Response.json"
+		},
+		{
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "object",
+					"properties": {
+						"roles": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid"
+									},
+									"name": {
+										"type": "string"
+									},
+									"allowed_actions": {
+										"$ref": "../../common/PermissionList.json"
+									}
+								},
+								"required": [
+									"id",
+									"name",
+									"allowed_actions"
+								],
+								"additionalProperties": false
+							}
+						}
+					},
+					"required": [
+						"roles"
+					],
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"result"
+			],
+			"additionalProperties": false
+		}
+	]
+}

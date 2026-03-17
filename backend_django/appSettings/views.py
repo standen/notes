@@ -7,67 +7,55 @@ from appAuth.models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decRequiredBodyParams import decRequiredBodyParams
+from decorators.decRequiredAuth import decRequiredAuth
+from decorators.decValidateReq import decValidateReq
 
 class viewManagePermissions(View):
-    def get(self, request):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/permissions/SettingsPermissionsRequest.json')])
+    def get(self, request, **kwargs):
         try:
             return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
         except:
             return CustomJsonResponse(status=400)
 
 class viewManageRoles(View):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRolesListRequest.json')])
+    def getRolesList(self, request, **kwargs):
+        roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
+        return CustomJsonResponse(result={'roles': roles})
+    
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRolesNamesListRequest.json')])
+    def getRolesNamesList(self, request, **kwargs):
+        rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
+        return CustomJsonResponse(result={'rolesNames': rolesNames})
+    
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRoleParamsRequest.json')])
+    def getRoleParams(self, request, **kwargs):
+        role = modelUserRole.objects.get(id=kwargs.get('role_id'))
+        return CustomJsonResponse(result={'roleParams': role.returnOne()})
+    
     def get(self, request):
         try:
-            if (request.GET.get('filter') == 'rolesNames'):
-                rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
-                return CustomJsonResponse(result={'rolesNames': rolesNames})
+            action = request.GET.get('action')
             
-            roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
-            return CustomJsonResponse(result={'roles': roles})
-        except:
-            return CustomJsonResponse(status=400)
-    
-    @method_decorator(decRequiredBodyParams(['name', 'allowed_actions']))
-    def postRoleCreate(self, request):
-        try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            modelUserRole(name=body.get('name'), allowed_actions={'list': body.get('allowed_actions')}).save()
-            return CustomJsonResponse(message='Роль успешно создана')
-        except:
-            return CustomJsonResponse(status=400)
-        
-    @method_decorator(decRequiredBodyParams(['roleId']))
-    def postRoleGet(self, request):
-        try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            role = modelUserRole.objects.get(id=body.get('roleId'))
-            return CustomJsonResponse(result={'roleParams': role.returnOne()})
-        except:
-            return CustomJsonResponse(status=400)
-        
-    @method_decorator(decRequiredBodyParams(['action']))
-    def post(self, request):
-        try:
-            action = json.loads(request.body).get('action')
-            
-            if (not action):
-                raise
-            
-            if (action == 'roleGet'):
-                return self.postRoleGet(request)
-            elif (action == 'roleCreate'):
-                return self.postRoleCreate(request)
+            if (action == 'get_roles_list'):
+                return self.getRolesList(request)
+            elif (action == 'get_roles_names_list'):
+                return self.getRolesNamesList(request)
+            elif (action == 'get_role_params'):
+                return self.getRoleParams(request)
             else:
                 raise
         except:
+            return CustomJsonResponse(status=400, message='Неверные параметры запроса')
+        
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRolesCreateRequest.json')])
+    def post(self, request, **kwargs):
+        try:
+            modelUserRole(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')}).save()
+            return CustomJsonResponse(message='Роль успешно создана')
+        except Exception as e:
+            print(e)
             return CustomJsonResponse(status=400)
     
     @method_decorator(decRequiredBodyParams(['name', 'allowed_actions', 'roleId']))

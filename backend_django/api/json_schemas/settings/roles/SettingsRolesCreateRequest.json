@@ -1,18 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Auth Login",
+  "title": "Roles Create Request",
   "type": "object",
   "properties": {
-    "login": {
+    "name": {
       "type": "string"
     },
-    "password": {
-      "type": "string"
+    "allowed_actions": {
+      "$ref": "../../common/PermissionList.json"
     }
   },
   "required": [
-    "login",
-    "password"
+    "action",
+    "name",
+    "allowed_actions"
   ],
   "additionalProperties": false
 }

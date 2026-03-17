@@ -1,0 +1,33 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Roles List Response",
+	"oneOf": [
+		{
+			"$ref": "../../common/Response.json"
+		},
+		{
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "object",
+					"properties": {
+						"rolesNames": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					"required": [
+						"rolesNames"
+					],
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"result"
+			],
+			"additionalProperties": false
+		}
+	]
+}
