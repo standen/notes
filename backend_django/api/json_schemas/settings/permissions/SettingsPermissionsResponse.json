@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "List Permissions",
+    "oneOf": [
+        {
+            "$ref": "../../common/Response.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "userLogin": {
+                    "type": "string"
+                },
+                "userAllowedActions": {
+                    "$ref": "../../common/PermissionList.json"
+                }
+            },
+            "additionalProperties": false
+        }
+    ]
+}

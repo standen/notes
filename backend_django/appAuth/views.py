@@ -1,5 +1,3 @@
-import json
-
 from django.views import View
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
@@ -8,7 +6,7 @@ from django.utils.decorators import method_decorator
 from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decRequiredBodyParams import decRequiredBodyParams
+from decorators.decValidateReq import decValidateReq
 from decorators.decUserInfo import decUserInfo
 
 class viewLogin(View):
@@ -25,15 +23,10 @@ class viewLogin(View):
         result.update({'count': len(sessions)})
         return CustomJsonResponse(result=result)
     
-    @method_decorator(decRequiredBodyParams(['login', 'password']))
-    def post(self, request):
+    @method_decorator(decValidateReq('api/json_schemas/auth/AuthLoginRequest.json'))
+    def post(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            user = modelUser.objects.get(login=body.get('login'), password=body.get('password'))
+            user = modelUser.objects.get(login=kwargs.get('login'), password=kwargs.get('password'))
             
             s = SessionStore()
             s['login'] = user.login

@@ -1,0 +1,18 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Auth Login",
+    "type": "object",
+    "properties": {
+        "login": {
+            "type": "string"
+        },
+        "password": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "login",
+        "password"
+    ],
+    "additionalProperties": false
+}

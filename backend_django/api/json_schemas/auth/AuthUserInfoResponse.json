@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Auth User Info",
+    "oneOf": [
+        {
+            "$ref": "../common/Response.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "userLogin": {
+                    "type": "string"
+                },
+                "userAllowedActions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    ]
+}
