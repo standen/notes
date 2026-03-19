@@ -23,10 +23,10 @@ class CustomJsonResponse(JsonResponse):
         if result:
             data.update({'result': result})
             
-        if (kwargs.get('userLogin') != None):
-            data.update({'userLogin': kwargs.get('userLogin')})
+        if (kwargs.get('user_login') != None):
+            data.update({'user_login': kwargs.get('user_login')})
         
-        if (kwargs.get('userAllowedActions') != None):
-            data.update({'userAllowedActions': kwargs.get('userAllowedActions')})
+        if (kwargs.get('user_allowed_actions') != None):
+            data.update({'user_allowed_actions': kwargs.get('user_allowed_actions')})
         
         super().__init__(data=data, status=status, json_dumps_params={'ensure_ascii':False})

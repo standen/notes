@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Create Request",
+  "type": "object",
+  "properties": {
+    "login": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "role_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": [
+    "login",
+    "password",
+    "role_id"
+  ],
+  "additionalProperties": false
+}

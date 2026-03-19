@@ -27,12 +27,12 @@ class viewManageRoles(View):
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesNamesListRequest.json')])
     def getRolesNamesList(self, request, **kwargs):
         rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
-        return CustomJsonResponse(result={'rolesNames': rolesNames})
+        return CustomJsonResponse(result={'roles_names': rolesNames})
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleParamsRequest.json')])
     def getRoleParams(self, request, **kwargs):
         role = modelUserRole.objects.get(id=kwargs.get('role_id'))
-        return CustomJsonResponse(result={'roleParams': role.returnOne()})
+        return CustomJsonResponse(result={'role_params': role.returnOne()})
     
     def get(self, request):
         try:
@@ -76,94 +76,69 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
     
 class viewManageUsers(View):
-    def get(self, request):
-        try:
-            if (request.GET.get('filter') == 'logins'):
-                usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
-                return CustomJsonResponse(result={'usersLogins': usersLogins})
-            
-            users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
-            return CustomJsonResponse(result={'users': users})
-        except:
-            return CustomJsonResponse(status=400)
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersListRequest.json')])
+    def getUsersList(self, request, **kwargs):
+        users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
+        return CustomJsonResponse(result={'users': users})
     
-    @method_decorator(decRequiredBodyParams(['login', 'password', 'roleId']))
-    def postUserCreate(self, request):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersLoginsListRequest.json')])
+    def getUsersLoginsList(self, request, **kwargs):
+        usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
+        return CustomJsonResponse(result={'users_logins': usersLogins})
+    
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserParamsRequest.json')])
+    def getUserParams(self, request, **kwargs):
+        user = modelUser.objects.get(id=kwargs.get('user_id'))
+        return CustomJsonResponse(result={'user_params': user.returnOne()})
+    
+    def get(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
+            action = request.GET.get('action')
+            
+            if (action == 'get_users_list'):
+                return self.getUsersList(request)
+            elif (action == 'get_users_logins_list'):
+                return self.getUsersLoginsList(request)
+            elif (action == 'get_user_params'):
+                return self.getUserParams(request)
+            else:
+                raise
         except:
             return CustomJsonResponse(status=400)
         
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserCreateRequest.json')])
+    def post(self, request, **kwargs):
         try:
-            modelUser(login=body.get('login'), password=body.get('password'), role=modelUserRole.objects.get(id=body.get('roleId'))).save()
+            modelUser(login=kwargs.get('login'), password=kwargs.get('password'), role=modelUserRole.objects.get(id=kwargs.get('role_id'))).save()
             return CustomJsonResponse(message='Пользователь успешно создан')
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredBodyParams(['userId']))
-    def postUserGet(self, request):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserEditRequest.json')])
+    def patch(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            user = modelUser.objects.get(id=body.get('userId'))
-            return CustomJsonResponse(result={'userParams': user.returnOne()})
-        except:
-            return CustomJsonResponse(status=400)
-        
-    @method_decorator(decRequiredBodyParams(['action']))
-    def post(self, request):
-        try:
-            action = json.loads(request.body).get('action')
-            
-            if (not action):
-                raise
-            
-            if (action == 'userGet'):
-                return self.postUserGet(request)
-            elif (action == 'userCreate'):
-                return self.postUserCreate(request)
-            else:
-                raise
-        except:
-            return CustomJsonResponse(status=400)
-    
-    @method_decorator(decRequiredBodyParams(['login', 'roleId', 'userId']))
-    def patch(self, request):
-        try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            if (body.get('password') == None):
-                modelUser.objects.filter(id=body.get('userId')).update(
-                    login=body.get('login'), 
-                    role=modelUserRole.objects.get(id=body.get('roleId')),
+            if (kwargs.get('password') == None):
+                modelUser.objects.filter(id=kwargs.get('user_id')).update(
+                    login=kwargs.get('login'), 
+                    role=modelUserRole.objects.get(id=kwargs.get('role_id')),
                     updated_at = datetime.datetime.now()
                     )
             else:
-                modelUser.objects.filter(id=body.get('userId')).update(
-                    login=body.get('login'), 
-                    password=body.get('password'), 
-                    role=modelUserRole.objects.get(id=body.get('roleId')),
+                modelUser.objects.filter(id=kwargs.get('user_id')).update(
+                    login=kwargs.get('login'), 
+                    password=kwargs.get('password'), 
+                    role=modelUserRole.objects.get(id=kwargs.get('role_id')),
                     updated_at = datetime.datetime.now()
                     )
             return CustomJsonResponse(message='Пользователь успешно изменен')
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredBodyParams(['userId']))
-    def delete(self, request):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserDeleteRequest.json')])
+    def delete(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            modelUser.objects.get(id=body.get('userId')).delete()
+            user = modelUser.objects.get(id=kwargs.get('user_id'))
+            user.delete()
             return CustomJsonResponse(message='Пользователь успешно удален')
         except:
             return CustomJsonResponse(status=400)

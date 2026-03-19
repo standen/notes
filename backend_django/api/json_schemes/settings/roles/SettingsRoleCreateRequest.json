@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Roles Create Request",
+  "title": "Role Create Request",
   "type": "object",
   "properties": {
     "name": {

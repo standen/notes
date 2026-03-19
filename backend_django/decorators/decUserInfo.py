@@ -23,6 +23,6 @@ def decUserInfo():
                     raise
             except:
                 return func(request, *args, **kwargs)
-            return func(request, *args, **kwargs, userLogin = login, userAllowedActions=user_allowed_actions)
+            return func(request, *args, **kwargs, user_login = login, user_allowed_actions=user_allowed_actions)
         return wrapper
     return decorator

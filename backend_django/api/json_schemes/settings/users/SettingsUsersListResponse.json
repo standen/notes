@@ -1,0 +1,65 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Users List Response",
+	"oneOf": [
+		{
+			"$ref": "../../common/Response.json"
+		},
+		{
+			"type": "object",
+			"properties": {
+				"result": {
+					"type": "object",
+					"properties": {
+						"users": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid"
+									},
+									"login": {
+										"type": "string"
+									},
+									"role": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string",
+												"format": "uuid"
+											},
+											"name": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"id",
+											"name"
+										],
+										"additionalProperties": false
+									}
+								},
+								"required": [
+									"id",
+									"login",
+									"role"
+								],
+								"additionalProperties": false
+							}
+						}
+					},
+					"required": [
+						"users"
+					],
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"result"
+			],
+			"additionalProperties": false
+		}
+	]
+}

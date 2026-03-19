@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Roles List Response",
+	"title": "Roles Names List Response",
 	"oneOf": [
 		{
 			"$ref": "../../common/Response.json"
@@ -11,7 +11,7 @@
 				"result": {
 					"type": "object",
 					"properties": {
-						"rolesNames": {
+						"roles_names": {
 							"type": "array",
 							"items": {
 								"type": "string"
@@ -19,7 +19,7 @@
 						}
 					},
 					"required": [
-						"rolesNames"
+						"roles_names"
 					],
 					"additionalProperties": false
 				}

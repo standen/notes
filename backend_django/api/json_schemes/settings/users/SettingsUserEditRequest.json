@@ -1,23 +1,28 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Roles Edit Request",
+  "title": "User Edit Request",
   "type": "object",
   "properties": {
+    "login": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
     "role_id": {
       "type": "string",
       "format": "uuid"
     },
-    "name": {
-      "type": "string"
-    },
-    "allowed_actions": {
-      "$ref": "../../common/PermissionList.json"
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
     }
   },
   "required": [
+    "login",
+    "password",
     "role_id",
-    "name",
-    "allowed_actions"
+    "user_id"
   ],
   "additionalProperties": false
 }

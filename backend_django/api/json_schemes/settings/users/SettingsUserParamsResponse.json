@@ -1,17 +1,22 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Role Params Response",
-	"oneOf": [
-		{
-			"$ref": "../../common/Response.json"
-		},
-		{
+	"title": "User Params Response",
+	"type": "object",
+	"properties": {
+		"result": {
 			"type": "object",
 			"properties": {
-				"result": {
+				"user_params": {
 					"type": "object",
 					"properties": {
-						"role_params": {
+						"id": {
+							"type": "string",
+							"format": "uuid"
+						},
+						"login": {
+							"type": "string"
+						},
+						"role": {
 							"type": "object",
 							"properties": {
 								"id": {
@@ -20,29 +25,31 @@
 								},
 								"name": {
 									"type": "string"
-								},
-								"allowed_actions": {
-									"$ref": "../../common/PermissionList.json"
 								}
 							},
 							"required": [
 								"id",
-								"name",
-								"allowed_actions"
+								"name"
 							],
 							"additionalProperties": false
 						}
 					},
 					"required": [
-						"role_params"
+						"id",
+						"login",
+						"role"
 					],
 					"additionalProperties": false
 				}
 			},
 			"required": [
-				"result"
+				"user_params"
 			],
 			"additionalProperties": false
 		}
-	]
+	},
+	"required": [
+		"result"
+	],
+	"additionalProperties": false
 }

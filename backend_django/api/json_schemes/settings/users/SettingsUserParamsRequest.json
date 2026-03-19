@@ -1,22 +1,22 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Role Params Request",
+	"title": "User Params Request",
 	"type": "object",
 	"properties": {
 		"action": {
 			"type": "string",
 			"enum": [
-				"get_role_params"
+				"get_user_params"
 			]
 		},
-		"role_id": {
+		"user_id": {
 			"type": "string",
 			"format": "uuid"
 		}
 	},
 	"required": [
 		"action",
-		"role_id"
+		"user_id"
 	],
 	"additionalProperties": false
 }

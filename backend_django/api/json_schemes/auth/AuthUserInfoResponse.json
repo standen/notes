@@ -8,17 +8,17 @@
     {
       "type": "object",
       "properties": {
-        "userLogin": {
+        "user_login": {
           "type": "string"
         },
-        "userAllowedActions": {
+        "user_allowed_actions": {
           "$ref": "../common/PermissionList.json"
         }
       },
       "additionalProperties": false,
       "required": [
-        "userLogin",
-        "userAllowedActions"
+        "user_login",
+        "user_allowed_actions"
       ]
     }
   ]

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Delete Request",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "additionalProperties": false
+}
