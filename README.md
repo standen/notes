@@ -19,3 +19,5 @@
 1. Странный роут с редактированием заметки.
 1. Многие важные запросы ипользуют метод get.
 1. decRequiredAuth должна смотреть user permissions
+1. Добавь swagger (docker)
+1. Patch методы работают через filter и update. Целевое get/update, поскольку при левых данных всегда success.

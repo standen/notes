@@ -1,6 +1,6 @@
 import json
-import os
-from jsonschema import validate, RefResolver
+from jsonschema import Draft202012Validator
+from referencing import Registry, Resource
 
 from api.CustomJsonResponse import CustomJsonResponse
 
@@ -23,11 +23,16 @@ def decValidateReq(schemaPath):
                 return CustomJsonResponse(status=500, message='Ошибка при получении доступа к файлу json-схемы')
             
             try:
-                path = "/home/user/Desktop/PermissionList.json"
-                base_uri = f"file://{path}"
-                print(base_uri)
-                resolver = RefResolver(base_uri=base_uri, referrer=schema)
-                validate(instance=body, schema=schema, resolver=resolver)
+                # all refs resources
+                with open('api/json_schemes/common/PermissionList.json', 'r', encoding='utf-8') as file:
+                    permissions = json.load(file)
+                    
+                registry = Registry().with_resources([(
+                    "../../common/PermissionList.json", Resource.from_contents(permissions)
+                )])
+                
+                validator = Draft202012Validator(schema, registry=registry)
+                validator.validate(body)
             except Exception as e:
                 print(e)
                 return CustomJsonResponse(status=400, message='Неверные параметры запроса')

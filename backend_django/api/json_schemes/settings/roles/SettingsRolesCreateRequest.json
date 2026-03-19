@@ -11,7 +11,6 @@
     }
   },
   "required": [
-    "action",
     "name",
     "allowed_actions"
   ],

@@ -11,7 +11,7 @@ from decorators.decRequiredAuth import decRequiredAuth
 from decorators.decValidateReq import decValidateReq
 
 class viewManagePermissions(View):
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/permissions/SettingsPermissionsRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/permissions/SettingsPermissionsRequest.json')])
     def get(self, request, **kwargs):
         try:
             return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
@@ -19,17 +19,17 @@ class viewManagePermissions(View):
             return CustomJsonResponse(status=400)
 
 class viewManageRoles(View):
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRolesListRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesListRequest.json')])
     def getRolesList(self, request, **kwargs):
         roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
         return CustomJsonResponse(result={'roles': roles})
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRolesNamesListRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesNamesListRequest.json')])
     def getRolesNamesList(self, request, **kwargs):
         rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
         return CustomJsonResponse(result={'rolesNames': rolesNames})
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRoleParamsRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleParamsRequest.json')])
     def getRoleParams(self, request, **kwargs):
         role = modelUserRole.objects.get(id=kwargs.get('role_id'))
         return CustomJsonResponse(result={'roleParams': role.returnOne()})
@@ -49,7 +49,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemas/settings/roles/SettingsRolesCreateRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesCreateRequest.json')])
     def post(self, request, **kwargs):
         try:
             modelUserRole(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')}).save()
@@ -58,28 +58,19 @@ class viewManageRoles(View):
             print(e)
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredBodyParams(['name', 'allowed_actions', 'roleId']))
-    def patch(self, request):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesEditRequest.json')])
+    def patch(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            modelUserRole.objects.filter(id=body.get('roleId')).update(name=body.get('name'), allowed_actions={'list': body.get('allowed_actions')})
+            modelUserRole.objects.filter(id=kwargs.get('role_id')).update(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')})
             return CustomJsonResponse(message='Роль успешно изменена')
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredBodyParams(['roleId']))
-    def delete(self, request):
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesDeleteRequest.json')])
+    def delete(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            modelUserRole.objects.filter(id=body.get('roleId')).delete()
+            role = modelUserRole.objects.get(id=kwargs.get('role_id'))
+            role.delete()
             return CustomJsonResponse(message='Роль успешно удалена')
         except:
             return CustomJsonResponse(status=400)

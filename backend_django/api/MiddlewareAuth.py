@@ -33,4 +33,4 @@ class MiddlewareAuth:
         except:
             pass
         
-        request.user_data = {'userLogin': login, 'userAllowedActions': user_allowed_actions, 'suck': True}
+        request.user_data = {'user_login': login, 'user_allowed_actions': user_allowed_actions}
