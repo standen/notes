@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"title": "I Roles List Response",
-	"oneOf": [
+	"allOf": [
 		{
 			"$ref": "../../common/Response.schema.json"
 		},
@@ -14,25 +14,7 @@
 						"roles": {
 							"type": "array",
 							"items": {
-								"type": "object",
-								"properties": {
-									"id": {
-										"type": "string",
-										"format": "uuid"
-									},
-									"name": {
-										"type": "string"
-									},
-									"allowed_actions": {
-										"$ref": "../../common/PermissionList.schema.json"
-									}
-								},
-								"required": [
-									"id",
-									"name",
-									"allowed_actions"
-								],
-								"additionalProperties": false
+								"$ref": "../../common/Role.schema.json"
 							}
 						}
 					},
@@ -42,9 +24,6 @@
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"result"
-			],
 			"additionalProperties": false
 		}
 	]

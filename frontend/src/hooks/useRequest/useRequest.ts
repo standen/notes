@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import axios, { type AxiosRequestConfig } from "axios";
 
-import type { IResponse } from "@/api/types";
+import { type IResponse } from "@/api/generated_types";
 
 import { storeRequestLoader } from "@/store";
 import { useReportError } from "@/hooks";
@@ -14,37 +14,32 @@ export const useRequest = () => {
   const { setLoad, setLoadModal } = storeRequestLoader();
 
   const makeRequest = useCallback(
-    async <T extends IResponse>(
+    async <T>(
       indata: {
         params: AxiosRequestConfig;
-        customError?: string;
-        customSuccess?: string;
       },
       isModal?: boolean,
-    ) => {
+    ): Promise<T | undefined> => {
       isModal ? setLoadModal(true) : setLoad(true);
 
       try {
-        const result = await axios.request<T>({
+        const result = await axios.request<IResponse>({
           ...indata.params,
           withCredentials: true,
         });
 
-        if (result?.data?.message || indata?.customSuccess) {
+        if (result?.data?.message) {
           notification.success({
-            title: result?.data?.message || indata?.customSuccess,
+            title: result?.data?.message,
           });
         }
 
-        return result?.data;
+        return result?.data as T;
       } catch (e) {
         if (axios.isAxiosError(e)) {
-          showErrorNotif(
-            e?.response?.data?.message || indata?.customError || "Ошибка",
-            e,
-          );
+          showErrorNotif(e?.response?.data?.message || "Неизвестная ошибка", e);
         } else {
-          notification.error({ title: indata?.customError });
+          notification.error({ title: "Неопознанный ответ от сервера" });
         }
       } finally {
         isModal ? setLoadModal(false) : setLoad(false);

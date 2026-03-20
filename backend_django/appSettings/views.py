@@ -1,4 +1,4 @@
-import json, datetime
+import datetime
 
 from django.views import View
 from django.utils.decorators import method_decorator
@@ -6,7 +6,6 @@ from django.utils.decorators import method_decorator
 from appAuth.models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decRequiredBodyParams import decRequiredBodyParams
 from decorators.decRequiredAuth import decRequiredAuth
 from decorators.decValidateReq import decValidateReq
 
@@ -16,23 +15,32 @@ class viewManagePermissions(View):
         try:
             return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При получении перечня разрешений произошла ошибка')
 
 class viewManageRoles(View):
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesListRequest.schema.json')])
     def getRolesList(self, request, **kwargs):
-        roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
-        return CustomJsonResponse(result={'roles': roles})
+        try:
+            roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
+            return CustomJsonResponse(result={'roles': roles})
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка ролей произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesNamesListRequest.schema.json')])
     def getRolesNamesList(self, request, **kwargs):
-        rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
-        return CustomJsonResponse(result={'roles_names': rolesNames})
+        try: 
+            rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
+            return CustomJsonResponse(result={'roles_names': rolesNames})
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка наименований ролей произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleParamsRequest.schema.json')])
     def getRoleParams(self, request, **kwargs):
-        role = modelUserRole.objects.get(id=kwargs.get('role_id'))
-        return CustomJsonResponse(result={'role_params': role.returnOne()})
+        try:
+            role = modelUserRole.objects.get(id=kwargs.get('role_id'))
+            return CustomJsonResponse(result={'role_params': role.returnOne()})
+        except:
+            return CustomJsonResponse(status=500, message='При получении параметров роли произошла ошибка')
     
     def get(self, request):
         try:
@@ -54,9 +62,8 @@ class viewManageRoles(View):
         try:
             modelUserRole(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')}).save()
             return CustomJsonResponse(message='Роль успешно создана')
-        except Exception as e:
-            print(e)
-            return CustomJsonResponse(status=400)
+        except:
+            return CustomJsonResponse(status=500, message='При создании роли произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesEditRequest.schema.json')])
     def patch(self, request, **kwargs):
@@ -64,7 +71,7 @@ class viewManageRoles(View):
             modelUserRole.objects.filter(id=kwargs.get('role_id')).update(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')})
             return CustomJsonResponse(message='Роль успешно изменена')
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При обновлении параметров роли произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
@@ -73,23 +80,32 @@ class viewManageRoles(View):
             role.delete()
             return CustomJsonResponse(message='Роль успешно удалена')
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При удалении роли произошла ошибка')
     
 class viewManageUsers(View):
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersListRequest.schema.json')])
     def getUsersList(self, request, **kwargs):
-        users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
-        return CustomJsonResponse(result={'users': users})
+        try:
+            users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
+            return CustomJsonResponse(result={'users': users})
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка пользователей произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersLoginsListRequest.schema.json')])
     def getUsersLoginsList(self, request, **kwargs):
-        usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
-        return CustomJsonResponse(result={'users_logins': usersLogins})
+        try:
+            usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
+            return CustomJsonResponse(result={'users_logins': usersLogins})
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка логинов пользователей произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserParamsRequest.schema.json')])
     def getUserParams(self, request, **kwargs):
-        user = modelUser.objects.get(id=kwargs.get('user_id'))
-        return CustomJsonResponse(result={'user_params': user.returnOne()})
+        try:
+            user = modelUser.objects.get(id=kwargs.get('user_id'))
+            return CustomJsonResponse(result={'user_params': user.returnOne()})
+        except:
+            return CustomJsonResponse(status=500, message='При получении параметров пользователя произошла ошибка')
     
     def get(self, request, **kwargs):
         try:
@@ -104,7 +120,7 @@ class viewManageUsers(View):
             else:
                 raise
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserCreateRequest.schema.json')])
     def post(self, request, **kwargs):
@@ -112,7 +128,7 @@ class viewManageUsers(View):
             modelUser(login=kwargs.get('login'), password=kwargs.get('password'), role=modelUserRole.objects.get(id=kwargs.get('role_id'))).save()
             return CustomJsonResponse(message='Пользователь успешно создан')
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При создании пользователя произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserEditRequest.schema.json')])
     def patch(self, request, **kwargs):
@@ -132,7 +148,7 @@ class viewManageUsers(View):
                     )
             return CustomJsonResponse(message='Пользователь успешно изменен')
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При обновлении параметров пользователя произошла ошибка')
     
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
@@ -141,4 +157,4 @@ class viewManageUsers(View):
             user.delete()
             return CustomJsonResponse(message='Пользователь успешно удален')
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При удалении пользователя произошла ошибка')

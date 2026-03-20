@@ -13,7 +13,6 @@ export const useNotes = () => {
   const getNotes = useCallback(async (): Promise<INoteForTable[]> => {
     const notes = await makeRequest<IResponseNotesList>({
       params: { method: "get", url: API.notes.notes },
-      customError: "Ошибка при получении списка ссылок заметок",
     });
 
     setNotes(notes?.result?.notes ?? []);

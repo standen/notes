@@ -1,25 +1,31 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "I Auth UserInfo Response",
-  "oneOf": [
+  "allOf": [
     {
       "$ref": "../common/Response.schema.json"
     },
     {
       "type": "object",
       "properties": {
-        "user_login": {
-          "type": "string"
-        },
-        "user_allowed_actions": {
-          "$ref": "../common/PermissionList.schema.json"
+        "result": {
+          "type": "object",
+          "properties": {
+            "user_login": {
+              "type": "string"
+            },
+            "user_allowed_actions": {
+              "$ref": "../common/PermissionList.schema.json"
+            }
+          },
+          "required": [
+            "user_login",
+            "user_allowed_actions"
+          ],
+          "additionalProperties": false
         }
       },
-      "additionalProperties": false,
-      "required": [
-        "user_login",
-        "user_allowed_actions"
-      ]
+      "additionalProperties": false
     }
   ]
 }

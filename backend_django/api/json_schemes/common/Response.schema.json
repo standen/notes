@@ -1,11 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "I Common Response",
+  "title": "I Response",
   "type": "object",
   "properties": {
     "message": {
       "type": "string"
-    }
+    },
+    "result": {}
   },
   "additionalProperties": false
 }

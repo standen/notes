@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "I Role Params Response",
+	"title": "I User Params Response",
 	"allOf": [
 		{
 			"$ref": "../../common/Response.schema.json"
@@ -11,12 +11,12 @@
 				"result": {
 					"type": "object",
 					"properties": {
-						"role_params": {
-							"$ref": "../../common/Role.schema.json"
+						"user_params": {
+							"$ref": "../../common/User.schema.json"
 						}
 					},
 					"required": [
-						"role_params"
+						"user_params"
 					],
 					"additionalProperties": false
 				}

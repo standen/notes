@@ -1,10 +1,14 @@
 import { useEffect } from "react";
+import classNames from "classnames/bind";
 import { useNavigate, useLocation } from "react-router";
 
 import { PAGES_NAMES, type TMenuPagesNames } from "@/router/types";
 import { NavMenu } from "@/router/constants";
 
 import { Menu } from "antd";
+
+import styles from "./styles.module.scss";
+const cx = classNames.bind(styles);
 
 export const HeaderMenu = () => {
   const navigate = useNavigate();
@@ -22,14 +26,16 @@ export const HeaderMenu = () => {
       mode="horizontal"
       defaultSelectedKeys={[
         PAGES_NAMES?.find(
-          (item) => NavMenu?.[item]?.url === location?.pathname
+          (item) => NavMenu?.[item]?.url === location?.pathname,
         ) ?? "",
       ]}
       items={PAGES_NAMES.filter((item) => NavMenu?.[item]?.isMenuItem).map(
         (item) => ({
           key: item,
-          label: NavMenu?.[item]?.title,
-        })
+          label: (
+            <div className={cx(["menuItem"])}>{NavMenu?.[item]?.title}</div>
+          ),
+        }),
       )}
       style={{ flex: 1, minWidth: 0 }}
       onSelect={({ key }) =>

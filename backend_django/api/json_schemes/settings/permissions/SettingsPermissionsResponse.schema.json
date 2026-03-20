@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "I Permissions List Response",
-  "oneOf": [
+  "allOf": [
     {
       "$ref": "../../common/Response.schema.json"
     },
@@ -17,12 +17,10 @@
           },
           "required": [
             "permissions"
-          ]
+          ],
+          "additionalProperties": false
         }
       },
-      "required": [
-        "result"
-      ],
       "additionalProperties": false
     }
   ]

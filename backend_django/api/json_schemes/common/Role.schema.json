@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Role",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "allowed_actions": {
+      "$ref": "PermissionList.schema.json"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "allowed_actions"
+  ],
+  "additionalProperties": false
+}

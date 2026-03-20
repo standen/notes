@@ -3,12 +3,12 @@ import { sha256 } from "js-sha256";
 
 import type {
   IUser,
-  IResponseUserParams,
-  IResponseUsersList,
-  IResponseUsersLogins,
-  IResponseRolesList,
   IRole,
-} from "@/api/settings";
+  IUserParamsResponse,
+  IUsersListResponse,
+  IUsersLoginsListResponse,
+  IRolesListResponse,
+} from "@/api/generated_types";
 import type { TFormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
 
 import { useRequest } from "@/hooks";
@@ -25,30 +25,27 @@ export const useUsers = () => {
   const [users, setUsers] = useState<IUser[]>([]);
 
   const getRoles = useCallback(async (): Promise<IRole[]> => {
-    const roles = await makeRequest<IResponseRolesList>({
+    const roles = await makeRequest<IRolesListResponse>({
       params: { method: "get", url: API.settings.roles },
-      customError: "Ошибка при получении списка ролей",
     });
 
     return roles?.result?.roles ?? [];
   }, [makeRequest]);
 
   const getUsersLogins = useCallback(async (): Promise<string[]> => {
-    const usersLogins = await makeRequest<IResponseUsersLogins>({
+    const usersLogins = await makeRequest<IUsersLoginsListResponse>({
       params: { method: "get", url: API.settings.allUsersLogins },
-      customError: "Ошибка при получении списка ранее созданных ролей",
     });
 
-    return usersLogins?.result?.usersLogins ?? [];
+    return usersLogins?.result?.users_logins ?? [];
   }, [makeRequest]);
 
   const getUsers = useCallback(async (): Promise<IUser[]> => {
-    const users = await makeRequest<IResponseUsersList>({
+    const users = await makeRequest<IUsersListResponse>({
       params: {
         method: "get",
         url: API.settings.users,
       },
-      customError: "Ошибка при получении списка пользователей",
     });
 
     setUsers(users?.result?.users ?? []);
@@ -57,7 +54,7 @@ export const useUsers = () => {
 
   const getUserParams = useCallback(
     async (userId: string): Promise<IUser | undefined> => {
-      const userParams = await makeRequest<IResponseUserParams>({
+      const userParams = await makeRequest<IUserParamsResponse>({
         params: {
           method: "post",
           url: API.settings.users,
@@ -66,10 +63,9 @@ export const useUsers = () => {
             userId,
           },
         },
-        customError: "Ошибка при получении информации о пользователе",
       });
 
-      return userParams?.result?.userParams;
+      return userParams?.result?.user_params;
     },
     [makeRequest],
   );
@@ -144,7 +140,6 @@ export const useUsers = () => {
                 roleId: userData?.roleId,
               },
         },
-        customError: "Ошибка при обработке роли",
       });
 
       getUsers();
@@ -164,7 +159,6 @@ export const useUsers = () => {
             userId,
           },
         },
-        customError: "Во время удаления пользователя произошла ошибка",
       });
 
       getUsers();

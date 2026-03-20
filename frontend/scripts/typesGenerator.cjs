@@ -8,8 +8,6 @@ const schemes = glob.sync("../backend_django/api/json_schemes/**/*.json");
 
 fs.writeFileSync(PATH_TO_GENERATED_TYPES_FILE, "");
 
-console.log([...new Set([...schemes])]);
-
 for (const schema of [...new Set([...schemes])]) {
   json2ts
     .compileFromFile(schema, {

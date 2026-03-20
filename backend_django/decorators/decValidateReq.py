@@ -25,11 +25,22 @@ def decValidateReq(schemaPath):
             try:
                 # all refs resources
                 with open('api/json_schemes/common/PermissionList.schema.json', 'r', encoding='utf-8') as file:
-                    permissions = json.load(file)
+                    permissions = Resource.from_contents(json.load(file))
+                
+                with open('api/json_schemes/common/Role.schema.json', 'r', encoding='utf-8') as file:
+                    role = Resource.from_contents(json.load(file))
                     
-                registry = Registry().with_resources([(
-                    "../../common/PermissionList.schema.json", Resource.from_contents(permissions)
-                )])
+                with open('api/json_schemes/common/User.schema.json', 'r', encoding='utf-8') as file:
+                    user = Resource.from_contents(json.load(file))
+                    
+                registry = Registry().with_resources([
+                    ("PermissionList.schema.json", permissions),
+                    ("../../common/PermissionList.schema.json", permissions),
+                    ("Role.schema.json", role),
+                    ("../../common/Role.schema.json", role),
+                    ("User.schema.json", user),
+                    ("../../common/User.schema.json", user)
+                ])
                 
                 validator = Draft202012Validator(schema, registry=registry)
                 validator.validate(body)

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
 	"title": "I Roles Names List Response",
-	"oneOf": [
+	"allOf": [
 		{
 			"$ref": "../../common/Response.schema.json"
 		},
@@ -24,9 +24,6 @@
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"result"
-			],
 			"additionalProperties": false
 		}
 	]

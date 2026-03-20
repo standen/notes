@@ -2,11 +2,11 @@ import { useMemo, useCallback, useState, useEffect } from "react";
 
 import type {
   IRole,
-  IResponsePermissionsList,
-  IResponseRolesNames,
-  IResponseRoleParams,
-  IResponseRolesList,
-} from "@/api/settings";
+  IRolesNamesListResponse,
+  IRoleParamsResponse,
+  IPermissionsListResponse,
+  IRolesListResponse,
+} from "@/api/generated_types";
 import { type TFormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/FormEditRole";
 
 import { useRequest } from "@/hooks";
@@ -23,9 +23,8 @@ export const useRoles = () => {
   const [roles, setRoles] = useState<IRole[]>([]);
 
   const getPermissions = useCallback(async (): Promise<string[]> => {
-    const perms = await makeRequest<IResponsePermissionsList>({
+    const perms = await makeRequest<IPermissionsListResponse>({
       params: { method: "get", url: API.settings.permissions },
-      customError: "Ошибка при получении списка allowedActions",
     });
 
     return perms?.result?.permissions ?? [];
@@ -33,7 +32,7 @@ export const useRoles = () => {
 
   const getRoleParams = useCallback(
     async (roleId: string): Promise<IRole | undefined> => {
-      const roleParams = await makeRequest<IResponseRoleParams>({
+      const roleParams = await makeRequest<IRoleParamsResponse>({
         params: {
           method: "post",
           url: API.settings.roles,
@@ -44,24 +43,22 @@ export const useRoles = () => {
         },
       });
 
-      return roleParams?.result?.roleParams;
+      return roleParams?.result?.role_params;
     },
     [makeRequest],
   );
 
   const getRolesNames = useCallback(async (): Promise<string[]> => {
-    const rolesNames = await makeRequest<IResponseRolesNames>({
+    const rolesNames = await makeRequest<IRolesNamesListResponse>({
       params: { method: "get", url: API.settings.allUsersRolesNames },
-      customError: "Ошибка при получении списка ранее созданных ролей",
     });
 
-    return rolesNames?.result?.rolesNames ?? [];
+    return rolesNames?.result?.roles_names ?? [];
   }, [makeRequest]);
 
   const getRoles = useCallback(async () => {
-    const roles = await makeRequest<IResponseRolesList>({
+    const roles = await makeRequest<IRolesListResponse>({
       params: { method: "get", url: API.settings.roles },
-      customError: "Ошибка при получении списка ролей",
     });
 
     setRoles(roles?.result?.roles ?? []);
@@ -131,7 +128,6 @@ export const useRoles = () => {
                 allowed_actions: roleData?.allowed_actions,
               },
         },
-        customError: "Ошибка при обработке роли",
       });
 
       getRoles();
@@ -158,7 +154,6 @@ export const useRoles = () => {
             roleId,
           },
         },
-        customError: "Во время удаления роли произошла ошибка",
       });
 
       getRoles();

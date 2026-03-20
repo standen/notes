@@ -3,7 +3,7 @@ import { type FC } from "react";
 import { validate } from "@/utils";
 import { ERRORS_TEXT } from "@/constants";
 
-import type { IRole, IUser } from "@/api/settings";
+import type { IRole, IUser } from "@/api/generated_types";
 
 import { useReportError } from "@/hooks/useReportError";
 

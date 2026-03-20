@@ -23,7 +23,6 @@ export const useAuth = () => {
         method: "post",
         url: API.auth.userInfo,
       },
-      customError: "Ошибка при получении информации о пользователе",
     });
 
     if (!user) {
@@ -39,7 +38,6 @@ export const useAuth = () => {
   const logout = useCallback(async () => {
     await makeRequest({
       params: { method: "post", url: API.auth.logout },
-      customError: "Ошибка при выходе из профиля",
     });
 
     getUserInfo();
@@ -75,7 +73,6 @@ export const useAuth = () => {
           login: authData?.login?.toLocaleLowerCase(),
         },
       },
-      customError: "Ошибка во время авторизации",
     });
 
     getUserInfo();
