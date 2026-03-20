@@ -7,7 +7,6 @@ from appAuth.models import modelUser
 from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decRequiredBodyParams import decRequiredBodyParams
 from decorators.decRequiredAuth import decRequiredAuth
 
 class viewNotes(View):
@@ -22,9 +21,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    # получить список заметок
-    @method_decorator(decRequiredBodyParams())
-    @method_decorator(decRequiredBodyParams())
     def postNoteList(self, request):
         try:
             openNotes = []
@@ -42,9 +38,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    # создать заметку
-    @method_decorator(decRequiredAuth())
-    @method_decorator(decRequiredBodyParams(['name', 'text', 'link', 'is_cipher', 'open_for_all', 'edit_everyone']))
     def postNoteCreate(self, request):
         try:
             body = json.loads(request.body)
@@ -65,8 +58,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    # получить параметры одной заметки
-    @method_decorator(decRequiredBodyParams(['noteLink']))
     def postNoteGet(self, request):
         try:
             body = json.loads(request.body)
@@ -89,7 +80,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredBodyParams(['action']))
     def post(self, request):
         try:
             action = json.loads(request.body).get('action')
@@ -108,8 +98,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredAuth())
-    @method_decorator(decRequiredBodyParams(['name', 'text', 'is_cipher', 'open_for_all', 'edit_everyone', 'noteLink']))
     def patch(self, request):
         try:
             body = json.loads(request.body)
@@ -143,8 +131,6 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator(decRequiredAuth())
-    @method_decorator(decRequiredBodyParams(['noteId']))
     def delete(self, request):
         try:
             body = json.loads(request.body)

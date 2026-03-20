@@ -1,25 +1,22 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "I Auth Login",
+  "title": "I Auth UserInfo Request",
   "type": "object",
   "properties": {
-    "login": {
-      "type": "string"
-    },
-    "password": {
-      "type": "string"
-    },
     "action": {
       "type": "string",
       "enum": [
-        "auth_login"
+        "get_role_params"
       ]
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid"
     }
   },
   "required": [
-    "login",
-    "password",
-    "action"
+    "action",
+    "user_id"
   ],
   "additionalProperties": false
 }

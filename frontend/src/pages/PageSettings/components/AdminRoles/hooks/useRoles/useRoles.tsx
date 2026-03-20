@@ -6,6 +6,8 @@ import type {
   IRoleParamsResponse,
   IPermissionsListResponse,
   IRolesListResponse,
+  IPermissionsList,
+  IPermissionsListRequest,
 } from "@/api/generated_types";
 import { type TFormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/FormEditRole";
 
@@ -22,9 +24,16 @@ export const useRoles = () => {
 
   const [roles, setRoles] = useState<IRole[]>([]);
 
-  const getPermissions = useCallback(async (): Promise<string[]> => {
-    const perms = await makeRequest<IPermissionsListResponse>({
-      params: { method: "get", url: API.settings.permissions },
+  const getPermissions = useCallback(async (): Promise<IPermissionsList> => {
+    const perms = await makeRequest<
+      IPermissionsListResponse,
+      IPermissionsListRequest
+    >({
+      params: {
+        method: "get",
+        url: API.settings.permissions,
+        params: { action: "" },
+      },
     });
 
     return perms?.result?.permissions ?? [];

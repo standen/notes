@@ -42,7 +42,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=500, message='При получении параметров роли произошла ошибка')
     
-    def get(self, request):
+    def get(self, request, **kwargs):
         try:
             action = request.GET.get('action')
             

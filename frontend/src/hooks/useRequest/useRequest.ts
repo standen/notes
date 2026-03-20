@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
-import axios, { type AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 
-import { type IResponse } from "@/api/generated_types";
+import type { IResponse } from "@/api/generated_types";
 
 import { storeRequestLoader } from "@/store";
 import { useReportError } from "@/hooks";
@@ -14,16 +14,20 @@ export const useRequest = () => {
   const { setLoad, setLoadModal } = storeRequestLoader();
 
   const makeRequest = useCallback(
-    async <T>(
+    async <T, U>(
       indata: {
-        params: AxiosRequestConfig;
+        params: AxiosRequestConfig<U>;
       },
       isModal?: boolean,
     ): Promise<T | undefined> => {
       isModal ? setLoadModal(true) : setLoad(true);
 
       try {
-        const result = await axios.request<IResponse>({
+        const result = await axios.request<
+          IResponse,
+          AxiosResponse<IResponse>,
+          U
+        >({
           ...indata.params,
           withCredentials: true,
         });

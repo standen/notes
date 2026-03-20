@@ -3,22 +3,14 @@
   "title": "I Auth Login",
   "type": "object",
   "properties": {
-    "login": {
-      "type": "string"
-    },
-    "password": {
-      "type": "string"
-    },
     "action": {
       "type": "string",
       "enum": [
-        "auth_login"
+        "auth_logout"
       ]
     }
   },
   "required": [
-    "login",
-    "password",
     "action"
   ],
   "additionalProperties": false

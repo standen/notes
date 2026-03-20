@@ -14,7 +14,7 @@ def decValidateReq(schemaPath):
                     body = json.loads(request.body)
             except:
                 return CustomJsonResponse(status=500, message='Ошибка при парсинге тела запроса')
-            
+                       
             try:
                 with open(schemaPath, 'r', encoding='utf-8') as file:
                     schema = json.load(file)
