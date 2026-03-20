@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "User Params Response",
+	"title": "I User Params Response",
 	"type": "object",
 	"properties": {
 		"result": {

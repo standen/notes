@@ -11,7 +11,7 @@ from decorators.decRequiredAuth import decRequiredAuth
 from decorators.decValidateReq import decValidateReq
 
 class viewManagePermissions(View):
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/permissions/SettingsPermissionsRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/permissions/SettingsPermissionsRequest.schema.json')])
     def get(self, request, **kwargs):
         try:
             return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
@@ -19,17 +19,17 @@ class viewManagePermissions(View):
             return CustomJsonResponse(status=400)
 
 class viewManageRoles(View):
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesListRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesListRequest.schema.json')])
     def getRolesList(self, request, **kwargs):
         roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
         return CustomJsonResponse(result={'roles': roles})
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesNamesListRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesNamesListRequest.schema.json')])
     def getRolesNamesList(self, request, **kwargs):
         rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
         return CustomJsonResponse(result={'roles_names': rolesNames})
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleParamsRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleParamsRequest.schema.json')])
     def getRoleParams(self, request, **kwargs):
         role = modelUserRole.objects.get(id=kwargs.get('role_id'))
         return CustomJsonResponse(result={'role_params': role.returnOne()})
@@ -49,7 +49,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesCreateRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesCreateRequest.schema.json')])
     def post(self, request, **kwargs):
         try:
             modelUserRole(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')}).save()
@@ -58,7 +58,7 @@ class viewManageRoles(View):
             print(e)
             return CustomJsonResponse(status=400)
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesEditRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesEditRequest.schema.json')])
     def patch(self, request, **kwargs):
         try:
             modelUserRole.objects.filter(id=kwargs.get('role_id')).update(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')})
@@ -66,7 +66,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesDeleteRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
         try:
             role = modelUserRole.objects.get(id=kwargs.get('role_id'))
@@ -76,17 +76,17 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=400)
     
 class viewManageUsers(View):
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersListRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersListRequest.schema.json')])
     def getUsersList(self, request, **kwargs):
         users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
         return CustomJsonResponse(result={'users': users})
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersLoginsListRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUsersLoginsListRequest.schema.json')])
     def getUsersLoginsList(self, request, **kwargs):
         usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
         return CustomJsonResponse(result={'users_logins': usersLogins})
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserParamsRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserParamsRequest.schema.json')])
     def getUserParams(self, request, **kwargs):
         user = modelUser.objects.get(id=kwargs.get('user_id'))
         return CustomJsonResponse(result={'user_params': user.returnOne()})
@@ -106,7 +106,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
         
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserCreateRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserCreateRequest.schema.json')])
     def post(self, request, **kwargs):
         try:
             modelUser(login=kwargs.get('login'), password=kwargs.get('password'), role=modelUserRole.objects.get(id=kwargs.get('role_id'))).save()
@@ -114,7 +114,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserEditRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserEditRequest.schema.json')])
     def patch(self, request, **kwargs):
         try:
             if (kwargs.get('password') == None):
@@ -134,7 +134,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400)
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserDeleteRequest.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/users/SettingsUserDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
         try:
             user = modelUser.objects.get(id=kwargs.get('user_id'))

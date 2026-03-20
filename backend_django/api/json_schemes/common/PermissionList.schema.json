@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Permission List",
+  "title": "I Permissions List",
   "type": "array",
   "uniqueItems": true,
   "items": {

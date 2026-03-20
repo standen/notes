@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Roles Names List Response",
+	"title": "I Roles Names List Response",
 	"oneOf": [
 		{
-			"$ref": "../../common/Response.json"
+			"$ref": "../../common/Response.schema.json"
 		},
 		{
 			"type": "object",

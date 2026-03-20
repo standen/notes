@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "User Delete Request",
+  "title": "I User Delete Request",
   "type": "object",
   "properties": {
     "user_id": {

@@ -1,21 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Role Edit Request",
+  "title": "I Role Create Request",
   "type": "object",
   "properties": {
-    "role_id": {
-      "type": "string",
-      "format": "uuid"
-    },
     "name": {
       "type": "string"
     },
     "allowed_actions": {
-      "$ref": "../../common/PermissionList.json"
+      "$ref": "../../common/PermissionList.schema.json"
     }
   },
   "required": [
-    "role_id",
     "name",
     "allowed_actions"
   ],

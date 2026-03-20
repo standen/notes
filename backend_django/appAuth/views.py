@@ -23,7 +23,7 @@ class viewLogin(View):
         result.update({'count': len(sessions)})
         return CustomJsonResponse(result=result)
     
-    @method_decorator(decValidateReq('api/json_schemes/auth/AuthLoginRequest.json'))
+    @method_decorator(decValidateReq('api/json_schemes/auth/AuthLoginRequest.schema.json'))
     def post(self, request, **kwargs):
         try:
             user = modelUser.objects.get(login=kwargs.get('login'), password=kwargs.get('password'))

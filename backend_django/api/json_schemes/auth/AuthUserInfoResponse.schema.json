@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Auth UserInfo Response",
+  "title": "I Auth UserInfo Response",
   "oneOf": [
     {
-      "$ref": "../common/Response.json"
+      "$ref": "../common/Response.schema.json"
     },
     {
       "type": "object",
@@ -12,7 +12,7 @@
           "type": "string"
         },
         "user_allowed_actions": {
-          "$ref": "../common/PermissionList.json"
+          "$ref": "../common/PermissionList.schema.json"
         }
       },
       "additionalProperties": false,

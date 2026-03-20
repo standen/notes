@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Users List Response",
+	"title": "I Users List Response",
 	"oneOf": [
 		{
-			"$ref": "../../common/Response.json"
+			"$ref": "../../common/Response.schema.json"
 		},
 		{
 			"type": "object",

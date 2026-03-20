@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Roles List Response",
+	"title": "I Roles List Response",
 	"oneOf": [
 		{
-			"$ref": "../../common/Response.json"
+			"$ref": "../../common/Response.schema.json"
 		},
 		{
 			"type": "object",
@@ -24,7 +24,7 @@
 										"type": "string"
 									},
 									"allowed_actions": {
-										"$ref": "../../common/PermissionList.json"
+										"$ref": "../../common/PermissionList.schema.json"
 									}
 								},
 								"required": [

@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "List Permissions Response",
+  "title": "I Permissions List Response",
   "oneOf": [
     {
-      "$ref": "../../common/Response.json"
+      "$ref": "../../common/Response.schema.json"
     },
     {
       "type": "object",
@@ -12,7 +12,7 @@
           "type": "object",
           "properties": {
             "permissions": {
-              "$ref": "../../common/PermissionList.json"
+              "$ref": "../../common/PermissionList.schema.json"
             }
           },
           "required": [

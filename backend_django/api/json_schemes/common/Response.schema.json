@@ -1,15 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Role Delete Request",
+  "title": "I Common Response",
   "type": "object",
   "properties": {
-    "role_id": {
-      "type": "string",
-      "format": "uuid"
+    "message": {
+      "type": "string"
     }
   },
-  "required": [
-    "role_id"
-  ],
   "additionalProperties": false
 }

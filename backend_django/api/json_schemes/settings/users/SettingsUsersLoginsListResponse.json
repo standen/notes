@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"title": "Users Logins List Response",
+	"title": "I Users Logins List Response",
 	"type": "object",
 	"properties": {
 		"result": {
