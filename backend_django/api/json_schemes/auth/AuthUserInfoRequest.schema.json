@@ -6,7 +6,7 @@
     "action": {
       "type": "string",
       "enum": [
-        "get_role_params"
+        "get_user_info"
       ]
     },
     "user_id": {

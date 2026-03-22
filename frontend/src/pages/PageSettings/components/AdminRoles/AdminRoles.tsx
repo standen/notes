@@ -14,7 +14,7 @@ import { Flex, Input, Button, Table } from "antd";
 const { Search } = Input;
 
 export const AdminRoles = () => {
-  const { editRole, delRole, roles } = useRoles();
+  const { editRole, delRole, roles, createRole } = useRoles();
 
   const [searchString, setSearchString] = useState<string>("");
 
@@ -22,7 +22,7 @@ export const AdminRoles = () => {
     <>
       <Title
         right={
-          <Button type="primary" onClick={() => editRole()}>
+          <Button type="primary" onClick={() => createRole()}>
             Добавить роль
           </Button>
         }

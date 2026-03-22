@@ -2,19 +2,29 @@ import { useMemo, useCallback, useState, useEffect } from "react";
 
 import type {
   IRole,
+  IRolesNamesListRequest,
   IRolesNamesListResponse,
-  IRoleParamsResponse,
-  IPermissionsListResponse,
+  IRolesListRequest,
   IRolesListResponse,
   IPermissionsList,
   IPermissionsListRequest,
+  IPermissionsListResponse,
+  IRoleParamsRequest,
+  IRoleParamsResponse,
+  IRoleDeleteRequest,
+  IRoleEditRequest,
+  IResponse,
+  IRoleCreateRequest,
 } from "@/api/generated_types";
-import { type TFormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/FormEditRole";
+import type { TFormRoleEdit } from "@/pages/PageSettings/components/AdminRoles/forms/FormRoleEdit";
 
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
 
-import { FormEditRole } from "@/pages/PageSettings/components/AdminRoles/forms/FormEditRole";
+import {
+  FormRoleCreate,
+  FormRoleEdit,
+} from "@/pages/PageSettings/components/AdminRoles/forms";
 
 import { App } from "antd";
 
@@ -26,13 +36,13 @@ export const useRoles = () => {
 
   const getPermissions = useCallback(async (): Promise<IPermissionsList> => {
     const perms = await makeRequest<
-      IPermissionsListResponse,
-      IPermissionsListRequest
+      IPermissionsListRequest,
+      IPermissionsListResponse
     >({
       params: {
         method: "get",
         url: API.settings.permissions,
-        params: { action: "" },
+        params: { action: "get_permissions_list" },
       },
     });
 
@@ -41,13 +51,16 @@ export const useRoles = () => {
 
   const getRoleParams = useCallback(
     async (roleId: string): Promise<IRole | undefined> => {
-      const roleParams = await makeRequest<IRoleParamsResponse>({
+      const roleParams = await makeRequest<
+        IRoleParamsRequest,
+        IRoleParamsResponse
+      >({
         params: {
           method: "post",
           url: API.settings.roles,
           data: {
-            action: "roleGet",
-            roleId,
+            action: "get_role_params",
+            role_id: roleId,
           },
         },
       });
@@ -58,24 +71,91 @@ export const useRoles = () => {
   );
 
   const getRolesNames = useCallback(async (): Promise<string[]> => {
-    const rolesNames = await makeRequest<IRolesNamesListResponse>({
-      params: { method: "get", url: API.settings.allUsersRolesNames },
+    const rolesNames = await makeRequest<
+      IRolesNamesListRequest,
+      IRolesNamesListResponse
+    >({
+      params: {
+        method: "get",
+        url: API.settings.allUsersRolesNames,
+        params: { action: "get_roles_names_list" },
+      },
     });
 
     return rolesNames?.result?.roles_names ?? [];
   }, [makeRequest]);
 
   const getRoles = useCallback(async () => {
-    const roles = await makeRequest<IRolesListResponse>({
-      params: { method: "get", url: API.settings.roles },
+    const roles = await makeRequest<IRolesListRequest, IRolesListResponse>({
+      params: {
+        method: "get",
+        url: API.settings.roles,
+        params: { action: "get_roles_list" },
+      },
     });
 
     setRoles(roles?.result?.roles ?? []);
     return roles?.result?.roles ?? [];
   }, [makeRequest]);
 
+  const createRole = useCallback(async () => {
+    const perms = await getPermissions();
+    const rolesNames = await getRolesNames();
+
+    if (perms?.length === 0) {
+      return;
+    }
+
+    const modalRole = modal.confirm({
+      title: "Создание роли",
+      footer: null,
+      icon: null,
+      closable: true,
+      width: 600,
+      content: null,
+    });
+
+    const roleData = await new Promise<IRoleCreateRequest>((resolve) =>
+      modalRole.update({
+        content: (
+          <FormRoleCreate
+            permissions={perms}
+            rolesNames={rolesNames}
+            resolve={resolve}
+          />
+        ),
+      }),
+    );
+
+    if (!roleData) {
+      return;
+    }
+
+    await makeRequest<IRoleCreateRequest, IResponse>({
+      params: {
+        method: "post",
+        url: API.settings.roles,
+        data: {
+          name: roleData?.name,
+          allowed_actions: roleData?.allowed_actions,
+        },
+      },
+    });
+
+    getRoles();
+
+    modalRole.destroy();
+  }, [
+    getPermissions,
+    getRolesNames,
+    getRoleParams,
+    modal,
+    makeRequest,
+    getRoles,
+  ]);
+
   const editRole = useCallback(
-    async (roleId?: string) => {
+    async (roleId: string) => {
       const perms = await getPermissions();
       const rolesNames = await getRolesNames();
 
@@ -85,16 +165,14 @@ export const useRoles = () => {
 
       let roleParams: IRole | undefined;
 
-      if (roleId) {
-        roleParams = await getRoleParams(roleId);
+      roleParams = await getRoleParams(roleId);
 
-        if (!roleParams) {
-          return;
-        }
+      if (!roleParams) {
+        return;
       }
 
       const modalRole = modal.confirm({
-        title: roleId ? "Редактирование роли" : "Создание роли",
+        title: "Редактирование роли",
         footer: null,
         icon: null,
         closable: true,
@@ -102,10 +180,10 @@ export const useRoles = () => {
         content: null,
       });
 
-      const roleData = await new Promise<TFormEditRole>((resolve) =>
+      const roleData = await new Promise<TFormRoleEdit>((resolve) =>
         modalRole.update({
           content: (
-            <FormEditRole
+            <FormRoleEdit
               permissions={perms}
               roleParams={roleParams}
               rolesNames={rolesNames.filter(
@@ -121,21 +199,15 @@ export const useRoles = () => {
         return;
       }
 
-      await makeRequest({
+      await makeRequest<IRoleEditRequest, IResponse>({
         params: {
-          method: roleId ? "patch" : "post",
+          method: "patch",
           url: API.settings.roles,
-          data: roleId
-            ? {
-                roleId,
-                name: roleData?.name,
-                allowed_actions: roleData?.allowed_actions,
-              }
-            : {
-                action: "roleCreate",
-                name: roleData?.name,
-                allowed_actions: roleData?.allowed_actions,
-              },
+          data: {
+            role_id: roleId,
+            name: roleData?.name,
+            allowed_actions: roleData?.allowed_actions,
+          },
         },
       });
 
@@ -155,12 +227,12 @@ export const useRoles = () => {
 
   const delRole = useCallback(
     async (roleId: string) => {
-      await makeRequest({
+      await makeRequest<IRoleDeleteRequest, IResponse>({
         params: {
           method: "delete",
           url: API.settings.roles,
           data: {
-            roleId,
+            role_id: roleId,
           },
         },
       });
@@ -175,7 +247,7 @@ export const useRoles = () => {
   }, [getRoles]);
 
   return useMemo(
-    () => ({ delRole, editRole, roles, getRoles }),
-    [delRole, editRole, roles, getRoles],
+    () => ({ delRole, editRole, roles, getRoles, createRole }),
+    [delRole, editRole, roles, getRoles, createRole],
   );
 };

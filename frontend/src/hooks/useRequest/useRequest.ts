@@ -8,25 +8,30 @@ import { useReportError } from "@/hooks";
 
 import { App } from "antd";
 
+// параметризую params для get-запроса
+interface CustomRequestConfig<D = any, P = any> extends AxiosRequestConfig<D> {
+  params?: P;
+}
+
 export const useRequest = () => {
   const { showErrorNotif } = useReportError();
   const { notification } = App.useApp();
   const { setLoad, setLoadModal } = storeRequestLoader();
 
   const makeRequest = useCallback(
-    async <T, U>(
+    async <Q, A>(
       indata: {
-        params: AxiosRequestConfig<U>;
+        params: CustomRequestConfig<Q, Q>;
       },
       isModal?: boolean,
-    ): Promise<T | undefined> => {
+    ): Promise<A | undefined> => {
       isModal ? setLoadModal(true) : setLoad(true);
 
       try {
         const result = await axios.request<
           IResponse,
           AxiosResponse<IResponse>,
-          U
+          Q
         >({
           ...indata.params,
           withCredentials: true,
@@ -38,7 +43,7 @@ export const useRequest = () => {
           });
         }
 
-        return result?.data as T;
+        return result?.data as A;
       } catch (e) {
         if (axios.isAxiosError(e)) {
           showErrorNotif(e?.response?.data?.message || "Неизвестная ошибка", e);

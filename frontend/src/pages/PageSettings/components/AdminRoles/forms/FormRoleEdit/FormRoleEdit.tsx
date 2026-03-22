@@ -4,7 +4,7 @@ import { validate } from "@/utils";
 
 import { ERRORS_TEXT } from "@/constants";
 
-import type { IRole } from "@/api/settings";
+import type { IRole, IRoleEditRequest } from "@/api/generated_types";
 
 import { useReportError } from "@/hooks/useReportError";
 
@@ -12,26 +12,23 @@ import { Loader } from "@/components";
 
 import { Form, Input, Select, Flex, Button } from "antd";
 
-export type TFormEditRole = {
-  name: string;
-  allowed_actions: string[];
-};
+export type TFormRoleEdit = Omit<IRoleEditRequest, "role_id">;
 
 interface Props {
   permissions: string[];
   rolesNames: string[];
-  resolve: (value: TFormEditRole) => void;
+  resolve: (value: IRoleEditRequest) => void;
   roleParams: IRole | undefined;
 }
 
-export const FormEditRole: FC<Props> = (props) => {
+export const FormRoleEdit: FC<Props> = (props) => {
   const { permissions, rolesNames, roleParams, resolve } = props;
 
   const { showSimpleError } = useReportError();
 
   return (
     <Loader.body>
-      <Form<TFormEditRole>
+      <Form<IRoleEditRequest>
         layout="vertical"
         autoComplete="off"
         onFinish={(values) => resolve(values)}
@@ -85,7 +82,7 @@ export const FormEditRole: FC<Props> = (props) => {
         </Form.Item>
         <Flex justify="flex-end">
           <Button type="primary" htmlType="submit">
-            {roleParams ? "Сохранить изменения" : "Добавить роль"}
+            Сохранить изменения
           </Button>
         </Flex>
       </Form>

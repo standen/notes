@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "I Auth Login",
+  "title": "I Auth Login Request",
   "type": "object",
   "properties": {
     "login": {

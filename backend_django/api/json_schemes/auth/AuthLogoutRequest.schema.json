@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "I Auth Login",
+  "title": "I Auth Logout Request",
   "type": "object",
   "properties": {
     "action": {
