@@ -1,6 +1,6 @@
 import { Flex, Popconfirm, Tag, type TableColumnsType } from "antd";
 
-import { type IUser } from "@/api/settings";
+import { type IUser } from "@/api/generated_types";
 
 export const columnsTableRolesList = (
   edit: (roleId: string) => void,

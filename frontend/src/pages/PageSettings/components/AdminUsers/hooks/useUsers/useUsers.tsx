@@ -4,17 +4,28 @@ import { sha256 } from "js-sha256";
 import type {
   IUser,
   IRole,
+  IUserParamsRequest,
   IUserParamsResponse,
+  IUsersListRequest,
   IUsersListResponse,
+  IUsersLoginsListRequest,
   IUsersLoginsListResponse,
+  IRolesListRequest,
   IRolesListResponse,
+  IUserCreateRequest,
+  IResponse,
+  IUserEditRequest,
+  IUserDeleteRequest,
 } from "@/api/generated_types";
-import type { TFormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
+import type { TFormUserEdit } from "@/pages/PageSettings/components/AdminUsers/forms/FormUserEdit";
 
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
 
-import { FormEditUser } from "@/pages/PageSettings/components/AdminUsers/forms/FormEditUser";
+import {
+  FormUserEdit,
+  FormUserCreate,
+} from "@/pages/PageSettings/components/AdminUsers/forms";
 
 import { App } from "antd";
 
@@ -25,26 +36,42 @@ export const useUsers = () => {
   const [users, setUsers] = useState<IUser[]>([]);
 
   const getRoles = useCallback(async (): Promise<IRole[]> => {
-    const roles = await makeRequest<IRolesListResponse>({
-      params: { method: "get", url: API.settings.roles },
+    const roles = await makeRequest<IRolesListRequest, IRolesListResponse>({
+      params: {
+        method: "get",
+        url: API.settings.roles,
+        params: { action: "get_roles_list" },
+      },
     });
 
     return roles?.result?.roles ?? [];
   }, [makeRequest]);
 
   const getUsersLogins = useCallback(async (): Promise<string[]> => {
-    const usersLogins = await makeRequest<IUsersLoginsListResponse>({
-      params: { method: "get", url: API.settings.allUsersLogins },
+    const usersLogins = await makeRequest<
+      IUsersLoginsListRequest,
+      IUsersLoginsListResponse
+    >({
+      params: {
+        method: "get",
+        url: API.settings.users,
+        params: {
+          action: "get_users_logins_list",
+        },
+      },
     });
 
     return usersLogins?.result?.users_logins ?? [];
   }, [makeRequest]);
 
   const getUsers = useCallback(async (): Promise<IUser[]> => {
-    const users = await makeRequest<IUsersListResponse>({
+    const users = await makeRequest<IUsersListRequest, IUsersListResponse>({
       params: {
         method: "get",
         url: API.settings.users,
+        params: {
+          action: "get_users_list",
+        },
       },
     });
 
@@ -54,13 +81,16 @@ export const useUsers = () => {
 
   const getUserParams = useCallback(
     async (userId: string): Promise<IUser | undefined> => {
-      const userParams = await makeRequest<IUserParamsResponse>({
+      const userParams = await makeRequest<
+        IUserParamsRequest,
+        IUserParamsResponse
+      >({
         params: {
-          method: "post",
+          method: "get",
           url: API.settings.users,
-          data: {
-            action: "userGet",
-            userId,
+          params: {
+            action: "get_user_params",
+            user_id: userId,
           },
         },
       });
@@ -70,8 +100,58 @@ export const useUsers = () => {
     [makeRequest],
   );
 
+  const createUser = useCallback(async () => {
+    const roles = await getRoles();
+    const userLogins = await getUsersLogins();
+
+    if (roles?.length === 0) {
+      return;
+    }
+
+    const modalUser = modal.confirm({
+      title: "Создание пользователя",
+      footer: null,
+      icon: null,
+      closable: true,
+      width: 600,
+      content: null,
+    });
+
+    const userData = await new Promise<IUserCreateRequest>((resolve) =>
+      modalUser.update({
+        content: (
+          <FormUserCreate
+            roles={roles}
+            userLogins={userLogins}
+            resolve={resolve}
+          />
+        ),
+      }),
+    );
+
+    if (!userData) {
+      return;
+    }
+
+    await makeRequest<IUserCreateRequest, IResponse>({
+      params: {
+        method: "post",
+        url: API.settings.users,
+        data: {
+          login: userData?.login,
+          password: sha256(userData?.password),
+          role_id: userData?.role_id,
+        },
+      },
+    });
+
+    getUsers();
+
+    modalUser.destroy();
+  }, [getRoles, getUsersLogins, getUserParams, modal, getUsers, makeRequest]);
+
   const editUser = useCallback(
-    async (userId?: string) => {
+    async (userId: string) => {
       const roles = await getRoles();
       const userLogins = await getUsersLogins();
 
@@ -81,16 +161,14 @@ export const useUsers = () => {
 
       let userParams: IUser | undefined;
 
-      if (userId) {
-        userParams = await getUserParams(userId);
+      userParams = await getUserParams(userId);
 
-        if (!userParams) {
-          return;
-        }
+      if (!userParams) {
+        return;
       }
 
       const modalUser = modal.confirm({
-        title: userId ? "Редактирование пользователя" : "Создание пользователя",
+        title: "Редактирование пользователя",
         footer: null,
         icon: null,
         closable: true,
@@ -98,10 +176,10 @@ export const useUsers = () => {
         content: null,
       });
 
-      const userData = await new Promise<TFormEditUser>((resolve) =>
+      const userData = await new Promise<TFormUserEdit>((resolve) =>
         modalUser.update({
           content: (
-            <FormEditUser
+            <FormUserEdit
               roles={roles}
               userParams={userParams}
               userLogins={userLogins?.filter(
@@ -117,28 +195,21 @@ export const useUsers = () => {
         return;
       }
 
-      let pass = null;
+      let pass = "";
       if (userData?.password) {
         pass = sha256(userData?.password);
       }
 
-      await makeRequest({
+      await makeRequest<IUserEditRequest, IResponse>({
         params: {
-          method: userId ? "patch" : "post",
+          method: "patch",
           url: API.settings.users,
-          data: userId
-            ? {
-                userId,
-                login: userData?.login,
-                password: pass,
-                roleId: userData?.roleId,
-              }
-            : {
-                action: "userCreate",
-                login: userData?.login,
-                password: pass,
-                roleId: userData?.roleId,
-              },
+          data: {
+            login: userData?.login,
+            password: pass,
+            role_id: userData?.role_id,
+            user_id: userId,
+          },
         },
       });
 
@@ -151,12 +222,12 @@ export const useUsers = () => {
 
   const delUser = useCallback(
     async (userId: string) => {
-      await makeRequest({
+      await makeRequest<IUserDeleteRequest, IResponse>({
         params: {
           method: "delete",
           url: API.settings.users,
           data: {
-            userId,
+            user_id: userId,
           },
         },
       });
@@ -171,7 +242,7 @@ export const useUsers = () => {
   }, [getUsers]);
 
   return useMemo(
-    () => ({ editUser, delUser, users }),
-    [editUser, delUser, users],
+    () => ({ editUser, delUser, users, createUser }),
+    [editUser, delUser, users, createUser],
   );
 };

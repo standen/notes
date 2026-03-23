@@ -56,9 +56,9 @@ export const useRoles = () => {
         IRoleParamsResponse
       >({
         params: {
-          method: "post",
+          method: "get",
           url: API.settings.roles,
-          data: {
+          params: {
             action: "get_role_params",
             role_id: roleId,
           },
@@ -77,7 +77,7 @@ export const useRoles = () => {
     >({
       params: {
         method: "get",
-        url: API.settings.allUsersRolesNames,
+        url: API.settings.roles,
         params: { action: "get_roles_names_list" },
       },
     });

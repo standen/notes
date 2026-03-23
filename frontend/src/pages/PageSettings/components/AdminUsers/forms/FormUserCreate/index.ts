@@ -1,2 +1,1 @@
-export * from "./FormUserEdit";
 export * from "./FormUserCreate";

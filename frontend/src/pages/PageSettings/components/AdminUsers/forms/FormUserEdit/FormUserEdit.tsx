@@ -3,7 +3,7 @@ import { type FC } from "react";
 import { validate } from "@/utils";
 import { ERRORS_TEXT } from "@/constants";
 
-import type { IRole, IUser } from "@/api/generated_types";
+import type { IRole, IUser, IUserEditRequest } from "@/api/generated_types";
 
 import { useReportError } from "@/hooks/useReportError";
 
@@ -11,27 +11,23 @@ import { Loader } from "@/components";
 
 import { Form, Input, Select, Flex, Button } from "antd";
 
-export type TFormEditUser = {
-  login: string;
-  password: string;
-  roleId: string;
-};
+export type TFormUserEdit = Omit<IUserEditRequest, "user_id">;
 
 interface Props {
   roles: IRole[];
   userLogins: string[];
-  resolve: (value: TFormEditUser) => void;
+  resolve: (value: TFormUserEdit) => void;
   userParams?: IUser | undefined;
 }
 
-export const FormEditUser: FC<Props> = (props) => {
+export const FormUserEdit: FC<Props> = (props) => {
   const { roles, userParams, userLogins, resolve } = props;
 
   const { showSimpleError } = useReportError();
 
   return (
     <Loader.body>
-      <Form<TFormEditUser>
+      <Form<TFormUserEdit>
         layout="vertical"
         autoComplete="off"
         onFinish={(values) => resolve(values)}
@@ -85,11 +81,6 @@ export const FormEditUser: FC<Props> = (props) => {
                   return Promise.resolve();
                 }
 
-                // при создании пароль обязательно должен быть
-                if (!value) {
-                  return Promise.reject();
-                }
-
                 return Promise.resolve();
               },
             },
@@ -122,7 +113,7 @@ export const FormEditUser: FC<Props> = (props) => {
           <Input.Password placeholder="Пароль..." allowClear />
         </Form.Item>
         <Form.Item
-          name="roleId"
+          name="role_id"
           label="Роль пользователя"
           initialValue={userParams?.role?.id}
           rules={[{ required: true, message: ERRORS_TEXT.required }]}
@@ -139,7 +130,7 @@ export const FormEditUser: FC<Props> = (props) => {
         </Form.Item>
         <Flex justify="flex-end">
           <Button type="primary" htmlType="submit">
-            {userParams ? "Сохранить изменения" : "Добавить пользователя"}
+            Сохранить изменения
           </Button>
         </Flex>
       </Form>

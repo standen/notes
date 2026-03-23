@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { type IUser } from "@/api/settings";
+import { type IUser } from "@/api/generated_types";
 
 import { NO_DATA } from "@/constants";
 
@@ -14,7 +14,7 @@ import { Flex, Input, Button, Table } from "antd";
 const { Search } = Input;
 
 export const AdminUsers = () => {
-  const { users, editUser, delUser } = useUsers();
+  const { users, editUser, delUser, createUser } = useUsers();
 
   const [searchString, setSearchString] = useState<string>("");
 
@@ -22,7 +22,7 @@ export const AdminUsers = () => {
     <>
       <Title
         right={
-          <Button type="primary" onClick={() => editUser()}>
+          <Button type="primary" onClick={() => createUser()}>
             Добавить пользователя
           </Button>
         }

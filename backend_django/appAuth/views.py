@@ -12,12 +12,12 @@ from decorators.decValidateReq import decValidateReq
 from decorators.decRequiredAuth import decRequiredAuth
 
 class viewAuth(View):
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/auth/AuthUserInfoRequest.schema.json')])
+    @method_decorator([decValidateReq('api/json_schemes/auth/AuthUserInfoRequest.schema.json')])
     def getUserinfo(self, request, **kwargs):
         try:
             result = {
-                "user_login": request.user_data.get('user_login'),
-                "user_allowed_actions": request.user_data.get('user_allowed_actions')
+                "user_login": request.user_data.get('user_login') or None,
+                "user_allowed_actions": request.user_data.get('user_allowed_actions') or None
             }
             return CustomJsonResponse(result=result)
         except:

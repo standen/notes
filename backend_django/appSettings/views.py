@@ -57,15 +57,16 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesCreateRequest.schema.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleCreateRequest.schema.json')])
     def post(self, request, **kwargs):
         try:
+            print(kwargs)
             modelUserRole(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')}).save()
             return CustomJsonResponse(message='Роль успешно создана')
         except:
             return CustomJsonResponse(status=500, message='При создании роли произошла ошибка')
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesEditRequest.schema.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleEditRequest.schema.json')])
     def patch(self, request, **kwargs):
         try:
             modelUserRole.objects.filter(id=kwargs.get('role_id')).update(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')})
@@ -73,7 +74,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=500, message='При обновлении параметров роли произошла ошибка')
     
-    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesDeleteRequest.schema.json')])
+    @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
         try:
             role = modelUserRole.objects.get(id=kwargs.get('role_id'))
