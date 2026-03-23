@@ -2,11 +2,11 @@ import { useCallback, useMemo } from "react";
 import { sha256 } from "js-sha256";
 
 import type {
+  IResponse,
   IAuthLoginRequest,
+  IAuthLogoutRequest,
   IAuthUserInfoRequest,
   IAuthUserInfoResponse,
-  IAuthLogoutRequest,
-  IResponse,
 } from "@/api/generated_types";
 import type { TFormAuth } from "@/hooks/useAuth/forms/FormAuth";
 
@@ -23,37 +23,34 @@ export const useAuth = () => {
   const { makeRequest } = useRequest();
   const { setUser } = storeUserInfo();
 
-  const getUserInfo = useCallback(
-    async (userId: string) => {
-      const user = await makeRequest<
-        IAuthUserInfoRequest,
-        IAuthUserInfoResponse
-      >({
+  const getUserInfo = useCallback(async () => {
+    const user = await makeRequest<IAuthUserInfoRequest, IAuthUserInfoResponse>(
+      {
         params: {
-          method: "post",
+          method: "get",
           url: API.auth.auth,
-          data: {
-            action: "get_user_info",
-            user_id: userId,
-          },
+          params: { action: "get_user_info" },
         },
-      });
+      },
+    );
 
-      if (!user) {
-        return;
-      }
+    if (!user) {
+      return;
+    }
 
-      setUser({
-        login: user?.result?.user_login,
-        allowedActions: user?.result?.user_allowed_actions ?? [],
-      });
-    },
-    [makeRequest, setUser],
-  );
+    setUser({
+      login: user?.result?.user_login,
+      allowedActions: user?.result?.user_allowed_actions ?? [],
+    });
+  }, [makeRequest, setUser]);
 
   const logout = useCallback(async () => {
     await makeRequest<IAuthLogoutRequest, IResponse>({
-      params: { method: "post", url: API.auth.auth },
+      params: {
+        method: "post",
+        url: API.auth.auth,
+        data: { action: "auth_logout" },
+      },
     });
 
     setUser({});
@@ -80,13 +77,14 @@ export const useAuth = () => {
 
     const password = sha256(authData.password);
 
-    await makeRequest({
+    await makeRequest<IAuthLoginRequest, IResponse>({
       params: {
         method: "post",
         url: API.auth.auth,
         data: {
           password,
           login: authData?.login?.toLocaleLowerCase(),
+          action: "auth_login",
         },
       },
     });

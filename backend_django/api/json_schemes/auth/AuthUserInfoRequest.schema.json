@@ -8,15 +8,10 @@
       "enum": [
         "get_user_info"
       ]
-    },
-    "user_id": {
-      "type": "string",
-      "format": "uuid"
     }
   },
   "required": [
-    "action",
-    "user_id"
+    "action"
   ],
   "additionalProperties": false
 }

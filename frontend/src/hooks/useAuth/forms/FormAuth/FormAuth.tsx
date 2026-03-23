@@ -1,5 +1,7 @@
 import type { FC } from "react";
 
+import type { IAuthLoginRequest } from "@/api/generated_types";
+
 import { validate } from "@/utils";
 import { ERRORS_TEXT } from "@/constants";
 
@@ -8,10 +10,7 @@ import { useReportError } from "@/hooks/useReportError";
 import { Button, Flex, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-export type TFormAuth = {
-  login: string;
-  password: string;
-};
+export type TFormAuth = Omit<IAuthLoginRequest, "action">;
 
 interface Props {
   resolve: (values: TFormAuth) => void;

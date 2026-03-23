@@ -1,3 +1,5 @@
+import json
+
 from django.views import View
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
@@ -13,7 +15,11 @@ class viewAuth(View):
     @method_decorator([decRequiredAuth(), decValidateReq('api/json_schemes/auth/AuthUserInfoRequest.schema.json')])
     def getUserinfo(self, request, **kwargs):
         try:
-            print(1)
+            result = {
+                "user_login": request.user_data.get('user_login'),
+                "user_allowed_actions": request.user_data.get('user_allowed_actions')
+            }
+            return CustomJsonResponse(result=result)
         except:
             return CustomJsonResponse(status=500, message='При получении информации о пользователе возникла ошибка')
         
@@ -35,7 +41,7 @@ class viewAuth(View):
         
     def get(self, request, **kwargs):
         try:
-            action = kwargs.get('action')
+            action = request.GET.get('action')
             
             if (action == 'get_user_info'):
                 return self.getUserinfo(request)
@@ -78,7 +84,7 @@ class viewAuth(View):
     
     def post(self, request, **kwargs):
         try:
-            action = kwargs.get('action')
+            action = json.loads(request.body).get('action')
             
             if (action == 'auth_login'):
                 return self.postLogin(request)
