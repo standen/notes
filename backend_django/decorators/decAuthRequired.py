@@ -1,6 +1,6 @@
 from api.CustomJsonResponse import CustomJsonResponse
 
-def decRequiredAuth():
+def decAuthRequired():
     def decorator(func):
         def wrapper(request, *args, **kwargs):
             

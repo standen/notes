@@ -7,7 +7,7 @@ from appAuth.models import modelUser
 from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
-from decorators.decRequiredAuth import decRequiredAuth
+from decorators.decAuthRequired import decAuthRequired
 
 class viewNotes(View):
     def get(self, request):

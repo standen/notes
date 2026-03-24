@@ -9,15 +9,15 @@ from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decValidateReq import decValidateReq
-from decorators.decRequiredAuth import decRequiredAuth
+from decorators.decAuthRequired import decAuthRequired
 
 class viewAuth(View):
     @method_decorator([decValidateReq('api/json_schemes/auth/AuthUserInfoRequest.schema.json')])
     def getUserinfo(self, request, **kwargs):
         try:
             result = {
-                "user_login": request.user_data.get('user_login') or None,
-                "user_allowed_actions": request.user_data.get('user_allowed_actions') or None
+                "user_login": request.user_data.get('user_login'),
+                "user_allowed_actions": request.user_data.get('user_allowed_actions')
             }
             return CustomJsonResponse(result=result)
         except:
@@ -67,7 +67,7 @@ class viewAuth(View):
         except:
             return CustomJsonResponse(status=500, message='При попытке авторизации возникла ошибка')
         
-    @method_decorator([decValidateReq('api/json_schemes/auth/AuthLogoutRequest.schema.json')])
+    @method_decorator([decAuthRequired() ,decValidateReq('api/json_schemes/auth/AuthLogoutRequest.schema.json')])
     def postLogout(self, request, **kwargs):
         try:
             token = request.COOKIES.get('token')

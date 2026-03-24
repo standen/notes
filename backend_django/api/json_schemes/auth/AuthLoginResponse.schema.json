@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Auth Login Response",
+  "$ref": "../common/Response.schema.json"
+}
