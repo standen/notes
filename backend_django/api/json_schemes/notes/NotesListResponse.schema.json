@@ -1,26 +1,33 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "I Notes List Response",
-  "type": "object",
-  "properties": {
-    "result": {
+  "allOf": [
+    {
+      "$ref": "../common/Response.schema.json"
+    },
+    {
       "type": "object",
       "properties": {
-        "notes": {
-          "type": "array",
-          "items": {
-            "$ref": "../common/Note.schema.json"
-          }
+        "result": {
+          "type": "object",
+          "properties": {
+            "notes": {
+              "type": "array",
+              "items": {
+                "$ref": "../common/NoteForTable.schema.json"
+              }
+            }
+          },
+          "required": [
+            "notes"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
-        "notes"
+        "result"
       ],
       "additionalProperties": false
     }
-  },
-  "required": [
-    "result"
-  ],
-  "additionalProperties": false
+  ]
 }

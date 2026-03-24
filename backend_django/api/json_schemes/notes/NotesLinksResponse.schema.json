@@ -1,24 +1,31 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "I Notes Links Response",
-  "type": "object",
-  "properties": {
-    "result": {
+  "allOf": [
+    {
+      "$ref": "../common/Response.schema.json"
+    },
+    {
       "type": "object",
       "properties": {
-        "notesLinks": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "result": {
+          "type": "object",
+          "properties": {
+            "notes_links": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "notes_links"
+          ]
         }
       },
       "required": [
-        "notesLinks"
+        "result"
       ]
     }
-  },
-  "required": [
-    "result"
   ]
 }

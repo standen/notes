@@ -55,14 +55,23 @@ class viewNotes(View):
     @method_decorator([decValidateReq(f'{PATH_NOTES}/NotesLinksRequest.schema.json')])
     def getNotesLinks(self, request, **kwargs):
         try:
-            print(1)
+            notesLinks = [note.getNoteLink() for note in modelNotes.objects.all().order_by("name")]
+            return CustomJsonResponse(result={'notes_links': notesLinks})
         except:
             return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
         
     @method_decorator([decValidateReq(f'{PATH_NOTES}/NoteParamsRequest.schema.json')])
     def getNoteParams(self, request, **kwargs):
         try:
-            print(1)
+            noteId = kwargs.get('note_id')
+            if noteId:
+                note = modelNotes.objects.get(id=noteId).returnOne()
+            
+            if not noteId:
+                noteLink = kwargs.get('note_link')
+                note = modelNotes.objects.get(link=noteLink).returnOne()
+            
+            return CustomJsonResponse(result={'note': note})
         except:
             return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
     

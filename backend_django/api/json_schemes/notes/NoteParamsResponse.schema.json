@@ -1,23 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "I Note Params Response",
-  "type": "object",
-  "properties": {
-    "result": {
+  "allOf": [
+    {
+      "$ref": "../common/Response.schema.json"
+    },
+    {
       "type": "object",
       "properties": {
-        "note": {
-          "$ref": "../common/NoteForTable.schema.json"
+        "result": {
+          "type": "object",
+          "properties": {
+            "note": {
+              "$ref": "../common/Note.schema.json"
+            }
+          },
+          "required": [
+            "note"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
-        "note"
+        "result"
       ],
       "additionalProperties": false
     }
-  },
-  "required": [
-    "result"
-  ],
-  "additionalProperties": false
+  ]
 }

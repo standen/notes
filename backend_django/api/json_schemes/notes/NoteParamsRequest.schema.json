@@ -4,16 +4,21 @@
   "type": "object",
   "properties": {
     "action": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "get_note_params"
+      ]
     },
     "note_id": {
       "type": "string",
       "format": "uuid"
+    },
+    "note_link": {
+      "type": "string"
     }
   },
   "required": [
-    "action",
-    "note_id"
+    "action"
   ],
   "additionalProperties": false
 }
