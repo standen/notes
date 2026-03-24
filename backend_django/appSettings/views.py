@@ -9,8 +9,10 @@ from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAuthRequired import decAuthRequired
 from decorators.decValidateReq import decValidateReq
 
+from api.json_schemes.constants import PATH_PERMISSIONS, PATH_ROLES, PATH_USERS
+
 class viewManagePermissions(View):
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/permissions/SettingsPermissionsRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_PERMISSIONS}/SettingsPermissionsRequest.schema.json')])
     def get(self, request, **kwargs):
         try:
             return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
@@ -18,7 +20,7 @@ class viewManagePermissions(View):
             return CustomJsonResponse(status=500, message='При получении перечня разрешений произошла ошибка')
 
 class viewManageRoles(View):
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesListRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRolesListRequest.schema.json')])
     def getRolesList(self, request, **kwargs):
         try:
             roles = [role.returnOne() for role in modelUserRole.objects.all().order_by("name")]
@@ -26,7 +28,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=500, message='При получении списка ролей произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/roles/SettingsRolesNamesListRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRolesNamesListRequest.schema.json')])
     def getRolesNamesList(self, request, **kwargs):
         try: 
             rolesNames = [role.getRoleName() for role in modelUserRole.objects.all().order_by("name")]
@@ -34,7 +36,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=500, message='При получении списка наименований ролей произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleParamsRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRoleParamsRequest.schema.json')])
     def getRoleParams(self, request, **kwargs):
         try:
             role = modelUserRole.objects.get(id=kwargs.get('role_id'))
@@ -57,7 +59,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleCreateRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRoleCreateRequest.schema.json')])
     def post(self, request, **kwargs):
         try:
             print(kwargs)
@@ -66,7 +68,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=500, message='При создании роли произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleEditRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRoleEditRequest.schema.json')])
     def patch(self, request, **kwargs):
         try:
             modelUserRole.objects.filter(id=kwargs.get('role_id')).update(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')})
@@ -74,7 +76,7 @@ class viewManageRoles(View):
         except:
             return CustomJsonResponse(status=500, message='При обновлении параметров роли произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/roles/SettingsRoleDeleteRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRoleDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
         try:
             role = modelUserRole.objects.get(id=kwargs.get('role_id'))
@@ -84,7 +86,7 @@ class viewManageRoles(View):
             return CustomJsonResponse(status=500, message='При удалении роли произошла ошибка')
     
 class viewManageUsers(View):
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/users/SettingsUsersListRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_USERS}/SettingsUsersListRequest.schema.json')])
     def getUsersList(self, request, **kwargs):
         try:
             users = [user.returnOne() for user in modelUser.objects.all().order_by("login")]
@@ -92,7 +94,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=500, message='При получении списка пользователей произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/users/SettingsUsersLoginsListRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_USERS}/SettingsUsersLoginsListRequest.schema.json')])
     def getUsersLoginsList(self, request, **kwargs):
         try:
             usersLogins = [user.getUserLogin() for user in modelUser.objects.all().order_by("login")]
@@ -100,7 +102,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=500, message='При получении списка логинов пользователей произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/users/SettingsUserParamsRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_USERS}/SettingsUserParamsRequest.schema.json')])
     def getUserParams(self, request, **kwargs):
         try:
             user = modelUser.objects.get(id=kwargs.get('user_id'))
@@ -123,7 +125,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/users/SettingsUserCreateRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_USERS}/SettingsUserCreateRequest.schema.json')])
     def post(self, request, **kwargs):
         try:
             modelUser(login=kwargs.get('login'), password=kwargs.get('password'), role=modelUserRole.objects.get(id=kwargs.get('role_id'))).save()
@@ -131,7 +133,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=500, message='При создании пользователя произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/users/SettingsUserEditRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_USERS}/SettingsUserEditRequest.schema.json')])
     def patch(self, request, **kwargs):
         try:
             if (kwargs.get('password') == None):
@@ -151,7 +153,7 @@ class viewManageUsers(View):
         except:
             return CustomJsonResponse(status=500, message='При обновлении параметров пользователя произошла ошибка')
     
-    @method_decorator([decAuthRequired(), decValidateReq('api/json_schemes/settings/users/SettingsUserDeleteRequest.schema.json')])
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_USERS}/SettingsUserDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
         try:
             user = modelUser.objects.get(id=kwargs.get('user_id'))

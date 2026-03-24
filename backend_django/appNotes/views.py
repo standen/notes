@@ -8,10 +8,78 @@ from .models import *
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAuthRequired import decAuthRequired
+from decorators.decValidateReq import decValidateReq
+
+from api.json_schemes.constants import PATH_NOTES
 
 class viewNotes(View):
+    @method_decorator([decValidateReq(f'{PATH_NOTES}/NotesListRequest.schema.json')])
+    def getNotesList(self, request, **kwargs):
+        try:
+            user_filter = kwargs.get('filter')
+            
+            if (user_filter == 'mine'):
+                login = request.user_data.get('user_login')
+                
+                if not login:
+                    return CustomJsonResponse(status=401)
+                
+                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), open_for_all=False)]
+                
+                return CustomJsonResponse(result={'notes': userNotes})
+            
+            if (user_filter == 'all'):
+                login = request.user_data.get('user_login')
+                
+                if not login:
+                    return CustomJsonResponse(status=401)
+                
+                openNotes = []
+                userNotes = []
+                
+                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), open_for_all=False)]
+                openNotes = [note.returnForTable() for note in modelNotes.objects.filter(open_for_all=True)]
+                
+                notes = [*openNotes, *userNotes]
+            
+                return CustomJsonResponse(result={'notes': notes})
+            
+            if (user_filter == 'open'):
+                openNotes = [note.returnForTable() for note in modelNotes.objects.filter(open_for_all=True)]
+                return CustomJsonResponse(result={'notes': openNotes})
+            
+            raise
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
+        
+    @method_decorator([decValidateReq(f'{PATH_NOTES}/NotesLinksRequest.schema.json')])
+    def getNotesLinks(self, request, **kwargs):
+        try:
+            print(1)
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
+        
+    @method_decorator([decValidateReq(f'{PATH_NOTES}/NoteParamsRequest.schema.json')])
+    def getNoteParams(self, request, **kwargs):
+        try:
+            print(1)
+        except:
+            return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
+    
     def get(self, request):
         try:
+            action = request.GET.get('action')
+            
+            if (action == 'get_notes_list'):
+                return self.getNotesList(request)
+            elif (action == 'get_notes_links'):
+                return self.getNotesLinks(request)
+            elif (action == 'get_note_params'):
+                return self.getNoteParams(request)
+            else:
+                raise
+            
+            
             if (request.GET.get('filter') == 'links'):
                 notesLinks = [note.getNoteLink() for note in modelNotes.objects.all().order_by("name")]
                 return CustomJsonResponse(result={'notesLinks': notesLinks})
@@ -80,6 +148,7 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator([decAuthRequired()])
     def post(self, request):
         try:
             action = json.loads(request.body).get('action')
@@ -131,6 +200,7 @@ class viewNotes(View):
         except:
             return CustomJsonResponse(status=400)
     
+    @method_decorator([decAuthRequired()])
     def delete(self, request):
         try:
             body = json.loads(request.body)

@@ -26,7 +26,7 @@ import {
   FormRoleEdit,
 } from "@/pages/PageSettings/components/AdminRoles/forms";
 
-import { App } from "antd";
+import { App, Skeleton } from "antd";
 
 export const useRoles = () => {
   const { modal } = App.useApp();
@@ -38,13 +38,16 @@ export const useRoles = () => {
     const perms = await makeRequest<
       IPermissionsListRequest,
       IPermissionsListResponse
-    >({
-      params: {
-        method: "get",
-        url: API.settings.permissions,
-        params: { action: "get_permissions_list" },
+    >(
+      {
+        params: {
+          method: "get",
+          url: API.settings.permissions,
+          params: { action: "get_permissions_list" },
+        },
       },
-    });
+      true,
+    );
 
     return perms?.result?.permissions ?? [];
   }, [makeRequest]);
@@ -54,16 +57,19 @@ export const useRoles = () => {
       const roleParams = await makeRequest<
         IRoleParamsRequest,
         IRoleParamsResponse
-      >({
-        params: {
-          method: "get",
-          url: API.settings.roles,
+      >(
+        {
           params: {
-            action: "get_role_params",
-            role_id: roleId,
+            method: "get",
+            url: API.settings.roles,
+            params: {
+              action: "get_role_params",
+              role_id: roleId,
+            },
           },
         },
-      });
+        true,
+      );
 
       return roleParams?.result?.role_params;
     },
@@ -74,13 +80,16 @@ export const useRoles = () => {
     const rolesNames = await makeRequest<
       IRolesNamesListRequest,
       IRolesNamesListResponse
-    >({
-      params: {
-        method: "get",
-        url: API.settings.roles,
-        params: { action: "get_roles_names_list" },
+    >(
+      {
+        params: {
+          method: "get",
+          url: API.settings.roles,
+          params: { action: "get_roles_names_list" },
+        },
       },
-    });
+      true,
+    );
 
     return rolesNames?.result?.roles_names ?? [];
   }, [makeRequest]);
@@ -99,21 +108,21 @@ export const useRoles = () => {
   }, [makeRequest]);
 
   const createRole = useCallback(async () => {
-    const perms = await getPermissions();
-    const rolesNames = await getRolesNames();
-
-    if (perms?.length === 0) {
-      return;
-    }
-
     const modalRole = modal.confirm({
       title: "Создание роли",
       footer: null,
       icon: null,
       closable: true,
       width: 600,
-      content: null,
+      content: <Skeleton active />,
     });
+
+    const perms = await getPermissions();
+    const rolesNames = await getRolesNames();
+
+    if (perms?.length === 0) {
+      return;
+    }
 
     const roleData = await new Promise<IRoleCreateRequest>((resolve) =>
       modalRole.update({
@@ -131,16 +140,19 @@ export const useRoles = () => {
       return;
     }
 
-    await makeRequest<IRoleCreateRequest, IResponse>({
-      params: {
-        method: "post",
-        url: API.settings.roles,
-        data: {
-          name: roleData?.name,
-          allowed_actions: roleData?.allowed_actions,
+    await makeRequest<IRoleCreateRequest, IResponse>(
+      {
+        params: {
+          method: "post",
+          url: API.settings.roles,
+          data: {
+            name: roleData?.name,
+            allowed_actions: roleData?.allowed_actions,
+          },
         },
       },
-    });
+      true,
+    );
 
     getRoles();
 
@@ -156,6 +168,15 @@ export const useRoles = () => {
 
   const editRole = useCallback(
     async (roleId: string) => {
+      const modalRole = modal.confirm({
+        title: "Редактирование роли",
+        footer: null,
+        icon: null,
+        closable: true,
+        width: 600,
+        content: <Skeleton active />,
+      });
+
       const perms = await getPermissions();
       const rolesNames = await getRolesNames();
 
@@ -170,15 +191,6 @@ export const useRoles = () => {
       if (!roleParams) {
         return;
       }
-
-      const modalRole = modal.confirm({
-        title: "Редактирование роли",
-        footer: null,
-        icon: null,
-        closable: true,
-        width: 600,
-        content: null,
-      });
 
       const roleData = await new Promise<TFormRoleEdit>((resolve) =>
         modalRole.update({
@@ -199,17 +211,20 @@ export const useRoles = () => {
         return;
       }
 
-      await makeRequest<IRoleEditRequest, IResponse>({
-        params: {
-          method: "patch",
-          url: API.settings.roles,
-          data: {
-            role_id: roleId,
-            name: roleData?.name,
-            allowed_actions: roleData?.allowed_actions,
+      await makeRequest<IRoleEditRequest, IResponse>(
+        {
+          params: {
+            method: "patch",
+            url: API.settings.roles,
+            data: {
+              role_id: roleId,
+              name: roleData?.name,
+              allowed_actions: roleData?.allowed_actions,
+            },
           },
         },
-      });
+        true,
+      );
 
       getRoles();
 

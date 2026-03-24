@@ -4,9 +4,14 @@ from referencing import Registry, Resource
 
 from api.CustomJsonResponse import CustomJsonResponse
 
+from api.json_schemes.constants import PATH_COMMON
+
 def decValidateReq(schemaPath):
     def decorator(func):
         def wrapper(request, *args, **kwargs):
+            
+            print(schemaPath)
+            
             try:
                 if (request.method == 'GET'):
                     body = request.GET.dict()
@@ -24,14 +29,23 @@ def decValidateReq(schemaPath):
             
             try:
                 # all refs resources
-                with open('api/json_schemes/common/PermissionList.schema.json', 'r', encoding='utf-8') as file:
+                with open(f'{PATH_COMMON}/PermissionList.schema.json', 'r', encoding='utf-8') as file:
                     permissions = Resource.from_contents(json.load(file))
                 
-                with open('api/json_schemes/common/Role.schema.json', 'r', encoding='utf-8') as file:
+                with open(f'{PATH_COMMON}/Role.schema.json', 'r', encoding='utf-8') as file:
                     role = Resource.from_contents(json.load(file))
                     
-                with open('api/json_schemes/common/User.schema.json', 'r', encoding='utf-8') as file:
+                with open(f'{PATH_COMMON}/User.schema.json', 'r', encoding='utf-8') as file:
                     user = Resource.from_contents(json.load(file))
+                
+                with open(f'{PATH_COMMON}/NotesListFilterValues.schema.json', 'r', encoding='utf-8') as file:
+                    noteListFilterValues = Resource.from_contents(json.load(file))
+                    
+                with open(f'{PATH_COMMON}/NoteForTable.schema.json', 'r', encoding='utf-8') as file:
+                    noteForTable = Resource.from_contents(json.load(file))
+                    
+                with open(f'{PATH_COMMON}/Note.schema.json', 'r', encoding='utf-8') as file:
+                    note = Resource.from_contents(json.load(file))
                     
                 registry = Registry().with_resources([
                     ("PermissionList.schema.json", permissions),
@@ -39,7 +53,10 @@ def decValidateReq(schemaPath):
                     ("Role.schema.json", role),
                     ("../../common/Role.schema.json", role),
                     ("User.schema.json", user),
-                    ("../../common/User.schema.json", user)
+                    ("../../common/User.schema.json", user),
+                    ("../common/NotesListFilterValues.schema.json", noteListFilterValues),
+                    ("../common/Note.schema.json", note),
+                    ("../common/NoteForTable.schema.json", noteForTable)
                 ])
                 
                 validator = Draft202012Validator(schema, registry=registry)

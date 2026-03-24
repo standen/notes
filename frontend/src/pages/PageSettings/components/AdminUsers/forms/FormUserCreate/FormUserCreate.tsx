@@ -23,7 +23,7 @@ export const FormUserCreate: FC<Props> = (props) => {
   const { showSimpleError } = useReportError();
 
   return (
-    <Loader.body>
+    <Loader.modal>
       <Form<IUserCreateRequest>
         layout="vertical"
         autoComplete="off"
@@ -119,6 +119,6 @@ export const FormUserCreate: FC<Props> = (props) => {
           </Button>
         </Flex>
       </Form>
-    </Loader.body>
+    </Loader.modal>
   );
 };

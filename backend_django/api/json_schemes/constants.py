@@ -1,0 +1,7 @@
+PATH = 'api/json_schemes'
+PATH_COMMON = f'{PATH}/common'
+PATH_AUTH = f'{PATH}/auth'
+PATH_ROLES = f'{PATH}/settings/roles'
+PATH_USERS = f'{PATH}/settings/users'
+PATH_PERMISSIONS = f'{PATH}/settings/permissions'
+PATH_NOTES = f'{PATH}/notes'

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Note Params Request",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string"
+    },
+    "note_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": [
+    "action",
+    "note_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Notes List Request",
+  "type": "object",
+  "properties": {
+    "filter": {
+      "$ref": "../common/NotesListFilterValues.schema.json"
+    },
+    "action": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "filter",
+    "action"
+  ],
+  "additionalProperties": false
+}

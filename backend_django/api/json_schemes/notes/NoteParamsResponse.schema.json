@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Note Params Response",
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "properties": {
+        "note": {
+          "$ref": "../common/NoteForTable.schema.json"
+        }
+      },
+      "required": [
+        "note"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "result"
+  ],
+  "additionalProperties": false
+}

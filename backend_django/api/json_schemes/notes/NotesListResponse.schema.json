@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Notes List Response",
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "properties": {
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "../common/Note.schema.json"
+          }
+        }
+      },
+      "required": [
+        "notes"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "result"
+  ],
+  "additionalProperties": false
+}

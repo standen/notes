@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Note Delete Request",
+  "type": "object",
+  "properties": {
+    "note_id": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": [
+    "note_id"
+  ],
+  "additionalProperties": false
+}

@@ -11,8 +11,10 @@ from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decValidateReq import decValidateReq
 from decorators.decAuthRequired import decAuthRequired
 
+from api.json_schemes.constants import PATH_AUTH
+
 class viewAuth(View):
-    @method_decorator([decValidateReq('api/json_schemes/auth/AuthUserInfoRequest.schema.json')])
+    @method_decorator([decValidateReq(f'{PATH_AUTH}/AuthUserInfoRequest.schema.json')])
     def getUserinfo(self, request, **kwargs):
         try:
             result = {
@@ -52,7 +54,7 @@ class viewAuth(View):
         except:
             return CustomJsonResponse(status=400, message='Неверные параметры запроса')
         
-    @method_decorator([decValidateReq('api/json_schemes/auth/AuthLoginRequest.schema.json')])
+    @method_decorator([decValidateReq(f'{PATH_AUTH}/AuthLoginRequest.schema.json')])
     def postLogin(self, request, **kwargs):
         try:
             user = modelUser.objects.get(login=kwargs.get('login'), password=kwargs.get('password'))
@@ -67,7 +69,7 @@ class viewAuth(View):
         except:
             return CustomJsonResponse(status=500, message='При попытке авторизации возникла ошибка')
         
-    @method_decorator([decAuthRequired() ,decValidateReq('api/json_schemes/auth/AuthLogoutRequest.schema.json')])
+    @method_decorator([decAuthRequired() ,decValidateReq(f'{PATH_AUTH}/AuthLogoutRequest.schema.json')])
     def postLogout(self, request, **kwargs):
         try:
             token = request.COOKIES.get('token')

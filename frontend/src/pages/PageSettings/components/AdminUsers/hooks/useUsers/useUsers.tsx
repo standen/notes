@@ -27,7 +27,7 @@ import {
   FormUserCreate,
 } from "@/pages/PageSettings/components/AdminUsers/forms";
 
-import { App } from "antd";
+import { App, Skeleton } from "antd";
 
 export const useUsers = () => {
   const { modal } = App.useApp();
@@ -36,13 +36,16 @@ export const useUsers = () => {
   const [users, setUsers] = useState<IUser[]>([]);
 
   const getRoles = useCallback(async (): Promise<IRole[]> => {
-    const roles = await makeRequest<IRolesListRequest, IRolesListResponse>({
-      params: {
-        method: "get",
-        url: API.settings.roles,
-        params: { action: "get_roles_list" },
+    const roles = await makeRequest<IRolesListRequest, IRolesListResponse>(
+      {
+        params: {
+          method: "get",
+          url: API.settings.roles,
+          params: { action: "get_roles_list" },
+        },
       },
-    });
+      true,
+    );
 
     return roles?.result?.roles ?? [];
   }, [makeRequest]);
@@ -51,15 +54,18 @@ export const useUsers = () => {
     const usersLogins = await makeRequest<
       IUsersLoginsListRequest,
       IUsersLoginsListResponse
-    >({
-      params: {
-        method: "get",
-        url: API.settings.users,
+    >(
+      {
         params: {
-          action: "get_users_logins_list",
+          method: "get",
+          url: API.settings.users,
+          params: {
+            action: "get_users_logins_list",
+          },
         },
       },
-    });
+      true,
+    );
 
     return usersLogins?.result?.users_logins ?? [];
   }, [makeRequest]);
@@ -84,16 +90,19 @@ export const useUsers = () => {
       const userParams = await makeRequest<
         IUserParamsRequest,
         IUserParamsResponse
-      >({
-        params: {
-          method: "get",
-          url: API.settings.users,
+      >(
+        {
           params: {
-            action: "get_user_params",
-            user_id: userId,
+            method: "get",
+            url: API.settings.users,
+            params: {
+              action: "get_user_params",
+              user_id: userId,
+            },
           },
         },
-      });
+        true,
+      );
 
       return userParams?.result?.user_params;
     },
@@ -101,21 +110,21 @@ export const useUsers = () => {
   );
 
   const createUser = useCallback(async () => {
-    const roles = await getRoles();
-    const userLogins = await getUsersLogins();
-
-    if (roles?.length === 0) {
-      return;
-    }
-
     const modalUser = modal.confirm({
       title: "Создание пользователя",
       footer: null,
       icon: null,
       closable: true,
       width: 600,
-      content: null,
+      content: <Skeleton active />,
     });
+
+    const roles = await getRoles();
+    const userLogins = await getUsersLogins();
+
+    if (roles?.length === 0) {
+      return;
+    }
 
     const userData = await new Promise<IUserCreateRequest>((resolve) =>
       modalUser.update({
@@ -133,17 +142,20 @@ export const useUsers = () => {
       return;
     }
 
-    await makeRequest<IUserCreateRequest, IResponse>({
-      params: {
-        method: "post",
-        url: API.settings.users,
-        data: {
-          login: userData?.login,
-          password: sha256(userData?.password),
-          role_id: userData?.role_id,
+    await makeRequest<IUserCreateRequest, IResponse>(
+      {
+        params: {
+          method: "post",
+          url: API.settings.users,
+          data: {
+            login: userData?.login,
+            password: sha256(userData?.password),
+            role_id: userData?.role_id,
+          },
         },
       },
-    });
+      true,
+    );
 
     getUsers();
 
@@ -152,6 +164,15 @@ export const useUsers = () => {
 
   const editUser = useCallback(
     async (userId: string) => {
+      const modalUser = modal.confirm({
+        title: "Редактирование пользователя",
+        footer: null,
+        icon: null,
+        closable: true,
+        width: 600,
+        content: <Skeleton active />,
+      });
+
       const roles = await getRoles();
       const userLogins = await getUsersLogins();
 
@@ -166,15 +187,6 @@ export const useUsers = () => {
       if (!userParams) {
         return;
       }
-
-      const modalUser = modal.confirm({
-        title: "Редактирование пользователя",
-        footer: null,
-        icon: null,
-        closable: true,
-        width: 600,
-        content: null,
-      });
 
       const userData = await new Promise<TFormUserEdit>((resolve) =>
         modalUser.update({
@@ -200,18 +212,21 @@ export const useUsers = () => {
         pass = sha256(userData?.password);
       }
 
-      await makeRequest<IUserEditRequest, IResponse>({
-        params: {
-          method: "patch",
-          url: API.settings.users,
-          data: {
-            login: userData?.login,
-            password: pass,
-            role_id: userData?.role_id,
-            user_id: userId,
+      await makeRequest<IUserEditRequest, IResponse>(
+        {
+          params: {
+            method: "patch",
+            url: API.settings.users,
+            data: {
+              login: userData?.login,
+              password: pass,
+              role_id: userData?.role_id,
+              user_id: userId,
+            },
           },
         },
-      });
+        true,
+      );
 
       getUsers();
 
