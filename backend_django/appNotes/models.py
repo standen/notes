@@ -50,6 +50,9 @@ class modelNotes(models.Model):
         
     def getNoteLink(self):
         return self.link.lower()
+    
+    def getOwner(self):
+        return self.owner.login.lower()
 
 class modelNotesDeleted(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

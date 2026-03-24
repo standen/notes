@@ -1,24 +1,47 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "I Note Params Request",
-  "type": "object",
-  "properties": {
-    "action": {
-      "type": "string",
-      "enum": [
-        "get_note_params"
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "get_note_params"
+          ]
+        }
+      },
+      "required": [
+        "action"
       ]
     },
-    "note_id": {
-      "type": "string",
-      "format": "uuid"
-    },
-    "note_link": {
-      "type": "string"
+    {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "note_id": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required": [
+            "note_id"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "note_link": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "note_link"
+          ]
+        }
+      ]
     }
-  },
-  "required": [
-    "action"
-  ],
-  "additionalProperties": false
+  ]
 }

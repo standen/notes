@@ -3,46 +3,32 @@
   "title": "I Note Create Request",
   "type": "object",
   "properties": {
-    "note_id": {
-      "type": "string",
-      "format": "uuid"
+    "name": {
+      "type": "string"
     },
-    "params": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "text": {
-          "type": "string"
-        },
-        "link": {
-          "type": "string"
-        },
-        "is_cipher": {
-          "type": "boolean"
-        },
-        "open_for_all": {
-          "type": "boolean"
-        },
-        "edit_everyone": {
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "name",
-        "text",
-        "link",
-        "is_cipher",
-        "open_for_all",
-        "edit_everyone"
-      ],
-      "additionalProperties": false
+    "text": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "is_cipher": {
+      "type": "boolean"
+    },
+    "open_for_all": {
+      "type": "boolean"
+    },
+    "edit_everyone": {
+      "type": "boolean"
     }
   },
   "required": [
-    "note_id",
-    "params"
+    "name",
+    "text",
+    "link",
+    "is_cipher",
+    "open_for_all",
+    "edit_everyone"
   ],
   "additionalProperties": false
 }

@@ -9,9 +9,6 @@ from api.json_schemes.constants import PATH_COMMON
 def decValidateReq(schemaPath):
     def decorator(func):
         def wrapper(request, *args, **kwargs):
-            
-            print(schemaPath)
-            
             try:
                 if (request.method == 'GET'):
                     body = request.GET.dict()

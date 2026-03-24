@@ -64,14 +64,21 @@ class viewNotes(View):
     def getNoteParams(self, request, **kwargs):
         try:
             noteId = kwargs.get('note_id')
+            
             if noteId:
-                note = modelNotes.objects.get(id=noteId).returnOne()
+                note = modelNotes.objects.get(id=noteId)
             
             if not noteId:
                 noteLink = kwargs.get('note_link')
-                note = modelNotes.objects.get(link=noteLink).returnOne()
+                note = modelNotes.objects.get(link=noteLink)
             
-            return CustomJsonResponse(result={'note': note})
+            if (not note.open_for_all and not request.user_data.get('user_login')):
+                return CustomJsonResponse(status=401)
+            
+            if (not note.open_for_all and request.user_data.get('user_login') != note.getOwner()):
+                return CustomJsonResponse(status=403)
+            
+            return CustomJsonResponse(result={'note': note.returnOne()})
         except:
             return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
     
@@ -87,130 +94,44 @@ class viewNotes(View):
                 return self.getNoteParams(request)
             else:
                 raise
-            
-            
-            if (request.GET.get('filter') == 'links'):
-                notesLinks = [note.getNoteLink() for note in modelNotes.objects.all().order_by("name")]
-                return CustomJsonResponse(result={'notesLinks': notesLinks})
-            
-            notes = [note.returnForTable() for note in modelNotes.objects.all().order_by("name")]
-            return CustomJsonResponse(result={'notes': notes})
         except:
             return CustomJsonResponse(status=400)
     
-    def postNoteList(self, request):
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteCreateRequest.schema.json')])
+    def post(self, request, **kwargs):
         try:
-            openNotes = []
-            userNotes = []
+            owner = request.user_data.get('user_login')
             
-            login = request.user_data.get('userLogin')
-            if (login):
-                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), open_for_all=False)]
-            
-            openNotes = [note.returnForTable() for note in modelNotes.objects.filter(open_for_all=True)]
-            
-            notes = [*openNotes, *userNotes]
-            
-            return CustomJsonResponse(result={'notes': notes})
-        except:
-            return CustomJsonResponse(status=400)
-    
-    def postNoteCreate(self, request):
-        try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            modelNotes(name = body.get('name'),
-                        text = body.get('text'),
-                        link = body.get('link'),
-                        is_cipher = body.get('is_cipher'),
-                        open_for_all = body.get('open_for_all'),
-                        edit_everyone = body.get('edit_everyone'),
-                        owner = modelUser.objects.get(login=request.user_data.get('userLogin'))
-                            ).save()
+            modelNotes(
+                **kwargs,
+                owner = modelUser.objects.get(login=owner)
+            ).save()
             
             return CustomJsonResponse(message='Заметка успешно создана')
         except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(status=500, message='При попытке создать заметку произошла ошибка')
     
-    def postNoteGet(self, request):
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteEditRequest.schema.json')])
+    def patch(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            note = modelNotes.objects.get(link=body['noteLink']).returnOne()
+            owner = request.user_data.get('user_login')
+            noteId = kwargs.get('note_id')
+            noteParams = kwargs.get('params')
             
-            if (not isinstance(note.get('open_for_all'), bool)):
-                raise
+            note = modelNotes.objects.get(id=noteId)
             
-            if (not note.get('open_for_all') and request.user_data.get('userLogin') == None):
-                return CustomJsonResponse(status=401)
+            modelNotes.objects.filter(id=noteId).update(
+                **noteParams,
+                updated_at = datetime.datetime.now()
+            )
             
-            if (not note.get('open_for_all') and request.user_data.get('userLogin') != note['author']['login']):
-                return CustomJsonResponse(status=403)
-            
-            return CustomJsonResponse(result={'note': note})
-        except:
-            return CustomJsonResponse(status=400)
+            return CustomJsonResponse(message='Заметка успешно изменена')  
+        except Exception as e:
+            print(e)
+            return CustomJsonResponse(status=500, message='При попытке обновить параметры заметки произошла ошибка')
     
-    @method_decorator([decAuthRequired()])
-    def post(self, request):
-        try:
-            action = json.loads(request.body).get('action')
-            
-            if (not action):
-                raise
-            
-            if (action == 'noteCreate'):
-                return self.postNoteCreate(request)
-            elif (action == 'noteGet'):
-                return self.postNoteGet(request)
-            elif (action == 'getNoteList'):
-                return self.postNoteList(request)
-            else:
-                raise
-        except:
-            return CustomJsonResponse(status=400)
-    
-    def patch(self, request):
-        try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            note = modelNotes.objects.get(link=body.get('noteLink')).returnOne()
-            
-            if (note == None):
-                raise
-            
-            if (not isinstance(note.get('edit_everyone'), bool)):
-                raise
-            
-            if (not note.get('edit_everyone') and request.user_data.get('userLogin') != ''):
-                return CustomJsonResponse(status=403)
-            
-            modelNotes.objects.filter(link=body.get('noteLink')).update(
-                    name = body.get('name'),
-                    text = body.get('text'),
-                    link = body.get('noteLink'),
-                    is_cipher = body.get('is_cipher'),
-                    open_for_all = body.get('open_for_all'),
-                    edit_everyone = body.get('edit_everyone'),
-                    owner = modelUser.objects.get(login=note['author']['login']),
-                    updated_at = datetime.datetime.now()
-                )
-            return CustomJsonResponse(message='Заметка успешно изменена')
-            
-        except:
-            return CustomJsonResponse(status=400)
-    
-    @method_decorator([decAuthRequired()])
-    def delete(self, request):
+    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteDeleteRequest.schema.json')])
+    def delete(self, request, **kwargs):
         try:
             body = json.loads(request.body)
         except:
