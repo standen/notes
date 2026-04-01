@@ -7,7 +7,7 @@ from appAuth.models import modelUser
 tz = timezone.get_default_timezone()
 
 class modelNotes(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -15,8 +15,8 @@ class modelNotes(models.Model):
     text = models.TextField()
     link = models.CharField(unique=True)
     is_cipher = models.BooleanField(default=False)
-    open_for_all = models.BooleanField(default=False)
-    edit_everyone = models.BooleanField(default=False)
+    is_open_for_all = models.BooleanField(default=False)
+    is_edit_everyone = models.BooleanField(default=False)
 
     owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)
 
@@ -27,8 +27,8 @@ class modelNotes(models.Model):
             'text': self.text,
             'link': self.link,
             'is_cipher': self.is_cipher,
-            'open_for_all': self.open_for_all,
-            'edit_everyone': self.edit_everyone,
+            'is_open_for_all': self.is_open_for_all,
+            'is_edit_everyone': self.is_edit_everyone,
             'created_at': self.created_at.astimezone(tz).strftime('%d.%m.%Y %H:%M'),
             'updated_at': self.updated_at.astimezone(tz).strftime('%d.%m.%Y %H:%M'),
             'author': {
@@ -55,7 +55,7 @@ class modelNotes(models.Model):
         return self.owner.login.lower()
 
 class modelNotesDeleted(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     
     deleted_at = models.DateTimeField(auto_now_add=True)
     
@@ -64,7 +64,7 @@ class modelNotesDeleted(models.Model):
     link = models.CharField()
     
     is_cipher = models.BooleanField(default=False)
-    open_for_all = models.BooleanField(default=False)
-    edit_everyone = models.BooleanField(default=False)
+    is_open_for_all = models.BooleanField(default=False)
+    is_edit_everyone = models.BooleanField(default=False)
 
     owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)

@@ -19,10 +19,10 @@
     "is_cipher": {
       "type": "boolean"
     },
-    "open_for_all": {
+    "is_open_for_all": {
       "type": "boolean"
     },
-    "edit_everyone": {
+    "is_edit_everyone": {
       "type": "boolean"
     },
     "created_at": {
@@ -55,8 +55,8 @@
     "text",
     "link",
     "is_cipher",
-    "open_for_all",
-    "edit_everyone",
+    "is_open_for_all",
+    "is_edit_everyone",
     "created_at",
     "updated_at",
     "author"

@@ -24,7 +24,7 @@ class viewNotes(View):
                 if not login:
                     return CustomJsonResponse(status=401)
                 
-                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), open_for_all=False)]
+                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), is_open_for_all=False)]
                 
                 return CustomJsonResponse(result={'notes': userNotes})
             
@@ -37,15 +37,15 @@ class viewNotes(View):
                 openNotes = []
                 userNotes = []
                 
-                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), open_for_all=False)]
-                openNotes = [note.returnForTable() for note in modelNotes.objects.filter(open_for_all=True)]
+                userNotes = [note.returnForTable() for note in modelNotes.objects.filter(owner=modelUser.objects.get(login=login), is_open_for_all=False)]
+                openNotes = [note.returnForTable() for note in modelNotes.objects.filter(is_open_for_all=True)]
                 
                 notes = [*openNotes, *userNotes]
             
                 return CustomJsonResponse(result={'notes': notes})
             
             if (user_filter == 'open'):
-                openNotes = [note.returnForTable() for note in modelNotes.objects.filter(open_for_all=True)]
+                openNotes = [note.returnForTable() for note in modelNotes.objects.filter(is_open_for_all=True)]
                 return CustomJsonResponse(result={'notes': openNotes})
             
             raise
@@ -72,10 +72,10 @@ class viewNotes(View):
                 noteLink = kwargs.get('note_link')
                 note = modelNotes.objects.get(link=noteLink)
             
-            if (not note.open_for_all and not request.user_data.get('user_login')):
+            if (not note.is_open_for_all and not request.user_data.get('user_login')):
                 return CustomJsonResponse(status=401)
             
-            if (not note.open_for_all and request.user_data.get('user_login') != note.getOwner()):
+            if (not note.is_open_for_all and request.user_data.get('user_login') != note.getOwner()):
                 return CustomJsonResponse(status=403)
             
             return CustomJsonResponse(result={'note': note.returnOne()})
@@ -120,38 +120,41 @@ class viewNotes(View):
             
             note = modelNotes.objects.get(id=noteId)
             
-            modelNotes.objects.filter(id=noteId).update(
-                **noteParams,
-                updated_at = datetime.datetime.now()
-            )
+            if (note.is_edit_everyone == False and owner != note.owner.login):
+                return CustomJsonResponse(status=403)
+            
+            if (note.link != noteParams.get('link')):
+                note.link = noteParams.get('link')
+            note.name = noteParams.get('name')
+            note.text = noteParams.get('text')
+            note.is_cipher = noteParams.get('is_cipher')
+            note.is_open_for_all = noteParams.get('is_open_for_all')
+            note.is_edit_everyone = noteParams.get('is_edit_everyone')
+            note.updated_at = datetime.datetime.now()
+            
+            note.save()
             
             return CustomJsonResponse(message='Заметка успешно изменена')  
-        except Exception as e:
-            print(e)
+        except:
             return CustomJsonResponse(status=500, message='При попытке обновить параметры заметки произошла ошибка')
     
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
         try:
-            body = json.loads(request.body)
-        except:
-            return CustomJsonResponse(status=400)
-        
-        try:
-            note = modelNotes.objects.get(id=body.get('noteId')).returnOne()
+            note = modelNotes.objects.get(id=kwargs.get('note_id'))
             
-            if (request.user_data.get('userLogin') != note['author']['login']):
+            if (request.user_data.get('user_login') != note.owner.login):
                 return CustomJsonResponse(status=403)
             
-            note = modelNotes.objects.get(id=body.get('noteId'))
-            modelNotes.objects.filter(id=body.get('noteId')).delete()
             modelNotesDeleted(name = note.name,
                     text = note.text,
                     link = note.link,
                     is_cipher = note.is_cipher,
-                    open_for_all = note.open_for_all,
-                    edit_everyone = note.edit_everyone,
+                    is_open_for_all = note.is_open_for_all,
+                    is_edit_everyone = note.is_edit_everyone,
                     owner = note.owner).save()
+            note.delete()
             return CustomJsonResponse(message='Заметка успешно удалена')
-        except:
-            return CustomJsonResponse(status=400)
+        except Exception as e:
+            print(e)
+            return CustomJsonResponse(status=500, message='При попытке удалить заметку произошла ошибка')

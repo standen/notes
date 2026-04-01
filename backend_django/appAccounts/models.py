@@ -4,7 +4,7 @@ from django.db import models
 from appAuth.models import modelUser
 
 class modelAccounts(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -16,7 +16,7 @@ class modelAccounts(models.Model):
     owner = models.ForeignKey(modelUser, on_delete=models.PROTECT)
 
 class modelAccountsDeleted(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     deleted_at = models.DateTimeField(auto_now=True)
 
     login = models.CharField(unique=True)

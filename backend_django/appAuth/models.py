@@ -31,7 +31,7 @@ ALLOWED_ACTIONS = sorted([
 ])
 
 class modelUserRole(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
 
     name = models.CharField(max_length=50, unique=True)
     allowed_actions = models.JSONField()
@@ -47,7 +47,7 @@ class modelUserRole(models.Model):
         return self.name.lower()
 
 class modelUser(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
