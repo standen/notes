@@ -1,5 +1,5 @@
 export * from "./PageSettings";
-export * from "./PageNotes";
+export * from "./PageNotesList";
 export * from "./PageAccounts";
 export * from "./PageEvents";
 export * from "./PageNoteEngine";

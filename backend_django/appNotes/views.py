@@ -1,4 +1,4 @@
-import json, datetime
+import datetime
 
 from django.views import View
 from django.utils.decorators import method_decorator
@@ -155,6 +155,5 @@ class viewNotes(View):
                     owner = note.owner).save()
             note.delete()
             return CustomJsonResponse(message='Заметка успешно удалена')
-        except Exception as e:
-            print(e)
+        except:
             return CustomJsonResponse(status=500, message='При попытке удалить заметку произошла ошибка')

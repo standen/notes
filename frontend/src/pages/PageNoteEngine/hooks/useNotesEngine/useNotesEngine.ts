@@ -1,5 +1,5 @@
 import { useMemo } from "react";
 
-export const useNotes = () => {
+export const useNotesEngine = () => {
   return useMemo(() => ({}), []);
 };

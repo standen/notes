@@ -1,18 +1,26 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import type { IResponseNotesList, INoteForTable } from "@/api/notes";
+import type {
+  INotesListRequest,
+  INotesListResponse,
+  INoteForTable,
+} from "@/api/generated_types";
 
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
 
-export const useNotes = () => {
+export const useNotesList = () => {
   const { makeRequest } = useRequest();
 
   const [notes, setNotes] = useState<INoteForTable[]>([]);
 
   const getNotes = useCallback(async (): Promise<INoteForTable[]> => {
-    const notes = await makeRequest<IResponseNotesList>({
-      params: { method: "get", url: API.notes.notes },
+    const notes = await makeRequest<INotesListRequest, INotesListResponse>({
+      params: {
+        method: "get",
+        url: API.notes.notes,
+        params: { filter: "all", action: "get_notes_list" },
+      },
     });
 
     setNotes(notes?.result?.notes ?? []);

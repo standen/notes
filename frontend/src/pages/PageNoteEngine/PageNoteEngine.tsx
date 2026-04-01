@@ -1,5 +1,5 @@
 import { useEffect, type FC } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation, useParams } from "react-router";
 import classNames from "classnames/bind";
 
 import { NavMenu } from "@/router/constants";
@@ -16,21 +16,15 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const PageNoteEngine: FC = () => {
+  const { noteLink } = useParams();
+
   const { open, edit, cipher, changeOpen, changeEdit, changeCipher } =
     useNoteToggles();
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    if (location?.state?.noteLink) {
-      console.log(location?.state?.noteLink);
-    }
-  }, [location?.state?.noteLink]);
-
-  if (!location?.state?.noteLink) {
-    return "Заметка не существует!";
-  }
+  console.log(noteLink);
 
   return (
     <>
@@ -47,7 +41,7 @@ export const PageNoteEngine: FC = () => {
             />
             <Tag>{location?.state?.noteLink}</Tag>
             <Tag>{location?.state?.noteLink}</Tag>
-            <Alert message="123" />
+            <Alert title="123" />
           </>
         }
         left={

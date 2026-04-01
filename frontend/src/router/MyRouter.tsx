@@ -9,7 +9,7 @@ import { Loader } from "@/components";
 import { ViewMain } from "@/views";
 import {
   PageSettings,
-  PageNotes,
+  PageNotesList,
   PageNoteEngine,
   PageNoteView,
   PageAccounts,
@@ -35,8 +35,7 @@ export const MyRouter = () => {
         }
       >
         <Route path={NavMenu.PageAccounts.url} element={<PageAccounts />} />
-        <Route path={NavMenu.PageNotes.url} element={<PageNotes />} />
-        <Route path="/editnote" element={<PageNoteEngine />} />
+        <Route path={NavMenu.PageNotes.url} element={<PageNotesList />} />
         <Route path={NavMenu.PageEvents.url} element={<PageEvents />} />
         <Route path={NavMenu.PageSettings.url} element={<PageSettings />} />
       </Route>
@@ -46,6 +45,15 @@ export const MyRouter = () => {
         element={
           <Loader.body>
             <PageNoteView />
+          </Loader.body>
+        }
+      />
+
+      <Route
+        path="/note/:noteLink/edit"
+        element={
+          <Loader.body>
+            <PageNoteEngine />
           </Loader.body>
         }
       />

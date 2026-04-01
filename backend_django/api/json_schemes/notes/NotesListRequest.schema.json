@@ -7,7 +7,10 @@
       "$ref": "../common/NotesListFilterValues.schema.json"
     },
     "action": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "get_notes_list"
+      ]
     }
   },
   "required": [
