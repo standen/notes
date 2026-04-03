@@ -21,4 +21,10 @@ export const POSSIBLE_SYMBOLS: TEntitiesSymbols = {
     ...SYMBOLS.ru,
     ...SYMBOLS.spaceSymbol,
   ].join(""),
+  key: [
+    ...ALPHABET.digits,
+    ...SYMBOLS.en,
+    ...SYMBOLS.ru,
+    ...ALPHABET.specChars,
+  ].join(""),
 };

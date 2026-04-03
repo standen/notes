@@ -40,6 +40,7 @@ export const AdminUsers = () => {
         <Table<IUser>
           bordered
           size="small"
+          rowKey={(record) => record.id}
           locale={{ emptyText: NO_DATA.roles }}
           columns={columnsTableRolesList(editUser, delUser)}
           dataSource={users.filter((item) =>

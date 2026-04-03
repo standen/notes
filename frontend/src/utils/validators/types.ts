@@ -4,6 +4,7 @@ const EValidateEntities = [
   "roleName",
   "noteLink",
   "noteName",
+  "key",
 ] as const;
 
 export type TValidateEntities = (typeof EValidateEntities)[number];

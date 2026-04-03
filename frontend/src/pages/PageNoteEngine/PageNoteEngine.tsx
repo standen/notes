@@ -24,8 +24,6 @@ export const PageNoteEngine: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(noteLink);
-
   return (
     <>
       <Title
@@ -48,17 +46,17 @@ export const PageNoteEngine: FC = () => {
           <Flex gap={8}>
             <Button type="primary">Сохранить</Button>
             <Button onClick={() => navigate(NavMenu.PageNotes.url)}>
-              Вернуться
+              К списку заметок
             </Button>
           </Flex>
         }
       />
       <div className={cx("noteEditContent")}>
         <Content>
-          <MarkdownView />
+          <MarkdownEditor />
         </Content>
         <Content>
-          <MarkdownEditor />
+          <MarkdownView />
         </Content>
       </div>
     </>

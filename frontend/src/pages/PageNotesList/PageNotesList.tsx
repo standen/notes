@@ -48,6 +48,7 @@ export const PageNotesList = () => {
         <Table<INoteForTable>
           bordered
           size="small"
+          rowKey={(record) => record.id}
           locale={{ emptyText: NO_DATA.notes }}
           columns={columnsTableNotesList(
             () => {},

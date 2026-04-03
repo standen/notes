@@ -35,11 +35,7 @@ export const UserProfile = () => {
         okText="Выйти"
         cancelText="Нет"
       >
-        <Tag
-          color="blue-inverse"
-          variant="filled"
-          className={cx(["tagToLink"])}
-        >
+        <Tag color="blue" variant="filled" className={cx(["tagToLink"])}>
           {user?.login}
         </Tag>
       </Popconfirm>

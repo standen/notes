@@ -8,6 +8,7 @@ const MAX_LENGTH: TEntitiesMaxLength = {
   noteLink: 32,
   roleName: 24,
   noteName: 64,
+  key: 32,
 };
 
 const MIN_LENGTH: TEntitiesMaxLength = {
@@ -16,6 +17,7 @@ const MIN_LENGTH: TEntitiesMaxLength = {
   noteLink: 3,
   roleName: 3,
   noteName: 3,
+  key: 1,
 };
 
 export { MAX_LENGTH, MIN_LENGTH };

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { type IRole } from "@/api/settings";
+import { type IRole } from "@/api/generated_types";
 
 import { NO_DATA } from "@/constants";
 
@@ -40,6 +40,7 @@ export const AdminRoles = () => {
         <Table<IRole>
           bordered
           size="small"
+          rowKey={(record) => record.id}
           locale={{ emptyText: NO_DATA.roles }}
           columns={columnsTableRolesList(delRole, editRole)}
           dataSource={roles.filter((item) =>

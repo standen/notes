@@ -58,6 +58,10 @@ const validateNoteName = (noteName: string): boolean => {
   return true;
 };
 
+const validateKey = (key: string): boolean => {
+  return true;
+};
+
 export const validate: Record<TValidateEntities, TValidateParams> = {
   login: {
     check: validateLogin,
@@ -78,5 +82,9 @@ export const validate: Record<TValidateEntities, TValidateParams> = {
   roleName: {
     check: validateRoleName,
     requires: ERROR_MESSAGES.roleName,
+  },
+  key: {
+    check: validateKey,
+    requires: ERROR_MESSAGES.key,
   },
 };

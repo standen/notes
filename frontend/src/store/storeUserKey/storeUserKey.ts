@@ -5,7 +5,7 @@ interface store {
   setKey: (state: string) => void;
 }
 
-export const storeRequestLoader = create<store>()((set) => ({
+export const storeUserKey = create<store>()((set) => ({
   key: "",
   setKey: (key: string) => set({ key }),
 }));

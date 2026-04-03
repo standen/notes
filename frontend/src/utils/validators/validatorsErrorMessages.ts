@@ -10,4 +10,5 @@ export const ERROR_MESSAGES: TEntitiesErrorMessage = {
   noteLink: ``,
   noteName: ``,
   roleName: ``,
+  key: ``,
 };
