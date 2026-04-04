@@ -44,7 +44,7 @@ ALLOWED_ACTIONS = sorted([
     "SETTINGS_PAYS_CATEGORY_DELETE"
 ])
 
-USERS_PERMISSIONS = {
+SYSTEM_PERMISSIONS = {
   "accounts": {
     "show_in_menu": ["ACCOUNTS_SHOW_IN_MENU"],
     "read": ["ACCOUNTS_READ"],

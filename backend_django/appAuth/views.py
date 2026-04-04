@@ -6,7 +6,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.utils.decorators import method_decorator
 
 from .models import *
-from .allowed_actions import USERS_PERMISSIONS
+from .allowed_actions import SYSTEM_PERMISSIONS
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decValidateReq import decValidateReq
@@ -85,10 +85,10 @@ class viewAuth(View):
         except:
             return CustomJsonResponse(status=500, message='При попытке выйти из профиля возникла ошибка')  
     
-    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_AUTH}/AuthUserPermissionsRequest.schema.json')])
-    def postGetUserPermissions(self, request, **kwargs):
+    @method_decorator([decValidateReq(f'{PATH_AUTH}/AuthSystemPermissionsRequest.schema.json')])
+    def postGetSystemPermissions(self, request, **kwargs):
         try:
-            return CustomJsonResponse(result=USERS_PERMISSIONS)
+            return CustomJsonResponse(result=SYSTEM_PERMISSIONS)
         except:
             return CustomJsonResponse(status=500, message='При получении списка разрешений произошла ошибка')
     
@@ -100,8 +100,8 @@ class viewAuth(View):
                 return self.postLogin(request)
             elif (action == 'auth_logout'):
                 return self.postLogout(request)
-            elif (action == 'get_user_permissions'):
-                return self.postGetUserPermissions(request)
+            elif (action == 'get_system_permissions'):
+                return self.postGetSystemPermissions(request)
             else:
                 raise
         except Exception as e:

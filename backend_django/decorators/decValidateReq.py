@@ -44,8 +44,8 @@ def decValidateReq(schemaPath):
                 with open(f'{PATH_COMMON}/Note.schema.json', 'r', encoding='utf-8') as file:
                     note = Resource.from_contents(json.load(file))
                     
-                with open(f'{PATH_COMMON}/UserPermissions.schema.json', 'r', encoding='utf-8') as file:
-                    user_permissions = Resource.from_contents(json.load(file))
+                with open(f'{PATH_COMMON}/SystemPermissions.schema.json', 'r', encoding='utf-8') as file:
+                    system_permissions = Resource.from_contents(json.load(file))
                     
                 registry = Registry().with_resources([
                     ("PermissionList.schema.json", permissions),
@@ -57,7 +57,7 @@ def decValidateReq(schemaPath):
                     ("../common/NotesListFilterValues.schema.json", noteListFilterValues),
                     ("../common/Note.schema.json", note),
                     ("../common/NoteForTable.schema.json", noteForTable),
-                    ("../common/UserPermissions.schema.json", user_permissions)
+                    ("../common/SystemPermissions.schema.json", system_permissions)
                 ])
                 
                 validator = Draft202012Validator(schema, registry=registry)
