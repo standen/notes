@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I Auth User Permissions Response",
+  "allOf": [
+    {
+      "$ref": "../common/Response.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "../common/UserPermissions.schema.json"
+        }
+      },
+      "required": [
+        "result"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

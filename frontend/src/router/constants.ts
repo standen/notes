@@ -21,6 +21,11 @@ export const NavMenu: TNavMenu = {
     url: "/events",
     isMenuItem: true,
   },
+  PagePays: {
+    title: "Платежи",
+    url: "/pays",
+    isMenuItem: true,
+  },
   PageSettings: {
     title: "Настройки",
     url: "/settings",

@@ -14,6 +14,7 @@ import {
   PageNoteView,
   PageAccounts,
   PageEvents,
+  PagePays,
   PageError404,
 } from "@/pages";
 
@@ -37,6 +38,7 @@ export const MyRouter = () => {
         <Route path={NavMenu.PageAccounts.url} element={<PageAccounts />} />
         <Route path={NavMenu.PageNotes.url} element={<PageNotesList />} />
         <Route path={NavMenu.PageEvents.url} element={<PageEvents />} />
+        <Route path={NavMenu.PagePays.url} element={<PagePays />} />
         <Route path={NavMenu.PageSettings.url} element={<PageSettings />} />
       </Route>
 

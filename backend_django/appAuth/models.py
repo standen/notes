@@ -1,35 +1,6 @@
 import uuid
 from django.db import models
 
-ALLOWED_ACTIONS = sorted([
-    'NOTE_DELETE',
-    'NOTE_CREATE',
-    'NOTE_READ',
-    'NOTE_MENU_ACCESS',
-    'NOTES_LIST',
-    'ACCOUNT_CREATE',
-    'ACCOUNT_READ',
-    'ACCOUNT_DELETE',
-    'ACCOUNT_ACCESS',
-    'EVENT_CREATE',
-    'EVENT_READ',
-    'EVENT_DELETE',
-    'EVENT_ACCESS',
-    'SETTINGS_PAGE_ACCESS',
-    'SETTINGS_GLOBALS_ACCESS',
-    'SETTINGS_USERS_ACCESS',
-    'SETTINGS_ROLES_ACCESS',
-    'SETTINGS_USERS_LIST',
-    'SETTINGS_USER_CREATE',
-    'SETTINGS_USER_UPDATE',
-    'SETTINGS_USER_DELETE',
-    'SETTINGS_ROLES_LIST',
-    'SETTINGS_ROLE_CREATE',
-    'SETTINGS_ROLE_UPDATE',
-    'SETTINGS_ROLE_DELETE',
-    'SETTINGS_PERMISSIONS_LIST'
-])
-
 class modelUserRole(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid7, editable=False)
 

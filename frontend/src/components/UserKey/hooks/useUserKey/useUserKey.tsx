@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import { storeUserKey } from "@/store";
 
 import { FormUserKey } from "@/components/UserKey/forms";
-import { App, Skeleton } from "antd";
+import { App, Skeleton, Modal } from "antd";
 
 export const useUserKey = () => {
   const { modal, notification } = App.useApp();
@@ -23,12 +23,19 @@ export const useUserKey = () => {
       modalUserKey.update({ content: <FormUserKey resolve={resolve} /> }),
     );
 
-    setKey(key);
+    // @ts-expect-error
+    setKey(key || "");
 
     notification.success({ title: "Ключ успешко установлен" });
 
     modalUserKey.destroy();
+  }, [modal, notification]);
+
+  const keyDelete = useCallback(() => {
+    setKey("");
+    notification.success({ title: "Ключ успешно удален" });
+    Modal.destroyAll();
   }, []);
 
-  return useMemo(() => ({ keySet }), [keySet]);
+  return useMemo(() => ({ keySet, keyDelete }), [keySet, keyDelete]);
 };

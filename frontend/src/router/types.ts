@@ -3,6 +3,7 @@ export const PAGES_NAMES = [
   `${PAGE_PREFIX}Accounts`,
   `${PAGE_PREFIX}Notes`,
   `${PAGE_PREFIX}Events`,
+  `${PAGE_PREFIX}Pays`,
   `${PAGE_PREFIX}Settings`,
   `${PAGE_PREFIX}NoteEngine`,
 ] as const;

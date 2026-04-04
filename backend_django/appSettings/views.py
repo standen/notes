@@ -4,6 +4,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 
 from appAuth.models import *
+from appAuth.allowed_actions import ALLOWED_ACTIONS
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAuthRequired import decAuthRequired

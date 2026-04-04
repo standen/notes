@@ -6,15 +6,20 @@ import type {
   INoteForTable,
 } from "@/api/generated_types";
 
+import { storeUserInfo } from "@/store";
+
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
 
 export const useNotesList = () => {
+  const { user } = storeUserInfo();
   const { makeRequest } = useRequest();
 
   const [notes, setNotes] = useState<INoteForTable[]>([]);
 
-  const getNotes = useCallback(async (): Promise<INoteForTable[]> => {
+  const getNotes = useCallback(async (): Promise<
+    INoteForTable[] | React.ReactNode
+  > => {
     const notes = await makeRequest<INotesListRequest, INotesListResponse>({
       params: {
         method: "get",
@@ -29,7 +34,7 @@ export const useNotesList = () => {
 
   useEffect(() => {
     getNotes();
-  }, [getNotes]);
+  }, [getNotes, user]);
 
   return useMemo(() => ({ notes }), [notes]);
 };

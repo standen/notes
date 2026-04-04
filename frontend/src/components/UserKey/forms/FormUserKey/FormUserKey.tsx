@@ -3,6 +3,8 @@ import type { FC } from "react";
 import { validate } from "@/utils";
 import { ERRORS_TEXT } from "@/constants";
 
+import { useUserKey } from "@/components/UserKey/hooks";
+
 import { Input, Form, Button, Flex } from "antd";
 import { Loader } from "@/components/Loader";
 
@@ -12,6 +14,8 @@ interface Props {
 
 export const FormUserKey: FC<Props> = (props) => {
   const { resolve } = props;
+
+  const { keyDelete } = useUserKey();
 
   return (
     <Loader.modal>
@@ -38,7 +42,10 @@ export const FormUserKey: FC<Props> = (props) => {
         >
           <Input placeholder="Ключ шифрования..." allowClear />
         </Form.Item>
-        <Flex justify="flex-end">
+        <Flex justify="flex-end" gap="small">
+          <Button type="primary" danger onClick={keyDelete}>
+            Удалить ключ
+          </Button>
           <Button type="primary" htmlType="submit">
             Сохранить ключ
           </Button>

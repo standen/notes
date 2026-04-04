@@ -1,8 +1,10 @@
 import { create } from "zustand";
 
+import type { IPermissionsList } from "@/api/generated_types";
+
 interface IUser {
   login?: string | undefined;
-  allowedActions?: string[];
+  allowedActions?: IPermissionsList;
 }
 
 interface store {
