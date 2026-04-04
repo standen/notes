@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import classNames from "classnames/bind";
 import { useNavigate, useLocation } from "react-router";
 
+import { storeSystemPermissions, storeUserInfo } from "@/store";
 import { PAGES_NAMES, type TMenuPagesNames } from "@/router/types";
 import { NavMenu } from "@/router/constants";
 
@@ -11,6 +12,9 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const HeaderMenu = () => {
+  const { user } = storeUserInfo();
+  const { systemPermissions } = storeSystemPermissions();
+
   const navigate = useNavigate();
   const location = useLocation();
 

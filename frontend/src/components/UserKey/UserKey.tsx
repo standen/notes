@@ -11,8 +11,6 @@ export const UserKey = () => {
   const { keySet } = useUserKey();
   const { key } = storeUserKey();
 
-  console.log(key, "key");
-
   return (
     <Tag
       variant="filled"

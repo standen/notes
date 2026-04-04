@@ -19,6 +19,7 @@ import type {
 } from "@/api/generated_types";
 import type { TFormUserEdit } from "@/pages/PageSettings/components/AdminUsers/forms/FormUserEdit";
 
+import { storeUserInfo } from "@/store";
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
 
@@ -32,6 +33,7 @@ import { App, Skeleton } from "antd";
 export const useUsers = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
+  const { user } = storeUserInfo();
 
   const [users, setUsers] = useState<IUser[]>([]);
 
@@ -254,7 +256,7 @@ export const useUsers = () => {
 
   useEffect(() => {
     getUsers();
-  }, [getUsers]);
+  }, [getUsers, user]);
 
   return useMemo(
     () => ({ editUser, delUser, users, createUser }),

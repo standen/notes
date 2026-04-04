@@ -19,10 +19,11 @@ import {
 } from "@/pages";
 
 export const MyRouter = () => {
-  const { getUserInfo } = useAuth();
+  const { getUserInfo, getSystemPermissions } = useAuth();
 
   useEffect(() => {
     getUserInfo();
+    getSystemPermissions();
   }, [getUserInfo]);
 
   return (

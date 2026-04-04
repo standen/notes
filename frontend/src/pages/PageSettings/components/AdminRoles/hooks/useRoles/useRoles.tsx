@@ -18,6 +18,7 @@ import type {
 } from "@/api/generated_types";
 import type { TFormRoleEdit } from "@/pages/PageSettings/components/AdminRoles/forms/FormRoleEdit";
 
+import { storeUserInfo } from "@/store";
 import { useRequest } from "@/hooks";
 import { API } from "@/api";
 
@@ -31,6 +32,7 @@ import { App, Skeleton } from "antd";
 export const useRoles = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
+  const { user } = storeUserInfo();
 
   const [roles, setRoles] = useState<IRole[]>([]);
 
@@ -259,7 +261,7 @@ export const useRoles = () => {
 
   useEffect(() => {
     getRoles();
-  }, [getRoles]);
+  }, [getRoles, user]);
 
   return useMemo(
     () => ({ delRole, editRole, roles, getRoles, createRole }),
