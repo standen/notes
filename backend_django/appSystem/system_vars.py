@@ -101,11 +101,35 @@ SYSTEM_PERMISSIONS = {
   }
 }
 
-SYSTEM_MENU = [
-  {
-    "title": "",
-    "url": "",
+SYSTEM_MENU = {
+  "accounts": {
+    "title": "Аккаунты",
+    "url": "/",
     "is_menu_item": True,
-    "permissions": [""]
+    "permissions": []
+  },
+  "notes": {
+    "title": "Заметки",
+    "url": "/notes",
+    "is_menu_item": True,
+    "permissions": []
+  },
+  "events": {
+    "title": "События",
+    "url": "/events",
+    "is_menu_item": True,
+    "permissions": []
+  },
+  "pays": {
+    "title": "Платежи",
+    "url": "/pays",
+    "is_menu_item": True,
+    "permissions": []
+  },
+  "settings": {
+    "title": "Настройки",
+    "url": "/settings",
+    "is_menu_item": True,
+    "permissions": ["SETTINGS_SHOW_IN_MENU"]
   }
-]
+}

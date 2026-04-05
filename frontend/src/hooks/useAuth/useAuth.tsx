@@ -7,14 +7,12 @@ import type {
   IAuthLogoutRequest,
   IAuthUserInfoRequest,
   IAuthUserInfoResponse,
-  IAuthSystemPermissionsRequest,
-  IAuthSystemPermissionsResponse,
 } from "@/api/generated_types";
 import type { TFormAuth } from "@/hooks/useAuth/forms/FormAuth";
 
 import { API } from "@/api";
 import { useRequest } from "@/hooks";
-import { storeUserInfo, storeSystemPermissions } from "@/store";
+import { storeUserInfo } from "@/store";
 
 import { FormAuth } from "@/hooks/useAuth/forms";
 
@@ -24,7 +22,6 @@ export const useAuth = () => {
   const { modal } = App.useApp();
   const { makeRequest } = useRequest();
   const { setUser } = storeUserInfo();
-  const { setSystemPermissions } = storeSystemPermissions();
 
   const getUserInfo = useCallback(async () => {
     const user = await makeRequest<IAuthUserInfoRequest, IAuthUserInfoResponse>(
@@ -97,30 +94,8 @@ export const useAuth = () => {
     modalAuth.destroy();
   }, [makeRequest, modal, getUserInfo]);
 
-  const getSystemPermissions = useCallback(async () => {
-    const perms = await makeRequest<
-      IAuthSystemPermissionsRequest,
-      IAuthSystemPermissionsResponse
-    >({
-      params: {
-        method: "post",
-        url: API.auth.auth,
-        data: {
-          action: "get_system_permissions",
-        },
-      },
-    });
-
-    if (!perms) {
-      setSystemPermissions(undefined);
-    }
-
-    // @ts-expect-error
-    setSystemPermissions(perms);
-  }, []);
-
   return useMemo(
-    () => ({ auth, getUserInfo, logout, getSystemPermissions }),
-    [auth, getUserInfo, logout, getSystemPermissions],
+    () => ({ auth, getUserInfo, logout }),
+    [auth, getUserInfo, logout],
   );
 };

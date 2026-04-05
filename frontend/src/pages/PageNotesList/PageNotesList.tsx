@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 
 import { type INoteForTable } from "@/api/generated_types";
 
+import { storeSystemVars } from "@/store";
 import { NO_DATA } from "@/constants";
-import { NavMenu } from "@/router/constants";
 
 import { useNotesList } from "@/pages/PageNotesList/hooks";
 
@@ -16,6 +16,8 @@ import { Button, Flex, Input, Table } from "antd";
 const { Search } = Input;
 
 export const PageNotesList = () => {
+  const { systemMenu } = storeSystemVars();
+
   const { notes } = useNotesList();
 
   const navigate = useNavigate();
@@ -29,7 +31,8 @@ export const PageNotesList = () => {
           <Button
             color="blue"
             variant="solid"
-            onClick={() => navigate(NavMenu.PageNotes.url)}
+            // TODO
+            onClick={() => navigate(systemMenu?.notes?.url ?? "")}
           >
             Добавить заметку
           </Button>

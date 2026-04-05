@@ -12,9 +12,6 @@
           "$ref": "../common/SystemPermissions.schema.json"
         }
       },
-      "required": [
-        "result"
-      ],
       "additionalProperties": false
     }
   ]

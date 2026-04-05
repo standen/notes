@@ -12,7 +12,7 @@
           "type": "object",
           "properties": {
             "system_menu": {
-              "$ref": "../common/SystemMenuItem.schema.json"
+              "$ref": "../common/SystemMenuItems.schema.json"
             }
           },
           "required": [

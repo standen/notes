@@ -22,10 +22,7 @@
             "notes_links"
           ]
         }
-      },
-      "required": [
-        "result"
-      ]
+      }
     }
   ]
 }

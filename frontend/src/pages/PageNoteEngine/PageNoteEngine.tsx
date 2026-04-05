@@ -1,9 +1,8 @@
-import { useEffect, type FC } from "react";
+import { type FC } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
 import classNames from "classnames/bind";
 
-import { NavMenu } from "@/router/constants";
-
+import { storeSystemVars } from "@/store";
 import { useNoteToggles } from "@/pages/PageNoteEngine/components/NoteToggles/hooks";
 
 import { MarkdownView, MarkdownEditor } from "@/components";
@@ -16,6 +15,8 @@ import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const PageNoteEngine: FC = () => {
+  const { systemMenu } = storeSystemVars();
+
   const { noteLink } = useParams();
 
   const { open, edit, cipher, changeOpen, changeEdit, changeCipher } =
@@ -45,7 +46,8 @@ export const PageNoteEngine: FC = () => {
         left={
           <Flex gap={8}>
             <Button type="primary">Сохранить</Button>
-            <Button onClick={() => navigate(NavMenu.PageNotes.url)}>
+            {/* TODO */}
+            <Button onClick={() => navigate(systemMenu?.notes?.url ?? "/")}>
               К списку заметок
             </Button>
           </Flex>
