@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I System Menu Item",
+  "type": "array",
+  "uniqueItems": true,
+  "items": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "url": {
+        "type": "string"
+      },
+      "is_menu_item": {
+        "type": "boolean"
+      },
+      "permissions": {
+        "$ref": "./PermissionList.schema.json"
+      }
+    },
+    "required": [
+      "title",
+      "url",
+      "is_menu_item",
+      "permissions"
+    ],
+    "additionalProperties": false
+  }
+}

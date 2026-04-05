@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I System Permissions List Request",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "get_system_permissions_list"
+      ]
+    }
+  },
+  "required": [
+    "action"
+  ],
+  "additionalProperties": false
+}

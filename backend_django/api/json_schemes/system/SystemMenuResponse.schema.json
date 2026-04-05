@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I System Menu Response",
+  "allOf": [
+    {
+      "$ref": "../common/Response.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "system_menu": {
+              "$ref": "../common/SystemMenuItem.schema.json"
+            }
+          },
+          "required": [
+            "system_menu"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

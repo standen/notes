@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "I System Permissions List Response",
+  "allOf": [
+    {
+      "$ref": "../common/Response.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "permissions": {
+              "$ref": "../common/PermissionList.schema.json"
+            }
+          },
+          "required": [
+            "permissions"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

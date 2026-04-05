@@ -22,4 +22,5 @@ urlpatterns = [
     path('notes', include('appNotes.urls')),
     path('events', include('appEvents.urls')),
     path('settings', include('appSettings.urls')),
+    path('system', include('appSystem.urls'))
 ]

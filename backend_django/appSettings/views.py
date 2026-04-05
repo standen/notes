@@ -4,21 +4,12 @@ from django.views import View
 from django.utils.decorators import method_decorator
 
 from appAuth.models import *
-from appAuth.allowed_actions import ALLOWED_ACTIONS
 
 from api.CustomJsonResponse import CustomJsonResponse
 from decorators.decAuthRequired import decAuthRequired
 from decorators.decValidateReq import decValidateReq
 
-from api.json_schemes.constants import PATH_PERMISSIONS, PATH_ROLES, PATH_USERS
-
-class viewManagePermissions(View):
-    @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_PERMISSIONS}/SettingsPermissionsRequest.schema.json')])
-    def get(self, request, **kwargs):
-        try:
-            return CustomJsonResponse({'permissions': ALLOWED_ACTIONS})
-        except:
-            return CustomJsonResponse(status=500, message='При получении перечня разрешений произошла ошибка')
+from api.json_schemes.constants import PATH_ROLES, PATH_USERS
 
 class viewManageRoles(View):
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRolesListRequest.schema.json')])
