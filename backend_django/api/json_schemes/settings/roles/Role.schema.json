@@ -11,7 +11,7 @@
       "type": "string"
     },
     "allowed_actions": {
-      "$ref": "PermissionList.schema.json"
+      "$ref": "../../system/PermissionsList.schema.json"
     }
   },
   "required": [

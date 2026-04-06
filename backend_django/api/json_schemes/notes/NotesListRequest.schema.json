@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "filter": {
-      "$ref": "../common/NotesListFilterValues.schema.json"
+      "$ref": "./NotesListFilterValues.schema.json"
     },
     "action": {
       "type": "string",

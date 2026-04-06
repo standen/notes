@@ -1,0 +1,34 @@
+{
+  "accounts": {
+    "title": "Аккаунты",
+    "url": "/",
+    "is_menu_item": true,
+    "permissions": []
+  },
+  "notes": {
+    "title": "Заметки",
+    "url": "/notes",
+    "is_menu_item": true,
+    "permissions": []
+  },
+  "events": {
+    "title": "События",
+    "url": "/events",
+    "is_menu_item": true,
+    "permissions": []
+  },
+  "pays": {
+    "title": "Платежи",
+    "url": "/pays",
+    "is_menu_item": true,
+    "permissions": []
+  },
+  "settings": {
+    "title": "Настройки",
+    "url": "/settings",
+    "is_menu_item": true,
+    "permissions": [
+      "SETTINGS_SHOW_IN_MENU"
+    ]
+  }
+}

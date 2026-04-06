@@ -3,7 +3,7 @@
   "title": "I Note Params Response",
   "allOf": [
     {
-      "$ref": "../common/Response.schema.json"
+      "$ref": "../system/Response.schema.json"
     },
     {
       "type": "object",
@@ -12,7 +12,7 @@
           "type": "object",
           "properties": {
             "note": {
-              "$ref": "../common/Note.schema.json"
+              "$ref": "./Note.schema.json"
             }
           },
           "required": [

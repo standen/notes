@@ -3,7 +3,7 @@
   "title": "I Notes List Response",
   "allOf": [
     {
-      "$ref": "../common/Response.schema.json"
+      "$ref": "../system/Response.schema.json"
     },
     {
       "type": "object",
@@ -14,7 +14,7 @@
             "notes": {
               "type": "array",
               "items": {
-                "$ref": "../common/NoteForTable.schema.json"
+                "$ref": "./NoteForTable.schema.json"
               }
             }
           },

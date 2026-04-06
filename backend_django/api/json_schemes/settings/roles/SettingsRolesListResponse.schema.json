@@ -3,7 +3,7 @@
 	"title": "I Roles List Response",
 	"allOf": [
 		{
-			"$ref": "../../common/Response.schema.json"
+			"$ref": "../../system/Response.schema.json"
 		},
 		{
 			"type": "object",
@@ -14,7 +14,7 @@
 						"roles": {
 							"type": "array",
 							"items": {
-								"$ref": "../../common/Role.schema.json"
+								"$ref": "./Role.schema.json"
 							}
 						}
 					},

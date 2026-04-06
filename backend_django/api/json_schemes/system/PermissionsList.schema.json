@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "I System Permissions List",
-  "type": "array",
+  "title": "I Permissions List",
   "uniqueItems": true,
+  "type": "array",
   "items": {
+    "type": "string",
     "enum": [
       "ACCOUNTS_SHOW_IN_MENU",
       "ACCOUNTS_READ",

@@ -3,7 +3,7 @@
 	"title": "I Role Params Response",
 	"allOf": [
 		{
-			"$ref": "../../common/Response.schema.json"
+			"$ref": "../../system/Response.schema.json"
 		},
 		{
 			"type": "object",
@@ -12,7 +12,7 @@
 					"type": "object",
 					"properties": {
 						"role_params": {
-							"$ref": "../../common/Role.schema.json"
+							"$ref": "./Role.schema.json"
 						}
 					},
 					"required": [

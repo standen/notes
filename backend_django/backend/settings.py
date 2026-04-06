@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'appAccounts',
     'appNotes',
     'appEvents',
-    'appSettings',
-    'appSystem'
+    'appSettings'
 ]
 
 MIDDLEWARE = [

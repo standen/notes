@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router";
 
-import { storeSystemVars } from "@/store";
-import { useAuth, useSystemVars } from "@/hooks";
+import { useAuth } from "@/hooks";
 
 import { Loader } from "@/components";
 import { ViewMain } from "@/views";
@@ -18,20 +17,11 @@ import {
 } from "@/pages";
 
 export const MyRouter = () => {
-  const { getSystemMenu, getSystemPermissions } = useSystemVars();
   const { getUserInfo } = useAuth();
 
-  const { systemMenu } = storeSystemVars();
-
   useEffect(() => {
-    getSystemMenu();
-    getSystemPermissions();
     getUserInfo();
   }, []);
-
-  useEffect(() => {
-    console.log(systemMenu);
-  }, [systemMenu]);
 
   return (
     <Routes>
@@ -43,11 +33,11 @@ export const MyRouter = () => {
           </Loader.body>
         }
       >
-        <Route path={systemMenu?.accounts?.url} element={<PageAccounts />} />
+        {/* <Route path={systemMenu?.accounts?.url} element={<PageAccounts />} />
         <Route path={systemMenu?.events?.url} element={<PageNotesList />} />
         <Route path={systemMenu?.events?.url} element={<PageEvents />} />
         <Route path={systemMenu?.pays?.url} element={<PagePays />} />
-        <Route path={systemMenu?.settings?.url} element={<PageSettings />} />
+        <Route path={systemMenu?.settings?.url} element={<PageSettings />} /> */}
       </Route>
 
       <Route

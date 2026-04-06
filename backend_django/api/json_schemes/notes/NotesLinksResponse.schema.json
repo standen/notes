@@ -3,7 +3,7 @@
   "title": "I Notes Links Response",
   "allOf": [
     {
-      "$ref": "../common/Response.schema.json"
+      "$ref": "../system/Response.schema.json"
     },
     {
       "type": "object",

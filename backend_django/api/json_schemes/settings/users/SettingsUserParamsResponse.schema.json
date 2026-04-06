@@ -3,7 +3,7 @@
 	"title": "I User Params Response",
 	"allOf": [
 		{
-			"$ref": "../../common/Response.schema.json"
+			"$ref": "../../system/Response.schema.json"
 		},
 		{
 			"type": "object",
@@ -12,7 +12,7 @@
 					"type": "object",
 					"properties": {
 						"user_params": {
-							"$ref": "../../common/User.schema.json"
+							"$ref": "./User.schema.json"
 						}
 					},
 					"required": [

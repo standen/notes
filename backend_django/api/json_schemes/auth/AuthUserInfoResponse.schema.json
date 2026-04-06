@@ -3,7 +3,7 @@
   "title": "I Auth UserInfo Response",
   "allOf": [
     {
-      "$ref": "../common/Response.schema.json"
+      "$ref": "../system/Response.schema.json"
     },
     {
       "type": "object",
@@ -15,7 +15,7 @@
               "type": "string"
             },
             "user_allowed_actions": {
-              "$ref": "../common/PermissionList.schema.json"
+              "$ref": "../system/PermissionsList.schema.json"
             }
           },
           "required": [

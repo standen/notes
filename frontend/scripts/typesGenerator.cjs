@@ -4,7 +4,9 @@ const fs = require("fs");
 
 const PATH_TO_GENERATED_TYPES_FILE = "./src/api/generated_types.d.ts";
 
-const schemes = glob.sync("../backend_django/api/json_schemes/**/*.json");
+const schemes = glob.sync(
+  "../backend_django/api/json_schemes/**/*.schema.json",
+);
 
 fs.writeFileSync(PATH_TO_GENERATED_TYPES_FILE, "");
 

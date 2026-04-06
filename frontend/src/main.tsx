@@ -22,5 +22,5 @@ createRoot(document.getElementById("root")!).render(
         <MyRouter />
       </App>
     </ConfigProvider>
-  </BrowserRouter>
+  </BrowserRouter>,
 );
