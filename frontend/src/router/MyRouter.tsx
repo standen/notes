@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Route, Routes } from "react-router";
 
+import { SYSTEM } from "@/constants";
+
 import { useAuth } from "@/hooks";
 
 import { Loader } from "@/components";
@@ -33,11 +35,11 @@ export const MyRouter = () => {
           </Loader.body>
         }
       >
-        {/* <Route path={systemMenu?.accounts?.url} element={<PageAccounts />} />
-        <Route path={systemMenu?.events?.url} element={<PageNotesList />} />
-        <Route path={systemMenu?.events?.url} element={<PageEvents />} />
-        <Route path={systemMenu?.pays?.url} element={<PagePays />} />
-        <Route path={systemMenu?.settings?.url} element={<PageSettings />} /> */}
+        <Route path={SYSTEM.menu.accounts.url} element={<PageAccounts />} />
+        <Route path={SYSTEM.menu.notes.url} element={<PageNotesList />} />
+        <Route path={SYSTEM.menu.events.url} element={<PageEvents />} />
+        <Route path={SYSTEM.menu.pays.url} element={<PagePays />} />
+        <Route path={SYSTEM.menu.settings.url} element={<PageSettings />} />
       </Route>
 
       <Route

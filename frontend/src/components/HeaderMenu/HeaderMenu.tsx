@@ -1,49 +1,54 @@
-import { useEffect } from "react";
 import classNames from "classnames/bind";
 import { useNavigate, useLocation } from "react-router";
 
-import { storeUserInfo, storeSystemVars } from "@/store";
+import type { IEntities } from "@/api/generated_types";
+
+import { storeUserInfo } from "@/store";
+import { SYSTEM } from "@/constants";
+import { compareStringArrays } from "@/utils";
 
 import { Menu } from "antd";
+import type { MenuItemType } from "antd/es/menu/interface";
 
 import styles from "./styles.module.scss";
 const cx = classNames.bind(styles);
 
 export const HeaderMenu = () => {
   const { user } = storeUserInfo();
-  const { systemMenu } = storeSystemVars();
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    if (Object.keys(systemMenu!).includes(location.pathname)) {
-      navigate(location.pathname);
-    }
-    console.log(location);
-  }, [location, navigate]);
 
   return (
     <Menu
       theme="dark"
       mode="horizontal"
-      // defaultSelectedKeys={[
-      //   PAGES_NAMES?.find(
-      //     (item) => NavMenu?.[item]?.url === location?.pathname,
-      //   ) ?? "",
-      // ]}
-      // items={PAGES_NAMES.filter((item) => NavMenu?.[item]?.isMenuItem).map(
-      //   (item) => ({
-      //     key: item,
-      //     label: (
-      //       <div className={cx(["menuItem"])}>{NavMenu?.[item]?.title}</div>
-      //     ),
-      //   }),
-      // )}
+      defaultSelectedKeys={[
+        Object.keys(SYSTEM.menu).includes(location?.pathname?.replace("/", ""))
+          ? location.pathname.replace("/", "")
+          : Object.keys(SYSTEM.menu)[0],
+      ]}
+      items={Object.entries(SYSTEM.menu).reduce((acc, item) => {
+        if (item[1]?.is_menu_item) {
+          if (
+            compareStringArrays(
+              item[1]?.permissions,
+              user?.allowedActions ?? [],
+            )
+          ) {
+            acc.push({
+              key: item[0],
+              label: <div className={cx(["menuItem"])}>{item[1]?.title}</div>,
+            });
+          }
+        }
+
+        return acc;
+      }, [] as MenuItemType[])}
       style={{ flex: 1, minWidth: 0 }}
-      // onSelect={({ key }) =>
-      //   navigate(NavMenu[key as TMenuPagesNames]?.url ?? PAGES_NAMES[0])
-      // }
+      onSelect={({ key }) =>
+        navigate(SYSTEM.menu[key as IEntities]?.url ?? SYSTEM.menu.accounts.url)
+      }
     />
   );
 };

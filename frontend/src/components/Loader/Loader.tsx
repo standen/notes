@@ -1,16 +1,13 @@
 import { type FC, type PropsWithChildren } from "react";
 
-import { storeRequestLoader, storeSystemVars } from "@/store";
+import { storeRequestLoader } from "@/store";
 
 import { Spin } from "antd";
 
 const LoaderBody: FC<PropsWithChildren> = ({ children }) => {
   const { load } = storeRequestLoader();
-  const { systemMenu, systemPermissions } = storeSystemVars();
 
-  return (
-    <Spin spinning={load || !systemMenu || !systemPermissions}>{children}</Spin>
-  );
+  return <Spin spinning={load}>{children}</Spin>;
 };
 
 const LoaderModal: FC<PropsWithChildren> = ({ children }) => {
