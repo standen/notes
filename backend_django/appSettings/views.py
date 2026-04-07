@@ -54,7 +54,6 @@ class viewManageRoles(View):
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_ROLES}/SettingsRoleCreateRequest.schema.json')])
     def post(self, request, **kwargs):
         try:
-            print(kwargs)
             modelUserRole(name=kwargs.get('name'), allowed_actions={'list': kwargs.get('allowed_actions')}).save()
             return CustomJsonResponse(message='Роль успешно создана')
         except:

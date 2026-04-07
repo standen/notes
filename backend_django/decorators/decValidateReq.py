@@ -4,7 +4,7 @@ from referencing import Registry, Resource
 
 from api.CustomJsonResponse import CustomJsonResponse
 
-from api.json_schemes.constants import PATH_COMMON
+from api.json_schemes.constants import PATH_SYSTEM, PATH_NOTES, PATH_ROLES, PATH_USERS
 
 def decValidateReq(schemaPath):
     def decorator(func):
@@ -26,38 +26,37 @@ def decValidateReq(schemaPath):
             
             try:
                 # all refs resources
-                with open(f'{PATH_COMMON}/PermissionList.schema.json', 'r', encoding='utf-8') as file:
-                    permissions = Resource.from_contents(json.load(file))
+                with open(f'{PATH_SYSTEM}/Response.schema.json', 'r', encoding='utf-8') as file:
+                    response = Resource.from_contents(json.load(file))
                 
-                with open(f'{PATH_COMMON}/Role.schema.json', 'r', encoding='utf-8') as file:
+                with open(f'{PATH_SYSTEM}/PermissionsList.schema.json', 'r', encoding='utf-8') as file:
+                    permissions = Resource.from_contents(json.load(file))
+                    
+                with open(f'{PATH_ROLES}/Role.schema.json', 'r', encoding='utf-8') as file:
                     role = Resource.from_contents(json.load(file))
                     
-                with open(f'{PATH_COMMON}/User.schema.json', 'r', encoding='utf-8') as file:
+                with open(f'{PATH_USERS}/User.schema.json', 'r', encoding='utf-8') as file:
                     user = Resource.from_contents(json.load(file))
-                
-                with open(f'{PATH_COMMON}/NotesListFilterValues.schema.json', 'r', encoding='utf-8') as file:
-                    noteListFilterValues = Resource.from_contents(json.load(file))
                     
-                with open(f'{PATH_COMMON}/NoteForTable.schema.json', 'r', encoding='utf-8') as file:
-                    noteForTable = Resource.from_contents(json.load(file))
-                    
-                with open(f'{PATH_COMMON}/Note.schema.json', 'r', encoding='utf-8') as file:
+                with open(f'{PATH_NOTES}/Note.schema.json', 'r', encoding='utf-8') as file:
                     note = Resource.from_contents(json.load(file))
                     
-                with open(f'{PATH_COMMON}/SystemPermissions.schema.json', 'r', encoding='utf-8') as file:
-                    system_permissions = Resource.from_contents(json.load(file))
+                with open(f'{PATH_NOTES}/NotesListFilterValues.schema.json', 'r', encoding='utf-8') as file:
+                    noteFilters = Resource.from_contents(json.load(file))
+                    
+                with open(f'{PATH_NOTES}/NoteForTable.schema.json', 'r', encoding='utf-8') as file:
+                    noteForTable = Resource.from_contents(json.load(file))
                     
                 registry = Registry().with_resources([
-                    ("PermissionList.schema.json", permissions),
-                    ("../../common/PermissionList.schema.json", permissions),
-                    ("Role.schema.json", role),
-                    ("../../common/Role.schema.json", role),
-                    ("User.schema.json", user),
-                    ("../../common/User.schema.json", user),
-                    ("../common/NotesListFilterValues.schema.json", noteListFilterValues),
-                    ("../common/Note.schema.json", note),
-                    ("../common/NoteForTable.schema.json", noteForTable),
-                    ("../common/SystemPermissions.schema.json", system_permissions)
+                    ("../system/Response.schema.json", response),
+                    ("../../system/Response.schema.json", response),
+                    ("../system/PermissionsList.schema.json", permissions),
+                    ("../../system/PermissionsList.schema.json", permissions),
+                    ("./Note.schema.json", note),
+                    ("./NotesListFilterValues.schema.json", noteFilters),
+                    ("./NoteForTable.schema.json", noteForTable),
+                    ("./Role.schema.json", role),
+                    ("./User.schema.json", user)
                 ])
                 
                 validator = Draft202012Validator(schema, registry=registry)
