@@ -1,8 +1,7 @@
 import { type FC } from "react";
 
 import { validate } from "@/utils";
-
-import { ERRORS_TEXT } from "@/constants";
+import { ERRORS_TEXT, SYSTEM } from "@/constants";
 
 import type { IRole, IRoleEditRequest } from "@/api/generated_types";
 
@@ -15,14 +14,13 @@ import { Form, Input, Select, Flex, Button } from "antd";
 export type TFormRoleEdit = Omit<IRoleEditRequest, "role_id">;
 
 interface Props {
-  permissions: string[];
   rolesNames: string[];
   resolve: (value: IRoleEditRequest) => void;
   roleParams: IRole | undefined;
 }
 
 export const FormRoleEdit: FC<Props> = (props) => {
-  const { permissions, rolesNames, roleParams, resolve } = props;
+  const { rolesNames, roleParams, resolve } = props;
 
   const { showSimpleError } = useReportError();
 
@@ -71,9 +69,8 @@ export const FormRoleEdit: FC<Props> = (props) => {
         >
           <Select
             mode="multiple"
-            disabled={permissions?.length === 0}
             placeholder="Перечень допустимых значений..."
-            options={permissions?.map((item) => ({
+            options={SYSTEM.permissions_list?.map((item) => ({
               label: item,
               value: item,
             }))}

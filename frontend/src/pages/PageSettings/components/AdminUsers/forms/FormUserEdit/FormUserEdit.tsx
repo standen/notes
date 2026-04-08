@@ -9,7 +9,10 @@ import { useReportError } from "@/hooks/useReportError";
 
 import { Loader } from "@/components";
 
-import { Form, Input, Select, Flex, Button } from "antd";
+import { Form, Input, Select, Flex, Button, Alert, Typography } from "antd";
+const { Text } = Typography;
+
+import styles from "./styles.module.scss";
 
 export type TFormUserEdit = Omit<IUserEditRequest, "user_id">;
 
@@ -33,6 +36,17 @@ export const FormUserEdit: FC<Props> = (props) => {
         onFinish={(values) => resolve(values)}
         onFinishFailed={() => showSimpleError(ERRORS_TEXT.notAllValidate)}
       >
+        <div className={styles.userFormAddAlertMargin}>
+          <Alert
+            title={
+              <>
+                Если поле <Text strong>Пароль</Text> оставить пустым, то пароль
+                останется без изменений
+              </>
+            }
+            type="info"
+          />
+        </div>
         <Form.Item
           name="login"
           initialValue={userParams?.login}

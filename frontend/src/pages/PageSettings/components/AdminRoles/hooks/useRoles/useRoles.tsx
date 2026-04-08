@@ -6,9 +6,6 @@ import type {
   IRolesNamesListResponse,
   IRolesListRequest,
   IRolesListResponse,
-  IPermissionsList,
-  IPermissionsListRequest,
-  IPermissionsListResponse,
   IRoleParamsRequest,
   IRoleParamsResponse,
   IRoleDeleteRequest,
@@ -35,24 +32,6 @@ export const useRoles = () => {
   const { user } = storeUserInfo();
 
   const [roles, setRoles] = useState<IRole[]>([]);
-
-  const getPermissions = useCallback(async (): Promise<IPermissionsList> => {
-    const perms = await makeRequest<
-      IPermissionsListRequest,
-      IPermissionsListResponse
-    >(
-      {
-        params: {
-          method: "get",
-          url: API.settings.permissions,
-          params: { action: "get_permissions_list" },
-        },
-      },
-      true,
-    );
-
-    return perms?.result?.permissions ?? [];
-  }, [makeRequest]);
 
   const getRoleParams = useCallback(
     async (roleId: string): Promise<IRole | undefined> => {
@@ -119,22 +98,11 @@ export const useRoles = () => {
       content: <Skeleton active />,
     });
 
-    const perms = await getPermissions();
     const rolesNames = await getRolesNames();
-
-    if (perms?.length === 0) {
-      return;
-    }
 
     const roleData = await new Promise<IRoleCreateRequest>((resolve) =>
       modalRole.update({
-        content: (
-          <FormRoleCreate
-            permissions={perms}
-            rolesNames={rolesNames}
-            resolve={resolve}
-          />
-        ),
+        content: <FormRoleCreate rolesNames={rolesNames} resolve={resolve} />,
       }),
     );
 
@@ -159,14 +127,7 @@ export const useRoles = () => {
     getRoles();
 
     modalRole.destroy();
-  }, [
-    getPermissions,
-    getRolesNames,
-    getRoleParams,
-    modal,
-    makeRequest,
-    getRoles,
-  ]);
+  }, [getRolesNames, getRoleParams, modal, makeRequest, getRoles]);
 
   const editRole = useCallback(
     async (roleId: string) => {
@@ -179,12 +140,7 @@ export const useRoles = () => {
         content: <Skeleton active />,
       });
 
-      const perms = await getPermissions();
       const rolesNames = await getRolesNames();
-
-      if (perms?.length === 0) {
-        return;
-      }
 
       let roleParams: IRole | undefined;
 
@@ -198,7 +154,6 @@ export const useRoles = () => {
         modalRole.update({
           content: (
             <FormRoleEdit
-              permissions={perms}
               roleParams={roleParams}
               rolesNames={rolesNames.filter(
                 (item) => item !== roleParams?.name,
@@ -232,14 +187,7 @@ export const useRoles = () => {
 
       modalRole.destroy();
     },
-    [
-      getPermissions,
-      getRolesNames,
-      getRoleParams,
-      modal,
-      makeRequest,
-      getRoles,
-    ],
+    [getRolesNames, getRoleParams, modal, makeRequest, getRoles],
   );
 
   const delRole = useCallback(
