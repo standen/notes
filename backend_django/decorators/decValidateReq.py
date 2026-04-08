@@ -14,15 +14,14 @@ def decValidateReq(schemaPath):
                     body = request.GET.dict()
                 else:
                     body = json.loads(request.body)
-            except:
-                return CustomJsonResponse(status=500, message='Ошибка при парсинге тела запроса')
+            except Exception as e:
+                return CustomJsonResponse(status=500, error=e, message='Ошибка при парсинге тела запроса')
                        
             try:
                 with open(schemaPath, 'r', encoding='utf-8') as file:
                     schema = json.load(file)
-            except:
-                print('По указанному пути json-схема отсутствует')
-                return CustomJsonResponse(status=500, message='Ошибка при получении доступа к файлу json-схемы')
+            except Exception as e:
+                return CustomJsonResponse(status=500, error=e, message='Ошибка при получении доступа к файлу json-схемы')
             
             try:
                 # all refs resources

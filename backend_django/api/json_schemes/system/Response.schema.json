@@ -6,6 +6,9 @@
     "message": {
       "type": "string"
     },
+    "error": {
+      "type": "string"
+    },
     "result": {}
   },
   "additionalProperties": false

@@ -7,7 +7,8 @@ def decAuthRequired():
             try:
                 if (request.user_data.get('user_login') == None):
                     return CustomJsonResponse(status=401)
-            except:
+            except Exception as e:
+                print(e)
                 print('Ошибка работы декоратора, который проверяет наличии авторизации у пользователя')
             
             return func(request, *args, **kwargs)

@@ -8,23 +8,23 @@ class MyView(View):
     def get(self, request, *args, **kwargs):
         try:
             return CustomJsonResponse({})
-        except:
-            return CustomJsonResponse(status=400)
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e)
     
     def post(self, request, *args, **kwargs):
         try:
             return CustomJsonResponse({})
-        except:
-            return CustomJsonResponse(status=400)
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e)
     
     def patch(self, request, *args, **kwargs):
         try:
             return CustomJsonResponse({})
-        except:
-            return CustomJsonResponse(status=400)
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e)
     
     def delete(self, request, *args, **kwargs):
         try:
             return CustomJsonResponse({})
-        except:
-            return CustomJsonResponse(status=400)
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e)

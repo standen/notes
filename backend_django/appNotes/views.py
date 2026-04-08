@@ -49,16 +49,16 @@ class viewNotes(View):
                 return CustomJsonResponse(result={'notes': openNotes})
             
             raise
-        except:
-            return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При получении списка заметок произошла ошибка')
         
     @method_decorator([decValidateReq(f'{PATH_NOTES}/NotesLinksRequest.schema.json')])
     def getNotesLinks(self, request, **kwargs):
         try:
             notesLinks = [note.getNoteLink() for note in modelNotes.objects.all().order_by("name")]
             return CustomJsonResponse(result={'notes_links': notesLinks})
-        except:
-            return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При получении списка заметок произошла ошибка')
         
     @method_decorator([decValidateReq(f'{PATH_NOTES}/NoteParamsRequest.schema.json')])
     def getNoteParams(self, request, **kwargs):
@@ -79,8 +79,8 @@ class viewNotes(View):
                 return CustomJsonResponse(status=403)
             
             return CustomJsonResponse(result={'note': note.returnOne()})
-        except:
-            return CustomJsonResponse(status=500, message='При получении списка заметок произошла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При получении списка заметок произошла ошибка')
     
     def get(self, request):
         try:
@@ -94,8 +94,8 @@ class viewNotes(View):
                 return self.getNoteParams(request)
             else:
                 raise
-        except:
-            return CustomJsonResponse(status=400)
+        except Exception as e:
+            return CustomJsonResponse(status=400, error=e)
     
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteCreateRequest.schema.json')])
     def post(self, request, **kwargs):
@@ -108,8 +108,8 @@ class viewNotes(View):
             ).save()
             
             return CustomJsonResponse(message='Заметка успешно создана')
-        except:
-            return CustomJsonResponse(status=500, message='При попытке создать заметку произошла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При попытке создать заметку произошла ошибка')
     
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteEditRequest.schema.json')])
     def patch(self, request, **kwargs):
@@ -135,8 +135,8 @@ class viewNotes(View):
             note.save()
             
             return CustomJsonResponse(message='Заметка успешно изменена')  
-        except:
-            return CustomJsonResponse(status=500, message='При попытке обновить параметры заметки произошла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При попытке обновить параметры заметки произошла ошибка')
     
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_NOTES}/NoteDeleteRequest.schema.json')])
     def delete(self, request, **kwargs):
@@ -155,5 +155,5 @@ class viewNotes(View):
                     owner = note.owner).save()
             note.delete()
             return CustomJsonResponse(message='Заметка успешно удалена')
-        except:
-            return CustomJsonResponse(status=500, message='При попытке удалить заметку произошла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При попытке удалить заметку произошла ошибка')

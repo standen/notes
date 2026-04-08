@@ -9,7 +9,7 @@ def textForStatusCode(statusCode):
         return 'Недостаточно прав для выполнения операции'
 
 class CustomJsonResponse(JsonResponse):
-    def __init__(self, result = None, message = None, status=200, **kwargs):
+    def __init__(self, result = None, message = None, status=200, error = None, **kwargs):
         
         # not message - для кастомизации message при дефолтных status-кодах
         if (textForStatusCode(status) and not message):
@@ -19,6 +19,9 @@ class CustomJsonResponse(JsonResponse):
         
         if message:
             data.update({'message': message})
+            
+        if error:
+            data.update({'error': str(error)})
             
         if result:
             data.update({'result': result})

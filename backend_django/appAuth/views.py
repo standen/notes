@@ -22,8 +22,8 @@ class viewAuth(View):
                 "user_allowed_actions": request.user_data.get('user_allowed_actions')
             }
             return CustomJsonResponse(result=result)
-        except:
-            return CustomJsonResponse(status=500, message='При получении информации о пользователе возникла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При получении информации о пользователе возникла ошибка')
         
     def getUsersSessionsList(self, request, **kwargs):
         try:
@@ -38,8 +38,8 @@ class viewAuth(View):
             result.update({'sessions': sessions})
             result.update({'count': len(sessions)})
             return CustomJsonResponse(result=result)
-        except:
-            return CustomJsonResponse(status=500, message='При получении списка активных сессий пользователей возникла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При получении списка активных сессий пользователей возникла ошибка')
         
     def get(self, request, **kwargs):
         try:
@@ -51,8 +51,8 @@ class viewAuth(View):
                 return self.getUsersSessionsList(request)
             else:
                 raise
-        except:
-            return CustomJsonResponse(status=400, message='Неверные параметры запроса')
+        except Exception as e:
+            return CustomJsonResponse(status=400, error=3, message='Неверные параметры запроса')
         
     @method_decorator([decValidateReq(f'{PATH_AUTH}/AuthLoginRequest.schema.json')])
     def postLogin(self, request, **kwargs):
@@ -66,8 +66,8 @@ class viewAuth(View):
             response = CustomJsonResponse(message='Авторизация прошла успешно')
             response.set_cookie(key='token', value=s.session_key, httponly=True, secure=True)
             return response
-        except:
-            return CustomJsonResponse(status=500, message='При попытке авторизации возникла ошибка')
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При попытке авторизации возникла ошибка')
         
     @method_decorator([decAuthRequired(), decValidateReq(f'{PATH_AUTH}/AuthLogoutRequest.schema.json')])
     def postLogout(self, request, **kwargs):
@@ -81,8 +81,8 @@ class viewAuth(View):
             response = CustomJsonResponse(message='Сессия успешно завершена')
             response.delete_cookie(key='token')
             return response
-        except:
-            return CustomJsonResponse(status=500, message='При попытке выйти из профиля возникла ошибка')  
+        except Exception as e:
+            return CustomJsonResponse(status=500, error=e, message='При попытке выйти из профиля возникла ошибка')  
     
     def post(self, request, **kwargs):
         try:

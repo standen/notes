@@ -9,6 +9,7 @@ export const useReportError = () => {
 
   const showErrorDetails = useCallback(
     async (error: AxiosError) => {
+      console.log(error);
       await modal.info({
         footer: null,
         closable: true,
@@ -28,6 +29,9 @@ export const useReportError = () => {
             <Text>Ответ:</Text>
             {/* @ts-expect-error any */}
             <Text>{error?.response?.data?.message}</Text>
+            <Text>Ошибка:</Text>
+            {/* @ts-expect-error any */}
+            <Text>{error?.response?.data?.error}</Text>
           </Flex>
         ),
       });
