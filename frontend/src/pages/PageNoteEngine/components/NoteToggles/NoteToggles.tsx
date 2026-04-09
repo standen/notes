@@ -16,7 +16,7 @@ export const NoteToggles: FC<Props> = (props) => {
   const { open, edit, cipher, changeOpen, changeEdit, changeCipher } = props;
 
   return (
-    <Flex gap={8}>
+    <Flex gap={4}>
       <Tooltip title="Каждый может просматривать">
         <Button
           type={open ? "primary" : "default"}

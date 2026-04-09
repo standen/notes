@@ -30,8 +30,9 @@ export const PageNotesList = () => {
           <Button
             color="blue"
             variant="solid"
-            // TODO
-            onClick={() => navigate(SYSTEM.menu.notes.url)}
+            onClick={() =>
+              navigate("/note/new/edit", { state: { link: "new" } })
+            }
           >
             Добавить заметку
           </Button>

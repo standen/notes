@@ -35,7 +35,7 @@ export const useNotesEngine = () => {
   }, [makeRequest]);
 
   const getNoteParams = useCallback(
-    async (noteId?: string, noteLink?: string): Promise<INote> => {
+    async (noteId?: string, noteLink?: string): Promise<INote | undefined> => {
       const note = await makeRequest<INoteParamsRequest, INoteParamsResponse>({
         params: {
           method: "get",
@@ -47,6 +47,7 @@ export const useNotesEngine = () => {
           },
         },
       });
+
       return note?.result?.note;
     },
     [],

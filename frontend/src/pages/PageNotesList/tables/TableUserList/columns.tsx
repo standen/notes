@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { Flex, Popconfirm, Tag, type TableColumnsType } from "antd";
 
 import { type INoteForTable } from "@/api/generated_types";
@@ -6,6 +8,8 @@ export const columnsTableNotesList = (
   edit: (noteId: string) => void,
   del: (noteId: string) => void,
 ): TableColumnsType<INoteForTable> => {
+  const navigate = useNavigate();
+
   return [
     {
       key: "name",
@@ -21,12 +25,14 @@ export const columnsTableNotesList = (
       key: "actions",
       dataIndex: "actions",
       title: "Действия",
-      render: (_, { id, name }) => {
+      render: (_, { id, name, link }) => {
         return (
           <Flex gap={8}>
             <Tag
               style={{ cursor: "pointer" }}
-              onClick={() => edit(id)}
+              onClick={() =>
+                navigate(`/note/${link}/edit`, { state: { link } })
+              }
               color="purple"
               variant="outlined"
             >

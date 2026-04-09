@@ -1,19 +1,16 @@
 import { type FC } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
-import classNames from "classnames/bind";
 
 import { SYSTEM } from "@/constants";
 
 import { useNoteToggles } from "@/pages/PageNoteEngine/components/NoteToggles/hooks";
 
 import { MarkdownView, MarkdownEditor } from "@/components";
-import { Content, Title } from "@/views/ViewMain/components";
 import { NoteToggles } from "./components";
 
-import { Flex, Button, Tag, Alert } from "antd";
+import { Flex, Button, Tag } from "antd";
 
 import styles from "./styles.module.scss";
-const cx = classNames.bind(styles);
 
 export const PageNoteEngine: FC = () => {
   const { noteLink } = useParams();
@@ -25,40 +22,39 @@ export const PageNoteEngine: FC = () => {
   const location = useLocation();
 
   return (
-    <>
-      <Title
-        right={
-          <>
-            <NoteToggles
-              open={open}
-              edit={edit}
-              cipher={cipher}
-              changeOpen={changeOpen}
-              changeEdit={changeEdit}
-              changeCipher={changeCipher}
-            />
-            <Tag>{location?.state?.noteLink}</Tag>
-            <Tag>{location?.state?.noteLink}</Tag>
-            <Alert title="123" />
-          </>
-        }
-        left={
-          <Flex gap={8}>
-            <Button type="primary">Сохранить</Button>
-            <Button onClick={() => navigate(SYSTEM.menu.notes.url)}>
-              К списку заметок
-            </Button>
-          </Flex>
-        }
-      />
-      <div className={cx("noteEditContent")}>
-        <Content>
-          <MarkdownEditor />
-        </Content>
-        <Content>
-          <MarkdownView />
-        </Content>
+    <div className={styles.notePage}>
+      <div className={styles.noteMenu}>
+        <Flex gap={8} align="center">
+          <div>
+            <Tag variant="outlined" color="green">
+              {location?.state?.link || noteLink}
+            </Tag>
+          </div>
+          <NoteToggles
+            open={open}
+            edit={edit}
+            cipher={cipher}
+            changeOpen={changeOpen}
+            changeEdit={changeEdit}
+            changeCipher={changeCipher}
+          />
+        </Flex>
+        <Flex gap={8}>
+          <Button type="primary">Сохранить</Button>
+          <Button onClick={() => navigate(SYSTEM.menu.notes.url)}>
+            К списку заметок
+          </Button>
+        </Flex>
       </div>
-    </>
+
+      <div className={styles.noteEditContent}>
+        <div className={styles.noteWorkSpace}>
+          <MarkdownEditor />
+        </div>
+        <div className={styles.noteWorkSpace}>
+          <MarkdownView />
+        </div>
+      </div>
+    </div>
   );
 };
