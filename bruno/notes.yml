@@ -1,0 +1,549 @@
+opencollection: 1.0.0
+info:
+  name: notes
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ''
+      port: ''
+      auth:
+        username: ''
+        password: ''
+      bypassProxy: ''
+items:
+  - info:
+      name: accounts
+      type: folder
+      seq: 3
+  - info:
+      name: auth
+      type: folder
+      seq: 1
+    items:
+      - info:
+          name: get
+          type: http
+          seq: 1
+        http:
+          method: GET
+          url: http://localhost:3000/auth?action=get_users_sessions_list
+          params:
+            - name: action
+              value: get_users_sessions_list
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: login
+          type: http
+          seq: 3
+        http:
+          method: POST
+          url: http://localhost:3000/auth
+          body:
+            type: json
+            data: |-
+              {
+                "action": "auth_login",
+                "login": "admin",
+                "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: logout
+          type: http
+          seq: 4
+        http:
+          method: POST
+          url: http://localhost:3000/auth
+          body:
+            type: json
+            data: |-
+              {
+                "action": "auth_logout"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: userInfo
+          type: http
+          seq: 2
+        http:
+          method: GET
+          url: http://localhost:3000/auth?action=get_user_info
+          params:
+            - name: action
+              value: get_user_info
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+  - info:
+      name: events
+      type: folder
+      seq: 4
+    items:
+      - info:
+          name: get
+          type: http
+          seq: 1
+        http:
+          method: GET
+          url: http://localhost:3000/events/
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+  - info:
+      name: notes
+      type: folder
+      seq: 2
+    items:
+      - info:
+          name: create
+          type: http
+          seq: 4
+        http:
+          method: POST
+          url: http://localhost:3000/notes
+          body:
+            type: json
+            data: |-
+              {
+                "name": "Музыка",
+                "text": "text",
+                "link": "newlink222",
+                "is_cipher": true,
+                "is_open_for_all": true,
+                "is_edit_everyone": true
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: delete
+          type: http
+          seq: 6
+        http:
+          method: DELETE
+          url: http://localhost:3000/notes
+          body:
+            type: json
+            data: |-
+              {
+                "note_id": "e8c389ed-ed1b-48ba-acc4-6ba473d0fc41"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getAll
+          type: http
+          seq: 1
+        http:
+          method: GET
+          url: http://localhost:3000/notes?filter=all&action=get_notes_list
+          params:
+            - name: filter
+              value: all
+              type: query
+            - name: action
+              value: get_notes_list
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getNotesLinks
+          type: http
+          seq: 2
+        http:
+          method: GET
+          url: http://localhost:3000/notes?action=get_notes_links
+          params:
+            - name: action
+              value: get_notes_links
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getOne
+          type: http
+          seq: 3
+        http:
+          method: GET
+          url: http://localhost:3000/notes?action=get_note_params&note_id=8f38c43a-a228-4ca7-9405-bdb3fac62a5f
+          params:
+            - name: action
+              value: get_note_params
+              type: query
+            - name: note_link
+              value: music
+              type: query
+              disabled: true
+            - name: note_id
+              value: 8f38c43a-a228-4ca7-9405-bdb3fac62a5f
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: update
+          type: http
+          seq: 5
+        http:
+          method: PATCH
+          url: http://localhost:3000/notes
+          body:
+            type: json
+            data: |-
+              {
+                "note_id": "019d689e-b03d-72f0-8df7-8262facf9873",
+                  "params": {
+                    "name": "Музыка",
+                    "text": "New text 2",
+                    "link": "fuck12322222",
+                    "is_cipher": true,
+                    "is_open_for_all": true,
+                    "is_edit_everyone": true
+                  }
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+  - info:
+      name: pays
+      type: folder
+      seq: 5
+  - info:
+      name: sett.roles
+      type: folder
+      seq: 6
+    items:
+      - info:
+          name: create
+          type: http
+          seq: 4
+        http:
+          method: POST
+          url: http://localhost:3000/settings/roles
+          body:
+            type: json
+            data: |-
+              {
+                "name": "root",
+                "allowed_actions": [
+                  "ACCOUNTS_SHOW_IN_MENU",
+                  "ACCOUNTS_READ",
+                  "ACCOUNTS_CREATE",
+                  "ACCOUNTS_EDIT",
+                  "ACCOUNTS_DELETE",
+                  "NOTES_SHOW_IN_MENU",
+                  "NOTES_READ",
+                  "NOTES_CREATE",
+                  "NOTES_EDIT",
+                  "NOTES_DELETE",
+                  "EVENTS_SHOW_IN_MENU",
+                  "EVENTS_READ",
+                  "EVENTS_CREATE",
+                  "EVENTS_EDIT",
+                  "EVENTS_DELETE",
+                  "PAYS_SHOW_IN_MENU",
+                  "PAYS_READ",
+                  "PAYS_CREATE",
+                  "PAYS_EDIT",
+                  "PAYS_DELETE",
+                  "SETTINGS_SHOW_IN_MENU",
+                  "SETTINGS_ROLES_SHOW_IN_TABS",
+                  "SETTINGS_ROLES_READ",
+                  "SETTINGS_ROLES_CREATE",
+                  "SETTINGS_ROLES_EDIT",
+                  "SETTINGS_ROLES_DELETE",
+                  "SETTINGS_USERS_SHOW_IN_TABS",
+                  "SETTINGS_USERS_READ",
+                  "SETTINGS_USERS_CREATE",
+                  "SETTINGS_USERS_EDIT",
+                  "SETTINGS_USERS_DELETE",
+                  "SETTINGS_PAYS_SHOW_IN_TABS",
+                  "SETTINGS_PAYS_CATEGORY_READ",
+                  "SETTINGS_PAYS_CATEGORY_CREATE",
+                  "SETTINGS_PAYS_CATEGORY_EDIT",
+                  "SETTINGS_PAYS_CATEGORY_DELETE"
+                ]
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: delete
+          type: http
+          seq: 6
+        http:
+          method: DELETE
+          url: http://localhost:3000/settings/roles
+          body:
+            type: json
+            data: |-
+              {
+                "role_id": "019d689c-be2b-74c8-985b-649109bab6cd"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getRoleParams
+          type: http
+          seq: 3
+        http:
+          method: GET
+          url: http://localhost:3000/settings/roles?action=get_role_params&role_id=9662805e-d8de-4df5-865d-e65e559ebecc
+          params:
+            - name: action
+              value: get_role_params
+              type: query
+            - name: role_id
+              value: 9662805e-d8de-4df5-865d-e65e559ebecc
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getRoles
+          type: http
+          seq: 1
+        http:
+          method: GET
+          url: http://localhost:3000/settings/roles?action=get_roles_list
+          params:
+            - name: action
+              value: get_roles_list
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getRolesNames
+          type: http
+          seq: 2
+        http:
+          method: GET
+          url: http://localhost:3000/settings/roles?action=get_roles_names_list
+          params:
+            - name: action
+              value: get_roles_names_list
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: patch
+          type: http
+          seq: 5
+        http:
+          method: PATCH
+          url: http://localhost:3000/settings/roles
+          body:
+            type: json
+            data: |-
+              {
+                "role_id": "019d689c-be2b-74c8-985b-649109bab6cd",
+                "name": "adminsome7",
+                "allowed_actions": [
+                  "NOTES_CREATE"
+              ]
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+  - info:
+      name: sett.users
+      type: folder
+      seq: 7
+    items:
+      - info:
+          name: create
+          type: http
+          seq: 4
+        http:
+          method: POST
+          url: http://localhost:3000/settings/users
+          body:
+            type: json
+            data: |-
+              {
+                "login": "standen22",
+                "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+                "role_id": "9662805e-d8de-4df5-865d-e65e559ebecc"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: delete
+          type: http
+          seq: 6
+        http:
+          method: DELETE
+          url: http://localhost:3000/settings/users
+          body:
+            type: json
+            data: |-
+              {
+                "user_id": "019d689d-be50-7032-8e4d-ee4d478eca31"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getUserParams
+          type: http
+          seq: 3
+        http:
+          method: GET
+          url: http://localhost:3000/settings/users?action=get_user_params&user_id=ef996851-c1c8-4811-a7e2-3ed714e802f8
+          params:
+            - name: action
+              value: get_user_params
+              type: query
+            - name: user_id
+              value: ef996851-c1c8-4811-a7e2-3ed714e802f8
+              type: query
+          body:
+            type: json
+            data: |-
+              {
+                "user_id": "ef996851-c1c8-4811-a7e2-3ed714e802f8"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getUsers
+          type: http
+          seq: 1
+        http:
+          method: GET
+          url: http://localhost:3000/settings/users?action=get_users_list
+          params:
+            - name: action
+              value: get_users_list
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: getUsersLogins
+          type: http
+          seq: 2
+        http:
+          method: GET
+          url: http://localhost:3000/settings/users?action=get_users_logins_list
+          params:
+            - name: action
+              value: get_users_logins_list
+              type: query
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+      - info:
+          name: patch
+          type: http
+          seq: 5
+        http:
+          method: PATCH
+          url: http://localhost:3000/settings/users
+          body:
+            type: json
+            data: |-
+              {
+                "login": "admin",
+                "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+                "role_id": "019d6c82-db2f-7630-b94d-fc2634d74de1",
+                "user_id": "ef996851-c1c8-4811-a7e2-3ed714e802f8"
+              }
+          auth: inherit
+        settings:
+          encodeUrl: true
+          timeout: 0
+          followRedirects: true
+          maxRedirects: 5
+bundled: true
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git
+    exportedAt: '2026-04-17T18:17:23.067Z'
+    exportedUsing: Bruno

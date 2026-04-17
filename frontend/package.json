@@ -11,6 +11,7 @@
     "generate:types": "node ./scripts/typesGenerator.cjs"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@standen/crypto": "^0.0.4",
     "@standen/encoding": "^0.0.5",
     "antd": "^6.3.5",
@@ -23,7 +24,6 @@
     "react-markdown": "^10.1.0",
     "react-router": "^7.14.0",
     "react-syntax-highlighter": "^16.1.1",
-    "sass": "^1.99.0",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
@@ -40,6 +40,7 @@
     "globals": "^17.4.0",
     "jiti": "^2.6.1",
     "json-schema-to-typescript": "^15.0.4",
+    "sass": "^1.99.0",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.1",
     "vite": "^8.0.7"

@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { type FC, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router";
 
 import { SYSTEM } from "@/constants";
@@ -20,6 +20,10 @@ export const PageNoteEngine: FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [noteText, setNoteText] = useState<string>("");
+
+  const getNoteText = (text: string) => setNoteText(text);
 
   return (
     <div className={styles.notePage}>
@@ -49,10 +53,10 @@ export const PageNoteEngine: FC = () => {
 
       <div className={styles.noteEditContent}>
         <div className={styles.noteWorkSpace}>
-          <MarkdownEditor />
+          <MarkdownEditor getValue={getNoteText} />
         </div>
         <div className={styles.noteWorkSpace}>
-          <MarkdownView />
+          <MarkdownView noteText={noteText} />
         </div>
       </div>
     </div>
