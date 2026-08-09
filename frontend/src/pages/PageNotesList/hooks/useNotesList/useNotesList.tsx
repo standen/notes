@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type {
+  INoteForTable,
   INotesListRequest,
   INotesListResponse,
-  INoteForTable,
 } from "@/api/generated_types";
 
 import { storeUserInfo } from "@/store";
 
-import { useRequest } from "@/hooks";
 import { API } from "@/api";
+import { useRequest } from "@/hooks";
 
 export const useNotesList = () => {
   const { user } = storeUserInfo();

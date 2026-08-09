@@ -1,5 +1,5 @@
-import { useParams } from "react-router";
 import classNames from "classnames/bind";
+import { useParams } from "react-router";
 
 import { Content } from "@/views/ViewMain/components";
 

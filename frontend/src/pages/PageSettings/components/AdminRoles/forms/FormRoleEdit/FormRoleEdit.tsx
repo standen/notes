@@ -1,7 +1,7 @@
 import { type FC } from "react";
 
-import { validate } from "@/utils";
 import { ERRORS_TEXT, SYSTEM } from "@/constants";
+import { validate } from "@/utils";
 
 import type { IRole, IRoleEditRequest } from "@/api/generated_types";
 
@@ -9,7 +9,7 @@ import { useReportError } from "@/hooks/useReportError";
 
 import { Loader } from "@/components";
 
-import { Form, Input, Select, Flex, Button } from "antd";
+import { Button, Flex, Form, Input, Select } from "antd";
 
 export type TFormRoleEdit = Omit<IRoleEditRequest, "role_id">;
 

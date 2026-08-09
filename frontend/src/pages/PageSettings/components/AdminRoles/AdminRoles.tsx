@@ -9,7 +9,7 @@ import { Content, Title } from "@/views/ViewMain/components";
 
 import { useRoles } from "@/pages/PageSettings/components/AdminRoles/hooks";
 
-import { Flex, Input, Button, Table } from "antd";
+import { Button, Flex, Input, Table } from "antd";
 
 const { Search } = Input;
 

@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { SYSTEM } from "@/constants";
-
 import { type INoteForTable } from "@/api/generated_types";
 
 import { NO_DATA } from "@/constants";
 
 import { useNotesList } from "@/pages/PageNotesList/hooks";
 
-import { Content, Title } from "@/views/ViewMain/components";
 import { columnsTableNotesList } from "@/pages/PageNotesList/tables";
+import { Content, Title } from "@/views/ViewMain/components";
 
 import { Button, Flex, Input, Table } from "antd";
 

@@ -19,6 +19,6 @@ export const useNoteToggles = (prevState?: INoteTogglesState) => {
 
   return useMemo(
     () => ({ cipher, open, edit, changeOpen, changeEdit, changeCipher }),
-    [cipher, open, edit, changeOpen, changeEdit, changeCipher]
+    [cipher, open, edit, changeOpen, changeEdit, changeCipher],
   );
 };

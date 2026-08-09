@@ -1,23 +1,23 @@
-import { useMemo, useCallback, useState, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type {
+  IResponse,
   IRole,
-  IRolesNamesListRequest,
-  IRolesNamesListResponse,
-  IRolesListRequest,
-  IRolesListResponse,
-  IRoleParamsRequest,
-  IRoleParamsResponse,
+  IRoleCreateRequest,
   IRoleDeleteRequest,
   IRoleEditRequest,
-  IResponse,
-  IRoleCreateRequest,
+  IRoleParamsRequest,
+  IRoleParamsResponse,
+  IRolesListRequest,
+  IRolesListResponse,
+  IRolesNamesListRequest,
+  IRolesNamesListResponse,
 } from "@/api/generated_types";
 import type { TFormRoleEdit } from "@/pages/PageSettings/components/AdminRoles/forms/FormRoleEdit";
 
-import { storeUserInfo } from "@/store";
-import { useRequest } from "@/hooks";
 import { API } from "@/api";
+import { useRequest } from "@/hooks";
+import { storeUserInfo } from "@/store";
 
 import {
   FormRoleCreate,

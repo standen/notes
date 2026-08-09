@@ -4,12 +4,12 @@ import { type IUser } from "@/api/generated_types";
 
 import { NO_DATA } from "@/constants";
 
-import { columnsTableRolesList } from "@/pages/PageSettings/components/AdminUsers/tables";
 import { useUsers } from "@/pages/PageSettings/components/AdminUsers/hooks";
+import { columnsTableRolesList } from "@/pages/PageSettings/components/AdminUsers/tables";
 
 import { Content, Title } from "@/views/ViewMain/components";
 
-import { Flex, Input, Button, Table } from "antd";
+import { Button, Flex, Input, Table } from "antd";
 
 const { Search } = Input;
 

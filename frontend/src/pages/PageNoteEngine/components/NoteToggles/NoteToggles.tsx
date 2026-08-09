@@ -1,7 +1,7 @@
 import { type FC } from "react";
 
-import { Flex, Button, Tooltip } from "antd";
-import { FormOutlined, EyeOutlined, LockOutlined } from "@ant-design/icons";
+import { EyeOutlined, FormOutlined, LockOutlined } from "@ant-design/icons";
+import { Button, Flex, Tooltip } from "antd";
 
 interface Props {
   open: boolean;

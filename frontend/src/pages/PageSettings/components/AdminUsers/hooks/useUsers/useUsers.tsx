@@ -1,31 +1,31 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { sha256 } from "js-sha256";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type {
-  IUser,
+  IResponse,
   IRole,
+  IRolesListRequest,
+  IRolesListResponse,
+  IUser,
+  IUserCreateRequest,
+  IUserDeleteRequest,
+  IUserEditRequest,
   IUserParamsRequest,
   IUserParamsResponse,
   IUsersListRequest,
   IUsersListResponse,
   IUsersLoginsListRequest,
   IUsersLoginsListResponse,
-  IRolesListRequest,
-  IRolesListResponse,
-  IUserCreateRequest,
-  IResponse,
-  IUserEditRequest,
-  IUserDeleteRequest,
 } from "@/api/generated_types";
 import type { TFormUserEdit } from "@/pages/PageSettings/components/AdminUsers/forms/FormUserEdit";
 
-import { storeUserInfo } from "@/store";
-import { useRequest } from "@/hooks";
 import { API } from "@/api";
+import { useRequest } from "@/hooks";
+import { storeUserInfo } from "@/store";
 
 import {
-  FormUserEdit,
   FormUserCreate,
+  FormUserEdit,
 } from "@/pages/PageSettings/components/AdminUsers/forms";
 
 import { App, Skeleton } from "antd";
