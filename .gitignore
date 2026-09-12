@@ -1,0 +1,60 @@
+```
+# Dependencies
+vendor/
+
+# Build artifacts
+*.exe
+*.dll
+*.so
+*.a
+*.obj
+*.out
+*.o
+
+# Go specific
+*.test
+*.prof
+go.mod
+go.sum
+!go.mod
+!go.sum
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Distribution / packaging
+dist/
+build/
+*.tar.gz
+*.zip
+
+# Testing
+*.test
+test.out
+
+# Go workspace
+.golangci.yml
+!go.mod
+!go.sum
+```
