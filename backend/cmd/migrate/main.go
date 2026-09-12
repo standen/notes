@@ -62,7 +62,7 @@ func getEnv(key, defaultValue string) string {
 func createUsersTable(ctx context.Context, pool *pgxpool.Pool) error {
 	query := `
 	CREATE TABLE IF NOT EXISTS users (
-		id SERIAL PRIMARY KEY,
+		id UUID PRIMARY KEY,
 		login VARCHAR(255) NOT NULL UNIQUE,
 		password VARCHAR(255) NOT NULL,
 		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -76,7 +76,7 @@ func createUsersTable(ctx context.Context, pool *pgxpool.Pool) error {
 func createSessionsTable(ctx context.Context, pool *pgxpool.Pool) error {
 	query := `
 	CREATE TABLE IF NOT EXISTS sessions (
-		id SERIAL PRIMARY KEY,
+		id UUID PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 		token VARCHAR(512) NOT NULL UNIQUE,
 		expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
