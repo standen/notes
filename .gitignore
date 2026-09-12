@@ -1,33 +1,44 @@
 ```
-# Dependencies
-vendor/
-
-# Build artifacts
-bin/
-*.exe
-*.dll
-*.so
-*.a
+# Compiled and build artifacts
 *.o
 *.obj
+*.a
+*.so
+*.dll
+*.exe
 *.out
 
-# Logs
+# Dependencies
+vendor/
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.egg-info/
+dist/
+build/
+target/
+.gradle/
+
+# Logs and temp files
 *.log
+*.tmp
+*.swp
+*.swo
 
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
-*.tmp
+*.iml
+*.ipr
+*.iws
 
-# OS
+# System files
 .DS_Store
 Thumbs.db
 
@@ -36,8 +47,14 @@ coverage/
 htmlcov/
 .coverage
 
-# Go-specific
+# Python specific
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Go specific
 *.test
 *.prof
-go.mod.bak
 ```

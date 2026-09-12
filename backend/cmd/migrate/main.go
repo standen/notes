@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+
+	"backend/internal/db"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
@@ -17,20 +18,10 @@ func main() {
 		log.Println("No .env file found, using environment variables or defaults")
 	}
 
-	host := flag.String("host", getEnv("DB_HOST", "localhost"), "Database host")
-	port := flag.String("port", getEnv("DB_PORT", "5432"), "Database port")
-	user := flag.String("user", getEnv("DB_USER", "postgres"), "Database user")
-	password := flag.String("password", getEnv("DB_PASSWORD", "postgres"), "Database password")
-	dbname := flag.String("dbname", getEnv("DB_NAME", "postgres"), "Database name")
-	flag.Parse()
-
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		*host, *port, *user, *password, *dbname)
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	pool, err := pgxpool.New(ctx, connStr)
+	pool, err := db.NewPool(ctx)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 	}
@@ -49,14 +40,6 @@ func main() {
 	fmt.Println("Table 'sessions' created successfully or already exists.")
 
 	fmt.Println("All migrations completed successfully.")
-}
-
-func getEnv(key, defaultValue string) string {
-	value := os.Getenv(key)
-	if value == "" {
-		return defaultValue
-	}
-	return value
 }
 
 func createUsersTable(ctx context.Context, pool *pgxpool.Pool) error {
