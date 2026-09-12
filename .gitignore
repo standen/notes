@@ -1,0 +1,43 @@
+```
+# Dependencies
+vendor/
+
+# Build artifacts
+bin/
+*.exe
+*.dll
+*.so
+*.a
+*.o
+*.obj
+*.out
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Go-specific
+*.test
+*.prof
+go.mod.bak
+```
