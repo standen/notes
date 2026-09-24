@@ -1,14 +1,14 @@
 ### backlog
 
 - [ ] backend
-  - [ ] migrations
-  - [ ] custom router
+  - [x] migrations
+  - [x] custom router
   - [ ] custom http
   - [ ] custom auth (token)
   - [ ] postgres queries
 
-- [ ] docker
-  - [ ] postgres
+- [x] docker
+  - [x] postgres
 
 - [ ] API
   - [ ] JSON-схемы
