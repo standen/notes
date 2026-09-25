@@ -1,9 +1,7 @@
-.PHONY: run migrate
+.PHONY: migrate
+migrate:
+	go run ./cmd/migrate/
 
-DB_URL ?= postgres://user:password@localhost:5432/mydb?sslmode=disable
-
+.PHONY: run
 run:
-	DATABASE_URL="$(DB_URL)" go run .
-
-migrate: 
-	DATABASE_URL="$(DB_URL)" go run ./cmd/migrate -dir ./migrations
+	go run .
